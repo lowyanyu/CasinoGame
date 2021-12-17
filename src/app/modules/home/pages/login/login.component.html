@@ -1,0 +1,19 @@
+<div class="login">
+  <form [formGroup]="loginForm" (ngSubmit)="login()">
+    <div>
+      <mat-form-field appearance="outline">
+        <mat-label>帳號</mat-label>
+        <input matInput type="text" formControlName="account" required autofocus/>
+        <mat-error>請輸入帳號</mat-error>
+      </mat-form-field>
+    </div>
+    <div>
+      <mat-form-field appearance="outline">
+        <mat-label>密碼</mat-label>
+        <input matInput type="password" formControlName="pwd" autocomplete="off" required/>
+        <mat-error>請輸入密碼</mat-error>
+      </mat-form-field>
+    </div>
+    <button mat-raised-button color="primary" type="submit" class="btn btn-lg animation-btn">登入</button>
+  </form>
+</div>

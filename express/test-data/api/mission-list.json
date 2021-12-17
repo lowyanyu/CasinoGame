@@ -1,0 +1,29 @@
+{
+  "errorCode": 0,
+  "errorMessage": "查詢任務清單成功。",
+  "data": {
+    "status": 1,
+    "result": [
+      {
+        "missionId": 1,
+        "missionStatus": 0,
+        "missionReward": 50
+      },
+      {
+        "missionId": 2,
+        "missionStatus": 3,
+        "missionReward": 20
+      },
+      {
+        "missionId": 3,
+        "missionStatus": 1,
+        "missionReward": 100
+      },
+      {
+        "missionId": 4,
+        "missionStatus": 2,
+        "missionReward": 50
+      }
+    ]
+  }
+}

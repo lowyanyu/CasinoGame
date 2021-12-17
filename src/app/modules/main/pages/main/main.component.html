@@ -1,0 +1,27 @@
+<div class="toolbar" role="banner">
+  <span>2022 尾牙</span>
+  <div class="spacer"></div>
+</div>
+
+<div class="content" role="main">
+  <app-profile-card></app-profile-card>
+
+  <div class="game-btn-row content-padding">
+    <!-- Question -->
+    <div class="game-btn">
+      <div class="btn-wrap" [ngClass]="{'active': isActive(GAME.QUIZ)}"><button mat-icon-button [routerLink]="GAME.QUIZ" routerLinkActive="active" type="button">問答</button></div>
+    </div>
+    <!-- Mission -->
+    <div class="game-btn">
+      <div class="btn-wrap" [ngClass]="{'active': isActive(GAME.MISSION)}"><button mat-icon-button [routerLink]="GAME.MISSION" routerLinkActive="active" type="button">任務</button></div>
+    </div>
+    <!-- Betting -->
+    <div class="game-btn">
+      <div class="btn-wrap" [ngClass]="{'active': isActive(GAME.STACK)}"><button mat-icon-button [routerLink]="GAME.STACK" routerLinkActive="active" type="button">下注</button></div>
+    </div>
+  </div>
+
+  <div [@fadeAnimation]="router.url">
+    <router-outlet #outlet="outlet"></router-outlet>
+  </div>
+</div>

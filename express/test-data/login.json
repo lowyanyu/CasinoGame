@@ -1,0 +1,17 @@
+{
+  "errorCode": 0,
+  "errorMessage": "帳號 admin 登入成功。",
+  "data": {
+    "accessToken": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJKV1RUb2tlbiIsInVzZXJfaWQiOjIwMCwidXNlcl9uYW1lIjoiYWRtaW4iLCJpc3MiOiJEb2NGb3JtIiwiZm9yIjoxLCJ0eXBlIjoxLCJleHAiOjE1NjMxODY2Mzh9.R3C5KAnfnEQMuCzKIJPgCoFCETGx2gTsmVcvMfqCQOQ",
+    "refreshToken": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJKV1RUb2tlbiIsInVzZXJfaWQiOjIwMCwidXNlcl9uYW1lIjoiYWRtaW4iLCJpc3MiOiJEb2NGb3JtIiwiZm9yIjoxLCJ0eXBlIjoxLCJleHAiOjE1NjMxODY2Mzh9.KNoN3CfbJu7d58hOF-cUMTf9F01d7i8tx08ktfnWPBY",
+    "expiresIn": 900,
+    "tokenType": "Bearer",
+    "userInfo": {
+      "title": "技術處 處長",
+      "userName": "Rusty",
+      "userId": 25,
+      "userPoint": 999,
+      "userRank": 50
+    }
+  }
+}

@@ -1,0 +1,13 @@
+<div class="card question-card" [@fadeAnimation]="question">
+  <div class="card-container">
+    {{question.questionContent}}
+  </div>
+</div>
+<div class="question-btn-row">
+  <div class="answer-btn answer-btn--theme-yes">
+    <div class="btn-wrap"><button mat-icon-button type="button" (click)="clickYes()">Yes</button></div>
+  </div>
+  <div class="answer-btn answer-btn--theme-no">
+    <div class="btn-wrap"><button mat-icon-button type="button" (click)="clickNo()">No</button></div>
+  </div>
+</div>

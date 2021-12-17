@@ -1,0 +1,369 @@
+@import 'themes/custom-theme.scss';
+/* You can add global styles to this file, and also import other style files */
+
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+  font-size: 14px;
+  color: #fff;
+  box-sizing: border-box;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background: $product-background;
+  height: auto;
+}
+
+router-outlet {
+  width: 100%;
+  margin: auto;
+  color: #fff;
+  display: flex;
+  justify-content: center;
+}
+
+.mat-spinner {
+  margin: auto;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  margin: 8px 0;
+}
+
+p {
+  margin: 0;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  max-width: 200px !important;
+}
+
+.toolbar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 40px;
+  display: flex;
+  padding: 0px 16px;
+  align-items: center;
+  background-color: $product-background;
+  color: white;
+  font-weight: 600;
+}
+
+.align-center {
+  text-align: center;
+}
+
+.spacer {
+  flex: 1;
+}
+
+.login {
+  display: flex;
+  margin-top: 100px;
+  justify-content: center;
+  align-items: center;
+}
+
+.content {
+  display: block;
+  margin-top: 50px;
+  padding: 0 16px;
+}
+
+.content-padding {
+  padding: 16px 16px 8px 16px;
+  overflow: hidden;
+}
+
+svg.material-icons {
+  height: 24px;
+  width: auto;
+}
+
+svg.material-icons:not(:last-child) {
+  margin-right: 8px;
+}
+
+.card svg.material-icons path {
+  fill: #888;
+}
+
+.card-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  width: 100%;
+}
+
+.card {
+  background-color: rgb(9,6,0,.32);
+  min-height: 40px;
+  padding: 16px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: all 0.2s ease-in-out;
+  line-height: 24px;
+}
+
+.card-container .card {
+  cursor: pointer;
+}
+
+.card-container .card:hover .material-icons path {
+  fill: rgb(105, 103, 103);
+}
+
+.card.profile-card {
+  background-image: url('~/assets/images/bg-img@2x.png'), linear-gradient(90deg, #EFD182, #C4A34A);
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-size: auto 300px;
+  background-position-x: calc(100% + 14px);
+  background-position-y: -30px;
+  color: $font-color;
+  font-weight: 600;
+  border: none;
+  border-radius: 4px;
+  position: relative;
+}
+
+.profile-card {
+  &__stat {
+    margin-top: -16px;
+    text-align: right;
+
+    h1 {
+      font-size: 44px;
+      color: #431E04;
+    }
+  }
+}
+
+.question-card {
+  .card-container {
+    align-items: center;
+    font-size: 18px;
+  }
+}
+
+.question-btn-row {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  padding: 20px;
+}
+
+.result-card {
+  padding: 0px 16px;
+
+  .card-container {
+    flex-direction: row;
+  }
+}
+
+.result-score {
+  color: $main-color;
+  width: 40px;
+}
+
+.answer-btn {
+  display: flex;
+  flex-grow: 1;
+  justify-content: center;
+
+  .mat-icon-button {
+    background: #4B4C48;
+    height: 100%;
+    width: 100%;
+    font-size: 24px;
+  }
+
+  .btn-wrap {
+    box-sizing: border-box;
+    border-radius: 50%;
+    height: 100px;
+    width: 100px;
+    padding: 5px;
+  }
+
+  &--theme-yes .btn-wrap {
+    background-image: linear-gradient(135deg, #45E5B9, #80EC37);
+  }
+
+  &--theme-no .btn-wrap {
+    background-image: linear-gradient(135deg, #FF9F21, #EF252B);
+  }
+}
+
+.terminal {
+  position: relative;
+  width: 80%;
+  max-width: 600px;
+  border-radius: 6px;
+  padding-top: 45px;
+  margin-top: 8px;
+  overflow: hidden;
+  background-color: rgb(15, 15, 16);
+}
+
+.terminal::before {
+  content: "\2022 \2022 \2022";
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 4px;
+  background: rgb(58, 58, 58);
+  color: #c2c3c4;
+  width: 100%;
+  font-size: 2rem;
+  line-height: 0;
+  padding: 14px 0;
+  text-indent: 4px;
+}
+
+.terminal pre {
+  font-family: SFMono-Regular,Consolas,Liberation Mono,Menlo,monospace;
+  color: white;
+  padding: 0 1rem 1rem;
+  margin: 0;
+}
+
+.circle-link {
+  height: 40px;
+  width: 40px;
+  border-radius: 40px;
+  margin: 8px;
+  background-color: white;
+  border: 1px solid #eeeeee;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+  transition: 1s ease-out;
+}
+
+.circle-link:hover {
+  transform: translateY(-0.25rem);
+  box-shadow: 0px 3px 15px rgba(0, 0, 0, 0.2);
+}
+
+footer {
+  margin-top: 8px;
+  display: flex;
+  align-items: center;
+  line-height: 20px;
+}
+
+footer a {
+  display: flex;
+  align-items: center;
+}
+
+.animation-btn {
+  overflow: hidden !important;
+  // psuedo-element shine animation left side
+  &::before {
+    content: '';
+    display: block;
+    position: absolute;
+    background: rgba(255, 255, 255, 0.5);
+    width: 60px;
+    height: 100%;
+    top: 0;
+    filter: blur(30px);
+    transform: translateX(-100px) skewX(-15deg);
+  }
+
+  // psuedo-element shine animation right side
+  &::after {
+    content: '';
+    display: block;
+    position: absolute;
+    background: rgba(255, 255, 255, 0.2);
+    width: 30px;
+    height: 100%;
+    top: 0;
+    filter: blur(5px);
+    transform: translateX(-100px) skewX(-15deg);
+  }
+
+  &:hover {
+    // psuedo-elements for right- and left-side shine animations
+    &::before,
+    &::after {
+      transform: translateX(300px) skewX(-15deg);
+      transition: 0.7s;
+    }
+  }
+}
+
+.btn.mat-raised-button.mat-primary {
+  background: linear-gradient(90deg, #EFD182, #C4A34A);
+  color: #261102 !important;
+}
+
+.btn.mat-stroked-button.mat-primary {
+  // background: linear-gradient(90deg, #EFD182, #C4A34A);
+  border-color: #EFD182;
+}
+
+.btn.btn-lg {
+  height: 45px;
+  width: 100%;
+}
+
+.game-btn-row {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
+.game-btn {
+  display: flex;
+  flex-grow: 1;
+  justify-content: center;
+
+  .mat-icon-button {
+    background: #4B4C48;
+    color: $main-color;
+    height: 100%;
+    width: 100%;
+    font-weight: 600;
+  }
+
+  .btn-wrap {
+    box-sizing: border-box;
+    border-radius: 50%;
+    height: 60px;
+    width: 60px;
+  }
+
+  .btn-wrap:hover, .btn-wrap.active {
+    background-image: linear-gradient(135deg, #EFD182, #A96F44);
+    padding: 3px;
+
+    .mat-icon-button {
+      background: #6F6F6C;
+    }
+  }
+}
+
+@media screen and (max-width: 300px) {
+  .profile-card {
+    &__stat {
+      margin-top: 0px;
+    }
+  }
+}

@@ -1,0 +1,148 @@
+@import '~@angular/material/theming';
+// Plus imports for other components in your app.
+
+// Include the common styles for Angular Material. We include this here so that you only
+// have to load a single css file for Angular Material in your app.
+// Be sure that you only ever include this mixin once!
+@include mat-core();
+
+$main-color: #EFD082;
+$product-background: #30312D;
+$font-color: #803D0B;
+
+$custom-gold: (
+  50 : #fdf9f0,
+  100 : #faf1da,
+  200 : #f7e8c1,
+  300 : #f4dfa8,
+  400 : #f1d895,
+  500 : #efd182,
+  600 : #edcc7a,
+  700 : #ebc66f,
+  800 : #e8c065,
+  900 : #e4b552,
+  A100 : #ffffff,
+  A200 : #ffffff,
+  A400 : #fff4dd,
+  A700 : #ffebc3,
+  contrast: (
+    50 : #000000,
+    100 : #000000,
+    200 : #000000,
+    300 : #000000,
+    400 : #000000,
+    500 : #000000,
+    600 : #000000,
+    700 : #000000,
+    800 : #000000,
+    900 : #000000,
+    A100 : #000000,
+    A200 : #000000,
+    A400 : #000000,
+    A700 : #000000,
+  )
+);
+$custom-black: (
+  50 : #e0e0e0,
+  100 : #b3b3b3,
+  200 : #808080,
+  300 : #4d4d4d,
+  400 : #262626,
+  500 : #000000,
+  600 : #000000,
+  700 : #000000,
+  800 : #000000,
+  900 : #000000,
+  A100 : #a6a6a6,
+  A200 : #8c8c8c,
+  A400 : #737373,
+  A700 : #666666,
+  contrast: (
+    50 : #000000,
+    100 : #000000,
+    200 : #000000,
+    300 : #ffffff,
+    400 : #ffffff,
+    500 : #ffffff,
+    600 : #ffffff,
+    700 : #ffffff,
+    800 : #ffffff,
+    900 : #ffffff,
+    A100 : #000000,
+    A200 : #000000,
+    A400 : #ffffff,
+    A700 : #ffffff,
+  )
+);
+$custom-red: (
+  50 : #fdf3f0,
+  100 : #fae1da,
+  200 : #f7cdc1,
+  300 : #f4b8a8,
+  400 : #f1a995,
+  500 : #ef9a82,
+  600 : #ed927a,
+  700 : #eb886f,
+  800 : #e87e65,
+  900 : #e46c52,
+  A100 : #ffffff,
+  A200 : #ffffff,
+  A400 : #ffe3dd,
+  A700 : #ffcec3,
+  contrast: (
+    50 : #000000,
+    100 : #000000,
+    200 : #000000,
+    300 : #000000,
+    400 : #000000,
+    500 : #000000,
+    600 : #000000,
+    700 : #000000,
+    800 : #000000,
+    900 : #000000,
+    A100 : #000000,
+    A200 : #000000,
+    A400 : #000000,
+    A700 : #000000,
+  )
+);
+
+// Define the palettes for your theme using the Material Design palettes available in palette.scss
+// (imported above). For each palette, you can optionally specify a default, lighter, and darker
+// hue. Available color palettes: https://material.io/design/color/
+$casino-app-primary: mat-palette($custom-gold);
+$casino-app-accent:  mat-palette($custom-black);
+
+// The warn palette is optional (defaults to red).
+$casino-app-warn:    mat-palette($custom-red);
+
+// Create the theme object (a Sass map containing all of the palettes).
+$casino-app-theme: mat-light-theme($casino-app-primary, $casino-app-accent, $casino-app-warn);
+
+@function my-mat-light-theme-foreground($color) {
+  @return(
+    base: $color,
+    divider: $white-12-opacity,
+    dividers: $white-12-opacity,
+    disabled: rgba($color, 0.38),
+    disabled-button: rgba($color, 0.38),
+    disabled-text: rgba($color, 0.38),
+    hint-text: rgba($color, 0.38),
+    secondary-text: rgba($color, 0.54),
+    icon: rgba($color, 0.54),
+    icons: rgba($color, 0.54),
+    text: rgba($color, 0.87),
+    slider-off: rgba($color, 0.26),
+    slider-off-active: rgba($color, 0.38),
+    slider-min: rgba($color, 0.38)
+  );
+};
+
+$white-foreground: my-mat-light-theme-foreground(#ffffff);
+$my-app-theme-custom: map-merge($casino-app-theme, (foreground: $white-foreground));
+
+// Include theme styles for core and each component used in your app.
+// Alternatively, you can import and @include the theme mixins for each component
+// that you are using.
+@include angular-material-theme($my-app-theme-custom);
+

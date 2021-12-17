@@ -1,0 +1,59 @@
+{
+  "errorCode": 0,
+  "errorMessage": "查詢二位元題目清單成功。",
+  "data": {
+    "status": 2,
+    "result": [
+      {
+        "questionId": 1,
+        "score": 10,
+        "choose": 1
+      },
+      {
+        "questionId": 2,
+        "score": 0,
+        "choose": 3
+      },
+      {
+        "questionId": 3,
+        "score": 5,
+        "choose": 1
+      },
+      {
+        "questionId": 4,
+        "score": 10,
+        "choose": 2
+      },
+      {
+        "questionId": 5,
+        "score": 5,
+        "choose": 1
+      },
+      {
+        "questionId": 6,
+        "score": 10,
+        "choose": 2
+      },
+      {
+        "questionId": 7,
+        "score": 5,
+        "choose": 1
+      },
+      {
+        "questionId": 8,
+        "score": 10,
+        "choose": 2
+      },
+      {
+        "questionId": 9,
+        "score": 0,
+        "choose": 3
+      },
+      {
+        "questionId": 10,
+        "score": 0,
+        "choose": 3
+      }
+    ]
+  }
+}

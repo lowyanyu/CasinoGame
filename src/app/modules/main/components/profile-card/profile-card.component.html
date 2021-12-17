@@ -1,0 +1,26 @@
+<div class="card profile-card">
+  <div class="card-container">
+    <button mat-icon-button class="refresh-btn" (click)="getProfile()">
+      <svg xmlns="http://www.w3.org/2000/svg" width="15.99" height="16" viewBox="0 0 15.99 16">
+        <path id="ic_refresh_24px" d="M17.65,6.35A8,8,0,1,0,19.73,14H17.65A6,6,0,1,1,12,6a5.915,5.915,0,0,1,4.22,1.78L13,11h7V4Z" transform="translate(-4.01 -4)" fill="#803d0b"/>
+      </svg>
+    </button>
+
+    <ng-container *ngIf="info; else noData">
+      <h1>
+        <svg xmlns="http://www.w3.org/2000/svg" width="23.13" height="23.13" viewBox="0 0 23.13 23.13">
+          <path id="ic_account_circle_24px" d="M13.565,2A11.565,11.565,0,1,0,25.13,13.565,11.569,11.569,0,0,0,13.565,2Zm0,3.469A3.469,3.469,0,1,1,10.1,8.939,3.465,3.465,0,0,1,13.565,5.469Zm0,16.422a8.327,8.327,0,0,1-6.939-3.724c.035-2.3,4.626-3.562,6.939-3.562s6.9,1.261,6.939,3.562A8.327,8.327,0,0,1,13.565,21.892Z" transform="translate(-2 -2)" fill="#803d0b"/>
+        </svg>
+        {{info.userName}}
+      </h1>
+      <span>{{info.title}}</span>
+      <div class="profile-card__stat">
+        <span>目前籌碼</span>
+        <h1>{{info.userPoint}}</h1>
+      </div>
+    </ng-container>
+    <ng-template #noData>
+      <div>查無資料</div>
+    </ng-template>
+  </div>
+</div>

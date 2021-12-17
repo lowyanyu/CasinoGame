@@ -1,0 +1,35 @@
+<div class="content-padding" [ngSwitch]="apiService.qGameStatus$ | async">
+  <div *ngSwitchCase="STATUS.START">
+    <div class="banner">
+      <span>第 {{(currentIndex$ | async) + 1}} 題</span>
+      <span>共 {{questionAmount}} 題</span>
+    </div>
+    <div *ngIf="questionItem$ | async as question">
+      <app-question-card [question]="question" (yes)="answerYes($event)" (no)="answerNo($event)"></app-question-card>
+    </div>
+  </div>
+  <div *ngSwitchCase="STATUS.STOP">
+    <ng-container *ngIf="questionList$ | async as questionList">
+      <p>你總共答對了 {{getCorrect(questionList)}} 題，獲得 {{getTotalWin(questionList)}} 籌碼。</p>
+      <div *ngFor="let question of questionList; let i = index" style="margin-top: 10px;" [@flyInOut]="'in'">
+        <div class="card result-card">
+          <div class="card-container">
+            <span class="result-score">+{{question.score}}</span>
+            <span>第 {{i + 1}} 題</span>
+            <div class="spacer"></div>
+            <span>{{getChoice(question.choose)}}</span>
+          </div>
+        </div>
+      </div>
+    </ng-container>
+  </div>
+  <div *ngSwitchCase="STATUS.COMPLETE" class="align-center">
+    <p>你已全部回答完畢</p>
+    <p>等待公布答案...</p>
+  </div>
+  <div *ngSwitchCase="STATUS.ERROR" class="align-center">
+    <p>發生錯誤！</p>
+  </div>
+  <mat-spinner [diameter]="40" *ngSwitchDefault></mat-spinner>
+</div>
+

@@ -1,0 +1,39 @@
+{
+  "errorCode": 0,
+  "errorMessage": "查詢二位元題目清單成功。",
+  "data": {
+    "status": 1,
+    "result": [
+      {
+        "questionId": 1
+      },
+      {
+        "questionId": 2
+      },
+      {
+        "questionId": 3
+      },
+      {
+        "questionId": 4
+      },
+      {
+        "questionId": 5
+      },
+      {
+        "questionId": 6
+      },
+      {
+        "questionId": 7
+      },
+      {
+        "questionId": 8
+      },
+      {
+        "questionId": 9
+      },
+      {
+        "questionId": 10
+      }
+    ]
+  }
+}

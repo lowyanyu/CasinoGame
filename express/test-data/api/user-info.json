@@ -1,0 +1,11 @@
+{
+  "errorCode": 0,
+  "errorMessage": "Get User Info success",
+  "data": {
+    "title": "技術處 四組",
+    "userName": "Ziv",
+    "userId": 25,
+    "userPoint": 999,
+    "userRank": 50
+  }
+}

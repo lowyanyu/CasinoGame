@@ -1,0 +1,24 @@
+.home {
+  display: table;
+  margin: auto;
+  margin-top: 150px;
+}
+
+.title {
+  font-size: 28px;
+}
+
+.glowing-text {
+  color: #fff;
+  text-align: center;
+  animation: glow 1s ease-in-out infinite alternate;
+}
+
+@keyframes glow {
+  from {
+    text-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 30px #261102, 0 0 40px #261102;
+  }
+  to {
+    text-shadow: 0 0 20px #fff, 0 0 30px #EFD182, 0 0 40px #EFD182;
+  }
+}
