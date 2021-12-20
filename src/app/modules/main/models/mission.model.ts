@@ -16,7 +16,10 @@ export class Mission {
   missionTitle: string;
   missionContent: string;
   missionType: 1 | 2 | 3;
-  missionRequire: number;
+  missionRequire: {number: number, unit: string};
   missionReward: number;
   missionStatus: 0 | 1 | 2 | 3;
+  missionOption?: {optionId: number, optionName: string};
+  answer?: string[];
+  score?: number;
 }

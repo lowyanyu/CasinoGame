@@ -50,6 +50,7 @@ export class QuestionComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    console.log('question component ngOnInit');
     this.getQuestionList();
   }
 

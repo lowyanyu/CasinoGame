@@ -7,6 +7,6 @@ export enum Choice {
 export class Question {
   questionId: number;
   questionContent: string;
-  score: number;
-  choose: 1 | 2 | 3;
+  score?: number;
+  choose?: 1 | 2 | 3;
 }

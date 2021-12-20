@@ -24,7 +24,7 @@ export class QuestionCardComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
-    console.log(this.question);
+    console.log('question card component ngOnInit:', this.question);
   }
 
   clickYes(): void {

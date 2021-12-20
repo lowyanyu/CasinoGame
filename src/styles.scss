@@ -125,17 +125,25 @@ svg.material-icons:not(:last-child) {
 }
 
 .card.profile-card {
-  background-image: url('~/assets/images/bg-img@2x.png'), linear-gradient(90deg, #EFD182, #C4A34A);
-  background-repeat: no-repeat;
-  background-attachment: fixed;
-  background-size: auto 300px;
-  background-position-x: calc(100% + 14px);
-  background-position-y: -30px;
+  background: linear-gradient(135deg, #EFD182, #C4A34A);
   color: $font-color;
   font-weight: 600;
   border: none;
   border-radius: 4px;
   position: relative;
+  box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.32);
+}
+
+.coin-bg {
+  content: url('~/assets/images/bg-img.png');
+  mix-blend-mode: multiply;
+  position: absolute;
+  overflow: hidden;
+  transform: scale(1.1);
+  display: flex;
+  align-self: flex-end;
+  top: -85px;
+  right: 16px;
 }
 
 .profile-card {

@@ -17,12 +17,35 @@
       {
         "missionId": 3,
         "missionStatus": 1,
-        "missionReward": 100
+        "missionReward": 100,
+        "answer": ["楊文和"],
+        "score": 100
       },
       {
         "missionId": 4,
         "missionStatus": 2,
+        "missionReward": 50,
+        "answer": [2],
+        "score": 0
+      },
+      {
+        "missionId": 5,
+        "missionStatus": 2,
+        "missionReward": 50,
+        "answer": ["暖腳"],
+        "score": 0
+      },
+      {
+        "missionId": 6,
+        "missionStatus": 0,
         "missionReward": 50
+      },
+      {
+        "missionId": 7,
+        "missionStatus": 1,
+        "missionReward": 50,
+        "answer": [2],
+        "score": 50
       }
     ]
   }

@@ -1,7 +1,9 @@
 import { Injectable } from '@angular/core';
 import { NgAuthService } from '@cg/ng-auth';
 import { NgConfigService } from '@cg/ng-config';
+import { MissionGameStatus } from '@main/enums/mission-game-status.enum';
 import { QuestionGameStatus } from '@main/enums/question-game-status.enum';
+import { Mission } from '@main/models/mission.model';
 import { Question } from '@main/models/question.model';
 import { HttpUtilService } from '@shared/services/http-util.service';
 import { BehaviorSubject, Observable, throwError } from 'rxjs';
@@ -11,6 +13,7 @@ import { catchError, map, tap } from 'rxjs/operators';
 export class ApiService {
 
   qGameStatus$ = new BehaviorSubject<number>(0);
+  mGameStatus$ = new BehaviorSubject<number>(0);
 
   _profileUrl = '';
   _questionUrl = '';
@@ -18,6 +21,7 @@ export class ApiService {
   _stackUrl = '';
 
   questionList: Question[];
+  missionList: Mission[];
 
   constructor(
     private httpUtil: HttpUtilService,
@@ -32,6 +36,7 @@ export class ApiService {
     this._missionUrl = `${apiUrl}/mission`;
     this._stackUrl = `${apiUrl}/stack`;
     this.questionList = this.configService.get('questions');
+    this.missionList = this.configService.get('missions');
   }
 
   getProfile(): Observable<any> {
@@ -56,6 +61,14 @@ export class ApiService {
   }
 
   getMissionList(): Observable<any> {
-    return this.httpUtil.GETMethod({ url: this._missionUrl });
+    return this.httpUtil.GETMethod({ url: this._missionUrl }).pipe(
+      tap(data => this.mGameStatus$.next(data.status || MissionGameStatus.ERROR)),
+      map(data => {
+        const merge: Mission[] = data.result.map((item, i) => Object.assign({}, item, this.missionList[i]));
+        data.result = merge;
+        console.log(data);
+        return data;
+      })
+    );
   }
 }
