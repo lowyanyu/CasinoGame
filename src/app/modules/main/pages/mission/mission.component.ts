@@ -72,8 +72,7 @@ export class MissionComponent implements OnInit {
   }
 
   getTotalWin(list: Mission[]): number {
-    const success = list.filter(item => item.missionStatus === MissionStatus.SUCCESS);
-    return success.map(item => item.missionReward).reduce((a , b) => a + b, 0);
+    return list.map(item => item.score ? item.score : 0).reduce((a , b) => a + b, 0);
   }
 
 }

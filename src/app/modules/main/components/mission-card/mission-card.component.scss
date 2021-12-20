@@ -1,3 +1,19 @@
+.mission-tag {
+  display: inline-block;
+  background-color: #efd182;
+  color: #000;
+  box-sizing: border-box;
+  border-radius: 4px;
+  padding: 0px 5px;
+  margin: 8px 0px;
+}
+
+.image-notify {
+  font-size: 10px;
+  line-height: 14px;
+  color: #efd181;
+}
+
 .mission-field {
   display: flex;
   box-sizing: border-box;
@@ -18,23 +34,24 @@
 
 .mission-stat-1 .mission-field {
   .mat-input-element:disabled {
-    border-color: #29e26d;
-    color: #29e26d;
-    background-color: transparent;
+    // border-color: #29e26d;
+    color: #fff;
+    background-color: #29e26d;
   }
 }
 
 .mission-stat-2 .mission-field {
   .mat-input-element:disabled {
-    border-color: #ef252b;
-    color: #ef252b;
-    background-color: transparent;
+    // border-color: #ef252b;
+    color: #fff;
+    background-color: #ef252b;
   }
 }
 
 .mission-radio-group {
   display: flex;
   flex-direction: column;
+  margin-top: 8px;
 
   .mission-radio-button {
     &.mat-radio-checked {

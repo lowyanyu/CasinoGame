@@ -39,7 +39,7 @@ export class MissionCardComponent implements OnInit {
       } else {
         this.inputControl.push(new FormControl('', Validators.required));
       }
-      if (this.finished || this.checkSuccess(this.mission.missionStatus)) {
+      if (this.finished || !this.checkCanEdit(this.mission.missionStatus)) {
         this.inputControl[i].disable();
       }
     }
@@ -60,10 +60,31 @@ export class MissionCardComponent implements OnInit {
     return completed + ' / ' + mission.missionRequire.number + mission.missionRequire.unit;
   }
 
-  checkSuccess(status: number): boolean {
-    if (status === MissionStatus.SUCCESS) {
+  checkCanEdit(status: number): boolean {
+    if (status === MissionStatus.INIT) {
       return true;
     }
     return false;
+  }
+
+  getMissionType(type: number): string {
+    switch(type) {
+      case MissionType.IMAGE:
+        return '圖片題';
+      case MissionType.CHOOSE:
+        return '選擇題';
+      case MissionType.SHORT_TEXT:
+        return '簡答題';
+      default:
+        return '';
+    }
+  }
+
+  checkControlDisabled(): boolean {
+    return this.inputControl.filter(ctrl => ctrl.disabled === true).length > 0;
+  }
+
+  checkControlInvalid(): boolean {
+    return this.inputControl.filter(ctrl => ctrl.invalid === true).length > 0;
   }
 }

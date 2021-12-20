@@ -7,12 +7,12 @@
       {
         "missionId": 1,
         "missionStatus": 0,
-        "missionReward": 50
+        "missionReward": 300
       },
       {
         "missionId": 2,
         "missionStatus": 3,
-        "missionReward": 20
+        "missionReward": 500
       },
       {
         "missionId": 3,
@@ -46,6 +46,16 @@
         "missionReward": 50,
         "answer": [2],
         "score": 50
+      },
+      {
+        "missionId": 8,
+        "missionStatus": 0,
+        "missionReward": 30
+      },
+      {
+        "missionId": 9,
+        "missionStatus": 0,
+        "missionReward": 50
       }
     ]
   }

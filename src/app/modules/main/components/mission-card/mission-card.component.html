@@ -27,22 +27,29 @@
     </h4>
     <div [@detailExpand]="mission['status']" [ngClass]="'mission-stat-' + mission.missionStatus">
       <p>獎勵: {{mission.missionReward}} 籌碼</p>
+      <span class="mission-tag">{{getMissionType(mission.missionType)}}</span>
+      <p class="image-notify" *ngIf="mission.missionType === MISSION_TYPE.IMAGE">※ 此題目為圖片題。上傳圖片後，經工作人員審核通過後才能獲得獎勵喔</p>
       <p>{{mission.missionContent}}</p>
-      <div [ngSwitch]="mission.missionType" *ngFor="let control of inputControl">
+      <div [ngSwitch]="mission.missionType">
         <ng-container *ngSwitchCase="MISSION_TYPE.IMAGE">
-          圖片題
+          <div class="mission-field" *ngFor="let control of inputControl; let i = index">
+            <input matInput/>
+            <input type="file" id="file-{{i}}" hidden/>
+            <!-- TODO: fileChangeEvent and to show pending image -->
+          </div>
+          <button *ngIf="!checkControlDisabled()" mat-stroked-button color="primary" class="submit-btn" [disabled]="checkControlInvalid()">送出</button>
         </ng-container>
         <ng-container *ngSwitchCase="MISSION_TYPE.CHOOSE">
-          <mat-radio-group [formControl]="control" class="mission-radio-group">
+          <mat-radio-group *ngFor="let control of inputControl" [formControl]="control" class="mission-radio-group">
             <mat-radio-button class="mission-radio-button" *ngFor="let opt of mission.missionOption" [value]="opt.optionId">{{opt.optionName}}</mat-radio-button>
           </mat-radio-group>
-          <button *ngIf="!control.disabled" mat-stroked-button color="primary" class="submit-btn" [disabled]="control.invalid">送出</button>
+          <button *ngIf="!checkControlDisabled()" mat-stroked-button color="primary" class="submit-btn" [disabled]="checkControlInvalid()">送出</button>
         </ng-container>
         <ng-container *ngSwitchCase="MISSION_TYPE.SHORT_TEXT">
-          <div class="mission-field">
+          <div class="mission-field" *ngFor="let control of inputControl">
             <input matInput type="text" [formControl]="control"/>
           </div>
-          <button *ngIf="!control.disabled" mat-stroked-button color="primary" class="submit-btn" [disabled]="control.invalid">送出</button>
+          <button *ngIf="!checkControlDisabled()" mat-stroked-button color="primary" class="submit-btn" [disabled]="checkControlInvalid()">送出</button>
         </ng-container>
       </div>
     </div>
