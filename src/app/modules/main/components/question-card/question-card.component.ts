@@ -1,5 +1,6 @@
 import { trigger, transition, style, animate } from '@angular/animations';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { BinaryAnswer } from '@main/enums/binary-answer.enum';
 import { Question } from '@main/models/question.model';
 
 const swipe = [style({ transform: 'translateX(100%)' }), animate('.5s ease-out', style({ transform: 'translateX(0%)' }))];
@@ -17,9 +18,14 @@ const fade = [style({ opacity: '0' }), animate('500ms', style({ opacity: '1' }))
 })
 export class QuestionCardComponent implements OnInit {
 
+  BINARY_ANS: typeof BinaryAnswer = BinaryAnswer;
+
+  choices = [
+    this.BINARY_ANS.YES, this.BINARY_ANS.NO, this.BINARY_ANS.SKIP
+  ];
+
   @Input() question: Question;
-  @Output() yes = new EventEmitter<any>();
-  @Output() no = new EventEmitter<any>();
+  @Output() answer = new EventEmitter<any>();
 
   constructor() { }
 
@@ -27,12 +33,8 @@ export class QuestionCardComponent implements OnInit {
     console.log('question card component ngOnInit:', this.question);
   }
 
-  clickYes(): void {
-    this.yes.emit(this.question.questionId);
-  }
-
-  clickNo(): void {
-    this.no.emit(this.question.questionId);
+  answerQuestion(choose: number): void {
+    this.answer.emit(choose);
   }
 
 }

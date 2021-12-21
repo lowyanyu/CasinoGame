@@ -1,5 +1,5 @@
 <div class="card">
-  <button mat-icon-button class="expand-btn" (click)="toggleMission(mission['status'])">
+  <button mat-icon-button #expandBtn class="expand-btn" (click)="toggleMission(mission['status'])">
     <svg *ngIf="mission['status'] === 'expanded'" xmlns="http://www.w3.org/2000/svg" width="12" height="7.41" viewBox="0 0 12 7.41">
       <path id="ic_expand_less_24px" d="M12,8,6,14l1.41,1.41L12,10.83l4.59,4.58L18,14Z" transform="translate(-6 -8)" fill="#fff"/>
     </svg>
@@ -8,7 +8,7 @@
     </svg>
   </button>
   <div class="card-container">
-    <h4 class="mission-title">
+    <h4 class="mission-title" (click)="expandBtn._elementRef.nativeElement.click()">
       <svg *ngIf="mission.missionStatus === MISSION_STATUS.INIT" xmlns="http://www.w3.org/2000/svg" width="15" height="17" viewBox="0 0 15 17">
         <path id="ic_flag_24px" d="M14.4,6,14,4H5V21H7V14h5.6l.4,2h7V6Z" transform="translate(-5 -4)" fill="#efd182"/>
       </svg>

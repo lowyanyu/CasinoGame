@@ -2,7 +2,7 @@
   "errorCode": 0,
   "errorMessage": "查詢任務清單成功。",
   "data": {
-    "status": 2,
+    "status": 1,
     "result": [
       {
         "missionId": 1,

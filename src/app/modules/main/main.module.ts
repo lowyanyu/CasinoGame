@@ -14,10 +14,23 @@ import { MissionComponent } from '@main/pages/mission/mission.component';
 import { QuestionCardComponent } from '@main/components/question-card/question-card.component';
 import { MissionCardComponent } from '@main/components/mission-card/mission-card.component';
 import { StackComponent } from './pages/stack/stack.component';
+import { ConfirmDialogComponent } from './components/confirm-dialog/confirm-dialog.component';
 
 
 @NgModule({
-  declarations: [MainComponent, ProfileCardComponent, QuestionComponent, MissionComponent, QuestionCardComponent, MissionCardComponent, StackComponent],
+  entryComponents: [
+    ConfirmDialogComponent
+  ],
+  declarations: [
+    MainComponent,
+    ProfileCardComponent,
+    QuestionComponent,
+    MissionComponent,
+    QuestionCardComponent,
+    MissionCardComponent,
+    StackComponent,
+    ConfirmDialogComponent
+  ],
   imports: [
     CommonModule,
     MainRoutingModule,

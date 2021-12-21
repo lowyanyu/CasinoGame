@@ -1,0 +1,44 @@
+.answer-btn {
+  display: flex;
+  flex-grow: 1;
+  justify-content: center;
+
+  .mat-icon-button {
+    background: #4B4C48;
+    height: 100%;
+    width: 100%;
+    font-size: 24px;
+  }
+
+  .btn-wrap {
+    box-sizing: border-box;
+    border-radius: 50%;
+    height: 100px;
+    width: 100px;
+    padding: 5px;
+  }
+
+  &--theme-1 .btn-wrap {
+    background-image: linear-gradient(135deg, #45E5B9, #80EC37);
+
+    button::after {
+      content: 'Yes';
+    }
+  }
+
+  &--theme-2 .btn-wrap {
+    background-image: linear-gradient(135deg, #FF9F21, #EF252B);
+
+    button::after {
+      content: 'No';
+    }
+  }
+
+  &--theme-3 .btn-wrap {
+    background-image: linear-gradient(135deg, #21e5ff, #6225ef);
+
+    button::after {
+      content: 'Skip';
+    }
+  }
+}

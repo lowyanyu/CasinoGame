@@ -1,6 +1,8 @@
 import { trigger, state, style, transition, animate } from '@angular/animations';
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { MatDialog } from '@angular/material/dialog';
+import { ConfirmDialogComponent } from '@main/components/confirm-dialog/confirm-dialog.component';
+import { BinaryAnswer } from '@main/enums/binary-answer.enum';
 import { QuestionGameStatus } from '@main/enums/question-game-status.enum';
 import { Choice, Question } from '@main/models/question.model';
 import { ApiService } from '@main/services/api.service';
@@ -32,21 +34,17 @@ export class QuestionComponent implements OnInit {
 
   STATUS: typeof QuestionGameStatus = QuestionGameStatus;
 
-  currentIndex$ = new BehaviorSubject<number>(0);
-
-  questionForm: FormGroup;
   questionAmount: number;
 
   questionList$ = new BehaviorSubject<Question[]>([]);
-  questionItem$ = combineLatest([this.questionList$, this.currentIndex$]).pipe(
+  questionItem$ = combineLatest([this.questionList$, this.apiService.currentIndex$]).pipe(
     switchMap(([list, index]) => iif(() => list === [], of([]), of(list[index])))
   );
 
   constructor(
-    private fb: FormBuilder,
-    public apiService: ApiService
+    public apiService: ApiService,
+    private dialog: MatDialog
   ) {
-    this.questionForm = this.fb.group({});
   }
 
   ngOnInit(): void {
@@ -60,7 +58,6 @@ export class QuestionComponent implements OnInit {
         if (data.result && data.result.length > 0) {
           this.questionAmount = data.result.length;
           this.questionList$.next(data.result);
-          this.addControl(data.result);
         } else {
           this.questionAmount = 0;
           this.questionList$.next([]);
@@ -74,39 +71,24 @@ export class QuestionComponent implements OnInit {
     });
   }
 
-  addControl(question: Question[]): void {
-    question.forEach(q => this.questionForm.addControl(String(q.questionId), new FormControl('', Validators.required)));
-  }
-
-  answerYes(questionId: number): void {
-    this.questionForm.controls[String(questionId)].setValue('YES');
-    this.showNextQuestion();
-  }
-
-  answerNo(questionId: number): void {
-    this.questionForm.controls[String(questionId)].setValue('NO');
-    this.showNextQuestion();
-  }
-
-  showNextQuestion(): void {
-    // last question
-    if (this.currentIndex$.value === this.questionAmount - 1) {
-      console.log(this.questionForm.value);
-      this.submitForm();
+  answerQuestion(answer: number): void {
+    if (answer === BinaryAnswer.SKIP) {
+      this.openSkipConfirmDialog();
       return;
     }
-    this.currentIndex$.next(this.currentIndex$.getValue() + 1);
+    this.apiService.answerQuestion(answer);
   }
 
-  submitForm(): void {
-    if (this.questionForm.invalid) {
-      return;
-    }
-    this.apiService.submitQuestion(this.questionForm.value).subscribe({
-      next: () => {
-      },
-      error: error => {
-        // TODO:
+  openSkipConfirmDialog(): void {
+    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+      minWidth: '280px',
+      autoFocus: false
+    });
+    dialogRef.beforeClosed().subscribe({
+      next: resp => {
+        if (resp) {
+          this.apiService.answerQuestion(BinaryAnswer.SKIP);
+        }
       }
     })
   }

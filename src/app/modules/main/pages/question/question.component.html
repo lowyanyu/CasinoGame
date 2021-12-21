@@ -1,11 +1,11 @@
 <div class="content-padding" [ngSwitch]="apiService.qGameStatus$ | async">
   <div *ngSwitchCase="STATUS.START">
     <div class="banner">
-      <span>第 {{(currentIndex$ | async) + 1}} 題</span>
+      <span>第 {{(apiService.currentIndex$ | async) + 1}} 題</span>
       <span>共 {{questionAmount}} 題</span>
     </div>
     <div *ngIf="questionItem$ | async as question">
-      <app-question-card [question]="question" (yes)="answerYes($event)" (no)="answerNo($event)"></app-question-card>
+      <app-question-card [question]="question" (answer)="answerQuestion($event)"></app-question-card>
     </div>
   </div>
   <div *ngSwitchCase="STATUS.STOP">

@@ -1,7 +1,13 @@
+::ng-deep html {
+  cursor: pointer;
+}
+
 .home {
   display: table;
   margin: auto;
-  margin-top: 150px;
+  box-sizing: border-box;
+  padding-top: 150px;
+  height: 100vh;
 }
 
 .title {

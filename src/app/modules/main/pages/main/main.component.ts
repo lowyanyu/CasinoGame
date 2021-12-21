@@ -1,6 +1,7 @@
 import { style, animate, trigger, transition } from '@angular/animations';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { NgAuthService } from '@cg/ng-auth';
 import { Game } from '@main/enums/game-path.enum';
 import { BehaviorSubject } from 'rxjs';
 
@@ -25,7 +26,8 @@ export class MainComponent implements OnInit {
   detectChange$ = new BehaviorSubject<number>(0);
 
   constructor(
-    public router: Router
+    public router: Router,
+    private authService: NgAuthService
   ) { }
 
   ngOnInit(): void {
@@ -39,6 +41,14 @@ export class MainComponent implements OnInit {
 
   isActive(path: string): boolean {
     return this.router.isActive(path, false);
+  }
+
+  logout(): void {
+    this.authService.logout().subscribe({
+      next: () => {
+        this.router.navigate(['/home']);
+      }
+    })
   }
 
 }

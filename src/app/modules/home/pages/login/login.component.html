@@ -3,14 +3,14 @@
     <div>
       <mat-form-field appearance="outline">
         <mat-label>帳號</mat-label>
-        <input matInput type="text" formControlName="account" required autofocus/>
+        <input matInput #account type="text" formControlName="account" required autofocus (keydown.enter)="pwd.focus()" (mousedown.enter)="pwd.focus()"/>
         <mat-error>請輸入帳號</mat-error>
       </mat-form-field>
     </div>
     <div>
       <mat-form-field appearance="outline">
         <mat-label>密碼</mat-label>
-        <input matInput type="password" formControlName="pwd" autocomplete="off" required/>
+        <input matInput #pwd type="password" formControlName="pwd" autocomplete="off" required/>
         <mat-error>請輸入密碼</mat-error>
       </mat-form-field>
     </div>

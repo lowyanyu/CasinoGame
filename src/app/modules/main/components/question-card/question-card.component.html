@@ -4,10 +4,7 @@
   </div>
 </div>
 <div class="question-btn-row">
-  <div class="answer-btn answer-btn--theme-yes">
-    <div class="btn-wrap"><button mat-icon-button type="button" (click)="clickYes()">Yes</button></div>
-  </div>
-  <div class="answer-btn answer-btn--theme-no">
-    <div class="btn-wrap"><button mat-icon-button type="button" (click)="clickNo()">No</button></div>
+  <div class="answer-btn answer-btn--theme-{{choose}}" *ngFor="let choose of choices">
+    <div class="btn-wrap"><button mat-icon-button type="button" (click)="answerQuestion(choose)"></button></div>
   </div>
 </div>

@@ -15,6 +15,9 @@ export class ApiService {
   qGameStatus$ = new BehaviorSubject<number>(0);
   mGameStatus$ = new BehaviorSubject<number>(0);
 
+  currentIndex$ = new BehaviorSubject<number>(0);
+  _cacheAnswers$ = new BehaviorSubject<number[]>([]);
+
   _profileUrl = '';
   _questionUrl = '';
   _missionUrl = '';
@@ -59,10 +62,36 @@ export class ApiService {
     );
   }
 
-  submitQuestion(answer): Observable<any> {
-    return this.httpUtil.POSTMethod({ url: this._questionUrl, body: answer }).pipe(
-      tap(() => this.qGameStatus$.next(QuestionGameStatus.COMPLETE))
-    );
+  answerQuestion(answer: number): void {
+    const arr = this._cacheAnswers$.value;
+    arr.push(answer);
+    this._cacheAnswers$.next(arr);
+    this.updateCurrentIndex();
+  }
+
+  updateCurrentIndex(): void {
+    const newIndex = this.currentIndex$.value + 1;
+    if (newIndex === 10) {
+      this.submitQuestion().subscribe({
+        next: () => {},
+        error: () => {
+          this._cacheAnswers$.next([]);
+          this.currentIndex$.next(0);
+        }
+      });
+      return;
+    }
+    this.currentIndex$.next(newIndex);
+  }
+
+  submitQuestion(): Observable<any> {
+    return this.httpUtil.POSTMethod({ url: this._questionUrl, body: this._cacheAnswers$.value }).pipe(
+      tap(() => this.qGameStatus$.next(QuestionGameStatus.COMPLETE)),
+      catchError(() => {
+        this.qGameStatus$.next(QuestionGameStatus.ERROR);
+        return throwError('Submit question occur error');
+      })
+    )
   }
 
   getMissionList(): Observable<any> {
@@ -81,7 +110,7 @@ export class ApiService {
     );
   }
 
-  submitMission(answer, mission: Mission): Observable<any> {
+  submitMission(answers: Array<any>, mission: Mission): Observable<any> {
     let apiPath;
     switch(mission.missionType) {
       case MissionType.IMAGE:
@@ -97,7 +126,7 @@ export class ApiService {
         return throwError('Unknown mission type');
     }
     const url = `${this._missionUrl}/${apiPath}/${mission.missionId}`
-    return this.httpUtil.POSTMethod({ url: url, body: answer });
+    return this.httpUtil.POSTMethod({ url: url, body: answers });
   }
 
   getCurrentStack(): Observable<any> {

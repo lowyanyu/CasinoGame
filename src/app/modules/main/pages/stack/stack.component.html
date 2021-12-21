@@ -2,7 +2,7 @@
   <div class="align-center">
     <p>請輸入要下注的金額</p>
   </div>
-  <div>
+  <div *ngIf="stack">
     <div *ngFor="let player of stack.player" style="margin-top: 10px;" [@flyInOut]="'in'">
       <div class="card">
         {{player.playerName}}

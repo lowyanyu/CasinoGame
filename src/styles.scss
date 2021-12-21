@@ -25,6 +25,16 @@ router-outlet {
   margin: auto;
 }
 
+.mat-dialog-container {
+  color: #000;
+}
+
+.mat-menu-content {
+  background-color: #24231f;
+  border: 1px solid #707070;
+  border-radius: 4px;
+}
+
 h1,
 h2,
 h3,
@@ -46,11 +56,12 @@ form {
 }
 
 .toolbar {
-  position: absolute;
+  position: fixed;
+  z-index: 1;
   top: 0;
   left: 0;
   right: 0;
-  height: 40px;
+  height: 60px;
   display: flex;
   padding: 0px 16px;
   align-items: center;
@@ -76,8 +87,10 @@ form {
 
 .content {
   display: block;
-  margin-top: 50px;
+  margin-top: 70px;
+  box-sizing: border-box;
   padding: 0 16px;
+  min-height: calc(100vh - 70px);
 }
 
 .content-padding {
@@ -114,10 +127,6 @@ svg.material-icons:not(:last-child) {
   align-items: center;
   transition: all 0.2s ease-in-out;
   line-height: 24px;
-}
-
-.card-container .card {
-  cursor: pointer;
 }
 
 .card-container .card:hover .material-icons path {
@@ -183,35 +192,6 @@ svg.material-icons:not(:last-child) {
 .result-score {
   color: $main-color;
   width: 40px;
-}
-
-.answer-btn {
-  display: flex;
-  flex-grow: 1;
-  justify-content: center;
-
-  .mat-icon-button {
-    background: #4B4C48;
-    height: 100%;
-    width: 100%;
-    font-size: 24px;
-  }
-
-  .btn-wrap {
-    box-sizing: border-box;
-    border-radius: 50%;
-    height: 100px;
-    width: 100px;
-    padding: 5px;
-  }
-
-  &--theme-yes .btn-wrap {
-    background-image: linear-gradient(135deg, #45E5B9, #80EC37);
-  }
-
-  &--theme-no .btn-wrap {
-    background-image: linear-gradient(135deg, #FF9F21, #EF252B);
-  }
 }
 
 .terminal {
