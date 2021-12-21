@@ -1,0 +1,8 @@
+{
+  "errorCode": 0,
+  "errorMessage": "任務完成。",
+  "data": {
+    "missionStatus": 1,
+    "score": 100
+  }
+}

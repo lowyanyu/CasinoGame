@@ -1,10 +1,8 @@
 import { style, animate, trigger, transition, state } from '@angular/animations';
-import { AfterViewInit, Component, Input, OnChanges, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { FormControl, Validators } from '@angular/forms';
 import { Mission, MissionStatus, MissionType } from '@main/models/mission.model';
-
-const swipe = [style({ transform: 'translateX(100%)' }), animate('.5s ease-out', style({ transform: 'translateX(0%)' }))];
-const fade = [style({ opacity: '0' }), animate('500ms', style({ opacity: '1' }))];
+import { ApiService } from '@main/services/api.service';
 
 @Component({
   selector: 'app-mission-card',
@@ -12,9 +10,9 @@ const fade = [style({ opacity: '0' }), animate('500ms', style({ opacity: '1' }))
   styleUrls: ['./mission-card.component.scss'],
   animations: [
     trigger('detailExpand', [
-      state('collapsed', style({ height: '0px', minHeight: '0', visibility: 'hidden' })),
-      state('expanded', style({ height: 'auto', visibility: 'visible', marginBottom: '8px' })),
-      // transition('expanded <=> collapsed', animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)')),
+      state('collapsed', style({ height: '0px', opacity: '0', minHeight: '0', visibility: 'hidden' })),
+      state('expanded', style({ height: '*', opacity: '1', visibility: 'visible', marginBottom: '8px' })),
+      transition('expanded <=> collapsed', animate('300ms cubic-bezier(0.4, 0.0, 0.2, 1)')),
     ]),
   ]
 })
@@ -26,26 +24,53 @@ export class MissionCardComponent implements OnInit {
   @Input() mission: Mission;
   @Input() finished: boolean;
 
-  inputControl: FormControl[] = [];
+  @Output() updateMission = new EventEmitter<Mission>();
 
-  constructor() {
+  inputControls: FormControl[] = [];
+  uploadImages;
+  reupload;
+
+  constructor(private apiService: ApiService) {
   }
 
   ngOnInit(): void {
     const ctrlNum = this.mission.missionRequire.number;
+    if (this.mission.missionType === MissionType.IMAGE) {
+      this.uploadImages = Array(ctrlNum).fill(null);
+      this.reupload = Array(ctrlNum).fill(false);
+    }
     for (let i = 0; i < ctrlNum; i++) {
       if (this.mission.answer) {
-        this.inputControl.push(new FormControl(this.mission.answer[i], Validators.required));
+        this.inputControls.push(new FormControl(this.mission.answer[i], Validators.required));
+        if (this.mission.missionType === MissionType.IMAGE) {
+          this.uploadImages[i] = this.mission.answer[i];
+        }
       } else {
-        this.inputControl.push(new FormControl('', Validators.required));
+        this.inputControls.push(new FormControl('', Validators.required));
       }
       if (this.finished || !this.checkCanEdit(this.mission.missionStatus)) {
-        this.inputControl[i].disable();
+        this.inputControls[i].disable();
       }
     }
     this.mission = Object.assign({}, this.mission, {status: 'collapsed'});
     console.log('mission card component ngOnInit:', this.mission);
     console.log('mission is finished?', this.finished);
+  }
+
+  fileChangeEvent(fileInput: any, index: number): void {
+    const fileToUpload = fileInput.target.files as Array<File>;
+    const file = fileToUpload[0];
+    if (file !== undefined) {
+      let reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = () => {
+        let content = reader.result as string;
+        if (content.length !== 0 && null != reader.result) {
+          this.inputControls[index].setValue(content.split(',')[1]);
+          this.uploadImages[index] = content;
+        }
+      };
+    }
   }
 
   toggleMission(status: 'expanded' | 'collapsed'): void {
@@ -67,24 +92,50 @@ export class MissionCardComponent implements OnInit {
     return false;
   }
 
-  getMissionType(type: number): string {
-    switch(type) {
-      case MissionType.IMAGE:
-        return '圖片題';
-      case MissionType.CHOOSE:
-        return '選擇題';
-      case MissionType.SHORT_TEXT:
-        return '簡答題';
-      default:
-        return '';
-    }
-  }
-
   checkControlDisabled(): boolean {
-    return this.inputControl.filter(ctrl => ctrl.disabled === true).length > 0;
+    return this.inputControls.filter(ctrl => ctrl.disabled === true).length > 0;
   }
 
   checkControlInvalid(): boolean {
-    return this.inputControl.filter(ctrl => ctrl.invalid === true).length > 0;
+    return this.inputControls.filter(ctrl => ctrl.invalid === true).length > 0;
+  }
+
+  submit(mission: Mission): void {
+    const values = this.inputControls.map(ctrl => ctrl.value);
+    this.apiService.submitMission(values, mission).subscribe({
+      next: data => {
+        this.inputControls.forEach(ctrl => ctrl.disable());
+        this.mission.missionStatus = data.missionStatus;
+        this.mission.answer = this.mission.missionType === MissionType.IMAGE ? this.uploadImages : values;
+        this.mission.score = data.score;
+        this.updateMission.emit(this.mission);
+      },
+      error: error => {
+        // TODO:
+      }
+    })
+  }
+
+  removeUploadImage(index: number): void {
+    this.inputControls[index].setValue('');
+    this.uploadImages[index] = null;
+    this.hideReupload(index);
+  }
+
+  showReupload(index: number): void {
+    if (this.mission.missionStatus !== MissionStatus.INIT) {
+      return;
+    }
+    this.reupload = this.reupload.map((e, i) => {
+      if (i === index) {
+        return true;
+      } else {
+        return false;
+      }
+    });
+  }
+
+  hideReupload(index: number): void {
+    this.reupload[index] = false;
   }
 }

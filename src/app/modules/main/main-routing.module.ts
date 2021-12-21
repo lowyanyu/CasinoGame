@@ -5,6 +5,7 @@ import { NgAuthGuard } from '@cg/ng-auth';
 import { MainComponent } from '@main/pages/main/main.component';
 import { QuestionComponent } from '@main/pages/question/question.component';
 import { MissionComponent } from '@main/pages/mission/mission.component';
+import { StackComponent } from '@main/pages/stack/stack.component';
 
 const routes: Routes = [
   {
@@ -20,6 +21,10 @@ const routes: Routes = [
       {
         path: 'mission',
         component: MissionComponent
+      },
+      {
+        path: 'stack',
+        component: StackComponent
       }
     ]
   },

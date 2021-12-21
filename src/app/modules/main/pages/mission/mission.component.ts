@@ -4,6 +4,9 @@ import { MissionGameStatus } from '@main/enums/mission-game-status.enum';
 import { Mission, MissionStatus } from '@main/models/mission.model';
 import { ApiService } from '@main/services/api.service';
 
+const flyIn = [style({ transform: 'translateX(100%)' }), animate('0.5s ease-in')];
+const fadeOut = [style({ opacity: '1' }), animate('0.5s ease-out', style({ opacity: '0' }))];
+
 @Component({
   selector: 'app-mission',
   templateUrl: './mission.component.html',
@@ -11,17 +14,8 @@ import { ApiService } from '@main/services/api.service';
   animations: [
     trigger('flyInOut', [
       state('in', style({transform: 'translateX(0%)'})),
-      transition('void => *', [
-        style({
-          transform: 'translateX(100%)'
-        }),
-        animate('0.5s ease-in')
-      ]),
-      transition('* => void', [
-        animate('0.5s 0.1s ease-out', style({
-          transform: 'translateX(0%)'
-        }))
-      ])
+      transition('void => *', flyIn),
+      transition('* => void', fadeOut)
     ])
   ]
 })
@@ -51,8 +45,11 @@ export class MissionComponent implements OnInit {
     })
   }
 
-  reload(): void {
-    this.getMissionList();
+  updateMission(mission: Mission): void {
+    const i = this.missionList.findIndex(m => m.missionId === mission.missionId);
+    if (i !== -1) {
+      this.missionList[i] = mission;
+    }
   }
 
   getComplete(list: Mission[]): number {

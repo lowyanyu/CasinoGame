@@ -26,7 +26,7 @@ router.get('/binary', function(req, res) {
   res.json(binaryResp);
 });
 
-// send question answer
+// submit question answer
 router.post('/binary', function(req, res) {
   completeBinary();
   console.log('POST /binary');
@@ -37,15 +37,34 @@ router.post('/binary', function(req, res) {
 
 // get mission
 var missionResp = require('./mission-list.json');
-setTimeout(function() {
-  console.log('mission game stop!');
-  missionResp = require('./mission-result.json');
-}, 120000);
+// setTimeout(function() {
+//   console.log('mission game stop!');
+//   missionResp = require('./mission-result.json');
+// }, 120000);
 router.get('/mission', function(req, res) {
   console.log('GET /mission');
   res.json(missionResp);
 });
 
+// submit mission answer
+router.post('/mission/:missionType/:missionId', function(req, res) {
+  const missionType = req.params.missionType;
+  const missionId = req.params.missionId;
+  console.log('POST /mission/' + missionType + '/' + missionId);
+	var respBody;
+  if (missionType === 'image') {
+    respBody = require('./mission-answer-pending.json');
+  } else {
+    respBody = require('./mission-answer.json');
+  }
+  res.json(respBody);
+});
 
+// get current stack
+router.get('/stack', function(req, res) {
+  console.log('GET /stack' );
+  var respBody = require('./current-stack.json');
+  res.json(respBody);
+});
 
 module.exports = router;

@@ -4,8 +4,8 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 import { QuestionGameStatus } from '@main/enums/question-game-status.enum';
 import { Choice, Question } from '@main/models/question.model';
 import { ApiService } from '@main/services/api.service';
-import { BehaviorSubject, combineLatest, from, iif, Observable, of } from 'rxjs';
-import { delay, shareReplay, skip, startWith, switchMap, takeWhile, tap } from 'rxjs/operators';
+import { BehaviorSubject, combineLatest, iif, of } from 'rxjs';
+import { switchMap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-question',
@@ -102,7 +102,7 @@ export class QuestionComponent implements OnInit {
     if (this.questionForm.invalid) {
       return;
     }
-    this.apiService.sendQuestion(this.questionForm.value).subscribe({
+    this.apiService.submitQuestion(this.questionForm.value).subscribe({
       next: () => {
       },
       error: error => {

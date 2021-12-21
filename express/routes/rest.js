@@ -7,7 +7,7 @@ const e = require('express');
 router.use(bodyParser.urlencoded({
   extended: false
 }));
-router.use(bodyParser.json());
+router.use(bodyParser.json({limit: '2100000kb'}));
 
 router.use(cors());
 

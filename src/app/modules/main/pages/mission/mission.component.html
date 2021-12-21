@@ -5,13 +5,13 @@
   <div *ngSwitchCase="STATUS.START">
     <ng-container *ngTemplateOutlet="missionInfo; context: {$implicit: missionList, status: STATUS.START}"></ng-container>
     <div *ngFor="let mission of missionList" style="margin-top: 10px;" [@flyInOut]="'in'">
-      <app-mission-card [mission]="mission" (reload)="reload()"></app-mission-card>
+      <app-mission-card [mission]="mission" (updateMission)="updateMission($event)"></app-mission-card>
     </div>
   </div>
   <div *ngSwitchCase="STATUS.STOP">
     <ng-container *ngTemplateOutlet="missionInfo; context: {$implicit: missionList, status: STATUS.STOP}"></ng-container>
     <div *ngFor="let mission of missionList" style="margin-top: 10px;" [@flyInOut]="'in'">
-      <app-mission-card [mission]="mission" [finished]="true" (reload)="reload()"></app-mission-card>
+      <app-mission-card [mission]="mission" [finished]="true" (updateMission)="updateMission($event)"></app-mission-card>
     </div>
   </div>
   <div *ngSwitchCase="STATUS.ERROR" class="align-center">

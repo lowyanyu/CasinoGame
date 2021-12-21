@@ -13,10 +13,11 @@ import { QuestionComponent } from '@main/pages/question/question.component';
 import { MissionComponent } from '@main/pages/mission/mission.component';
 import { QuestionCardComponent } from '@main/components/question-card/question-card.component';
 import { MissionCardComponent } from '@main/components/mission-card/mission-card.component';
+import { StackComponent } from './pages/stack/stack.component';
 
 
 @NgModule({
-  declarations: [MainComponent, ProfileCardComponent, QuestionComponent, MissionComponent, QuestionCardComponent, MissionCardComponent],
+  declarations: [MainComponent, ProfileCardComponent, QuestionComponent, MissionComponent, QuestionCardComponent, MissionCardComponent, StackComponent],
   imports: [
     CommonModule,
     MainRoutingModule,

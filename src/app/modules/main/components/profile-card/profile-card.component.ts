@@ -1,6 +1,4 @@
-import { Component, Input, OnChanges, OnInit } from '@angular/core';
-import { BehaviorSubject, iif, Observable, of } from 'rxjs';
-import { catchError, switchMap } from 'rxjs/operators';
+import { Component, OnInit } from '@angular/core';
 import { ApiService } from '@main/services/api.service';
 
 @Component({

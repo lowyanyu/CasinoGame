@@ -11,8 +11,10 @@
       },
       {
         "missionId": 2,
-        "missionStatus": 3,
-        "missionReward": 500
+        "missionStatus": 1,
+        "missionReward": 500,
+        "answer": ["https://pic.pimg.tw/tony12345691/1563449393-3685146818_n.jpg", "https://pic.pimg.tw/tony12345691/1563449393-3685146818_n.jpg", "https://pic.pimg.tw/tony12345691/1563449393-3685146818_n.jpg"],
+        "score": 500
       },
       {
         "missionId": 3,
