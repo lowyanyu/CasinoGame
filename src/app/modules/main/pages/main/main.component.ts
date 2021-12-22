@@ -2,7 +2,6 @@ import { style, animate, trigger, transition } from '@angular/animations';
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
-import { NgAuthService } from '@cg/ng-auth';
 import { MenuDialogComponent } from '@main/components/menu-dialog/menu-dialog.component';
 import { Game } from '@main/enums/game-path.enum';
 import { BehaviorSubject } from 'rxjs';
@@ -47,7 +46,8 @@ export class MainComponent implements OnInit {
 
   openMenuDialog(): void {
     this.dialog.open(MenuDialogComponent, {
-      minWidth: '280px',
+      minWidth: '100%',
+      height: '100vh',
       autoFocus: false
     });
   }
