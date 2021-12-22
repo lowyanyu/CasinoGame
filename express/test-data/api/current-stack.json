@@ -2,6 +2,7 @@
   "errorCode": 0,
   "errorMessage": "查詢進行中賭盤成功。",
   "data": {
+    "status": 1,
     "stackId": 1,
     "title": "遊戲名稱",
     "player": [

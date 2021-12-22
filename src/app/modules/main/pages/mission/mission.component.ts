@@ -1,8 +1,10 @@
 import { trigger, state, style, transition, animate } from '@angular/animations';
-import { Component, OnInit } from '@angular/core';
-import { MissionGameStatus } from '@main/enums/mission-game-status.enum';
+import { Component, HostListener, OnDestroy, OnInit } from '@angular/core';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { GameStatus } from '@main/enums/game-status.enum';
 import { Mission, MissionStatus } from '@main/models/mission.model';
 import { ApiService } from '@main/services/api.service';
+import { Subscription } from 'rxjs';
 
 const flyIn = [style({ transform: 'translateX(100%)' }), animate('0.5s ease-in')];
 const fadeOut = [style({ opacity: '1' }), animate('0.5s ease-out', style({ opacity: '0' }))];
@@ -19,14 +21,17 @@ const fadeOut = [style({ opacity: '1' }), animate('0.5s ease-out', style({ opaci
     ])
   ]
 })
-export class MissionComponent implements OnInit {
+export class MissionComponent implements OnInit, OnDestroy {
 
-  STATUS: typeof MissionGameStatus = MissionGameStatus;
+  STATUS: typeof GameStatus = GameStatus;
 
   missionList: Mission[];
 
+  subscription: Subscription;
+
   constructor(
-    public apiService: ApiService
+    public apiService: ApiService,
+    private snackBar: MatSnackBar
   ) { }
 
   ngOnInit(): void {
@@ -34,13 +39,25 @@ export class MissionComponent implements OnInit {
     this.getMissionList();
   }
 
+  ngOnDestroy(): void {
+    this.snackBar.dismiss();
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
+  }
+
   getMissionList(): void {
-    this.apiService.getMissionList().subscribe({
+    this.subscription = this.apiService.getMissionList().subscribe({
       next: data => {
         this.missionList = data.result;
       },
-      error: error => {
-        // TODO:
+      error: () => {
+        const snackBarRef = this.snackBar.open('載入任務清單失敗', '重新載入', {
+          panelClass: ['my-snackbar']
+        });
+        snackBarRef.onAction().subscribe(() => {
+          this.getMissionList();
+        });
       }
     })
   }

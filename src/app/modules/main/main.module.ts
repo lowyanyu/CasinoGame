@@ -15,11 +15,13 @@ import { QuestionCardComponent } from '@main/components/question-card/question-c
 import { MissionCardComponent } from '@main/components/mission-card/mission-card.component';
 import { StackComponent } from './pages/stack/stack.component';
 import { ConfirmDialogComponent } from './components/confirm-dialog/confirm-dialog.component';
+import { MenuDialogComponent } from './components/menu-dialog/menu-dialog.component';
 
 
 @NgModule({
   entryComponents: [
-    ConfirmDialogComponent
+    ConfirmDialogComponent,
+    MenuDialogComponent
   ],
   declarations: [
     MainComponent,
@@ -29,7 +31,8 @@ import { ConfirmDialogComponent } from './components/confirm-dialog/confirm-dial
     QuestionCardComponent,
     MissionCardComponent,
     StackComponent,
-    ConfirmDialogComponent
+    ConfirmDialogComponent,
+    MenuDialogComponent
   ],
   imports: [
     CommonModule,

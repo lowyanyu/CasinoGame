@@ -1,7 +1,9 @@
 import { style, animate, trigger, transition } from '@angular/animations';
 import { Component, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { NgAuthService } from '@cg/ng-auth';
+import { MenuDialogComponent } from '@main/components/menu-dialog/menu-dialog.component';
 import { Game } from '@main/enums/game-path.enum';
 import { BehaviorSubject } from 'rxjs';
 
@@ -27,7 +29,7 @@ export class MainComponent implements OnInit {
 
   constructor(
     public router: Router,
-    private authService: NgAuthService
+    private dialog: MatDialog
   ) { }
 
   ngOnInit(): void {
@@ -43,12 +45,11 @@ export class MainComponent implements OnInit {
     return this.router.isActive(path, false);
   }
 
-  logout(): void {
-    this.authService.logout().subscribe({
-      next: () => {
-        this.router.navigate(['/home']);
-      }
-    })
+  openMenuDialog(): void {
+    this.dialog.open(MenuDialogComponent, {
+      minWidth: '280px',
+      autoFocus: false
+    });
   }
 
 }

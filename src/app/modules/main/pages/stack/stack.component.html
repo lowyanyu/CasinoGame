@@ -1,12 +1,32 @@
-<div class="content-padding">
-  <div class="align-center">
-    <p>請輸入要下注的金額</p>
+<div class="content-padding" [ngSwitch]="apiService.sGameStatus$ | async">
+  <div *ngSwitchCase="STATUS.START" class="align-center">
+    <h2>請輸入要下注的金額</h2>
+    <form [formGroup]="stackForm" (ngSubmit)="submitStack()" *ngIf="stack">
+      <div *ngFor="let player of stack.player; let i = index" style="margin-top: 10px;" [@flyInOut]="'in'">
+        <label>{{player.playerName}}</label>
+        <mat-form-field class="input-field">
+          <input matInput type="number" [formControlName]="player.playerId" (change)="verifyInput($event)" required/>
+          <mat-error *ngIf="stackForm.controls[player.playerId].hasError('max')">你的籌碼不夠喔！</mat-error>
+        </mat-form-field>
+      </div>
+      <button type="submit">下注！</button>
+    </form>
   </div>
-  <div *ngIf="stack">
-    <div *ngFor="let player of stack.player" style="margin-top: 10px;" [@flyInOut]="'in'">
-      <div class="card">
-        {{player.playerName}}
+  <div *ngSwitchCase="STATUS.COMPLETE" class="align-center">
+    <h2>等候開獎</h2>
+    <div *ngIf="stack">
+      <div *ngFor="let player of stack.player" style="margin-top: 10px;" [@flyInOut]="'in'">
+        <div class="card">
+          {{player.playerName}}
+        </div>
       </div>
     </div>
   </div>
+  <div *ngSwitchCase="STATUS.BLANK" class="align-center">
+    <p>目前沒有開放下注的賭盤！</p>
+  </div>
+  <div *ngSwitchCase="STATUS.ERROR" class="align-center">
+    <p>發生錯誤！</p>
+  </div>
+  <mat-spinner [diameter]="40" *ngSwitchDefault></mat-spinner>
 </div>

@@ -1,13 +1,17 @@
 import { trigger, state, style, transition, animate } from '@angular/animations';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { ConfirmDialogComponent } from '@main/components/confirm-dialog/confirm-dialog.component';
 import { BinaryAnswer } from '@main/enums/binary-answer.enum';
-import { QuestionGameStatus } from '@main/enums/question-game-status.enum';
+import { GameStatus } from '@main/enums/game-status.enum';
 import { Choice, Question } from '@main/models/question.model';
 import { ApiService } from '@main/services/api.service';
-import { BehaviorSubject, combineLatest, iif, of } from 'rxjs';
+import { BehaviorSubject, combineLatest, iif, of, Subscription } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
+
+const flyIn = [style({ transform: 'translateX(100%)' }), animate('0.5s ease-in')];
+const fadeOut = [style({ opacity: '1' }), animate('0.5s ease-out', style({ opacity: '0' }))];
 
 @Component({
   selector: 'app-question',
@@ -16,23 +20,14 @@ import { switchMap } from 'rxjs/operators';
   animations: [
     trigger('flyInOut', [
       state('in', style({transform: 'translateX(0%)'})),
-      transition('void => *', [
-        style({
-          transform: 'translateX(100%)'
-        }),
-        animate('0.5s ease-in')
-      ]),
-      transition('* => void', [
-        animate('0.5s 0.1s ease-out', style({
-          transform: 'translateX(0%)'
-        }))
-      ])
+      transition('void => *', flyIn),
+      transition('* => void', fadeOut)
     ])
   ]
 })
-export class QuestionComponent implements OnInit {
+export class QuestionComponent implements OnInit, OnDestroy {
 
-  STATUS: typeof QuestionGameStatus = QuestionGameStatus;
+  STATUS: typeof GameStatus = GameStatus;
 
   questionAmount: number;
 
@@ -41,9 +36,12 @@ export class QuestionComponent implements OnInit {
     switchMap(([list, index]) => iif(() => list === [], of([]), of(list[index])))
   );
 
+  subscription: Subscription;
+
   constructor(
     public apiService: ApiService,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private snackBar: MatSnackBar
   ) {
   }
 
@@ -52,21 +50,26 @@ export class QuestionComponent implements OnInit {
     this.getQuestionList();
   }
 
+  ngOnDestroy(): void {
+    this.snackBar.dismiss();
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
+  }
+
   getQuestionList(): void {
-    this.apiService.getQuestionList().subscribe({
+    this.subscription = this.apiService.getQuestionList().subscribe({
       next: data => {
-        if (data.result && data.result.length > 0) {
-          this.questionAmount = data.result.length;
-          this.questionList$.next(data.result);
-        } else {
-          this.questionAmount = 0;
-          this.questionList$.next([]);
-        }
+        this.questionAmount = data.result.length;
+        this.questionList$.next(data.result);
       },
-      error: error => {
-        // TODO:
-        this.questionAmount = 0;
-        this.questionList$.next([]);
+      error: () => {
+        const snackBarRef = this.snackBar.open('載入問答題目失敗', '重新載入', {
+          panelClass: ['my-snackbar']
+        });
+        snackBarRef.onAction().subscribe(() => {
+          this.getQuestionList();
+        });
       }
     });
   }

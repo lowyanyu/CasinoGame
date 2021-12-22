@@ -9,7 +9,7 @@ router.get('/user/:userId', function(req, res) {
   res.json(respBody);
 });
 
-// get question
+// get question list
 var binaryResp = require('./binary-list.json');
 function completeBinary() {
   binaryResp = require('./binary-waiting-result.json');
@@ -35,7 +35,7 @@ router.post('/binary', function(req, res) {
   res.json(respBody);
 });
 
-// get mission
+// get mission list
 var missionResp = require('./mission-list.json');
 // setTimeout(function() {
 //   console.log('mission game stop!');
@@ -64,6 +64,13 @@ router.post('/mission/:missionType/:missionId', function(req, res) {
 router.get('/stack', function(req, res) {
   console.log('GET /stack' );
   var respBody = require('./current-stack.json');
+  res.json(respBody);
+});
+
+// get stack history list
+router.get('/stack/history', function(req, res) {
+  console.log('GET /stack/history' );
+  var respBody = require('./stack-history-list.json');
   res.json(respBody);
 });
 

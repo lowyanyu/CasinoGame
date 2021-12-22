@@ -348,6 +348,15 @@ footer a {
   }
 }
 
+.my-snackbar {
+  background: #4B4C48;
+  color: #fff;
+
+  .mat-button {
+    color: $main-color;
+  }
+}
+
 @media screen and (max-width: 300px) {
   .profile-card {
     &__stat {

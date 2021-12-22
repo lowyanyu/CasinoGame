@@ -1,22 +1,25 @@
 import { Injectable } from '@angular/core';
 import { NgAuthService } from '@cg/ng-auth';
 import { NgConfigService } from '@cg/ng-config';
-import { MissionGameStatus } from '@main/enums/mission-game-status.enum';
-import { QuestionGameStatus } from '@main/enums/question-game-status.enum';
+import { GameStatus } from '@main/enums/game-status.enum';
 import { Mission, MissionType } from '@main/models/mission.model';
 import { Question } from '@main/models/question.model';
+import { Stack } from '@main/models/stack.model';
 import { HttpUtilService } from '@shared/services/http-util.service';
-import { BehaviorSubject, Observable, of, throwError } from 'rxjs';
-import { catchError, map, tap } from 'rxjs/operators';
+import { BehaviorSubject, iif, Observable, of, throwError } from 'rxjs';
+import { catchError, filter, map, mergeMap, switchMap, takeWhile, tap } from 'rxjs/operators';
 
 @Injectable()
 export class ApiService {
 
   qGameStatus$ = new BehaviorSubject<number>(0);
   mGameStatus$ = new BehaviorSubject<number>(0);
+  sGameStatus$ = new BehaviorSubject<number>(0);
 
   currentIndex$ = new BehaviorSubject<number>(0);
   _cacheAnswers$ = new BehaviorSubject<number[]>([]);
+
+  userPoint$ = new BehaviorSubject<number>(0);
 
   _profileUrl = '';
   _questionUrl = '';
@@ -43,11 +46,13 @@ export class ApiService {
   }
 
   getProfile(): Observable<any> {
-    return this.httpUtil.GETMethod({ url: this._profileUrl });
+    return this.httpUtil.GETMethod({ url: this._profileUrl }).pipe(
+      tap(data => this.userPoint$.next(data.userPoint))
+    )
   }
 
   getQuestionList(): Observable<any> {
-    this.qGameStatus$.next(QuestionGameStatus.INIT);
+    this.qGameStatus$.next(GameStatus.INIT);
     return this.httpUtil.GETMethod({ url: this._questionUrl }).pipe(
       tap(data => this.qGameStatus$.next(data.status)),
       map(data => {
@@ -56,8 +61,9 @@ export class ApiService {
         return data;
       }),
       catchError(() => {
-        this.qGameStatus$.next(QuestionGameStatus.ERROR);
-        return of([]);
+        this.qGameStatus$.next(GameStatus.ERROR);
+        // return of([]);
+        return throwError('Get question list occur error');
       })
     );
   }
@@ -86,16 +92,16 @@ export class ApiService {
 
   submitQuestion(): Observable<any> {
     return this.httpUtil.POSTMethod({ url: this._questionUrl, body: this._cacheAnswers$.value }).pipe(
-      tap(() => this.qGameStatus$.next(QuestionGameStatus.COMPLETE)),
+      tap(() => this.qGameStatus$.next(GameStatus.COMPLETE)),
       catchError(() => {
-        this.qGameStatus$.next(QuestionGameStatus.ERROR);
+        this.qGameStatus$.next(GameStatus.ERROR);
         return throwError('Submit question occur error');
       })
     )
   }
 
   getMissionList(): Observable<any> {
-    this.mGameStatus$.next(MissionGameStatus.INIT);
+    this.mGameStatus$.next(GameStatus.INIT);
     return this.httpUtil.GETMethod({ url: this._missionUrl }).pipe(
       tap(data => this.mGameStatus$.next(data.status)),
       map(data => {
@@ -104,8 +110,9 @@ export class ApiService {
         return data;
       }),
       catchError(() => {
-        this.mGameStatus$.next(MissionGameStatus.ERROR);
-        return of([]);
+        this.mGameStatus$.next(GameStatus.ERROR);
+        // return of([]);
+        return throwError('Get mission list occur error');
       })
     );
   }
@@ -130,6 +137,39 @@ export class ApiService {
   }
 
   getCurrentStack(): Observable<any> {
-    return this.httpUtil.GETMethod({ url: this._stackUrl });
+    this.sGameStatus$.next(GameStatus.INIT);
+    return this.httpUtil.GETMethod({ url: this._stackUrl }).pipe(
+      tap(data => Object.keys(data).length === 0 ? this.sGameStatus$.next(GameStatus.BLANK) : this.sGameStatus$.next(data.status)),
+      filter(data => Object.keys(data).length !== 0),
+      tap(x => console.log(x)),
+      mergeMap(data => {
+        return this.getStackHistoryList().pipe(
+          map(resp => resp.result.filter(his => his.stackId === data.stackId)[0]),
+          switchMap(stack => iif(() => stack !== undefined, of(stack), of(data)))
+        );
+      }),
+      tap(stack => {
+        if (stack.createTime !== undefined) {
+          console.log('stack is completed');
+          this.sGameStatus$.next(GameStatus.COMPLETE);
+        } else {
+          console.log('stack is not completed');
+        }
+      }),
+      catchError(() => {
+        this.sGameStatus$.next(GameStatus.ERROR);
+        // return of([]);
+        return throwError('Get current stack occur error');
+      })
+    );
+  }
+
+  getStackFromHistoryList(data: Stack, his: Stack[]): Stack {
+    return his.filter(h => h.stackId === data.stackId)[0];
+  }
+
+  getStackHistoryList(): Observable<any> {
+    const url = `${this._stackUrl}/history`;
+    return this.httpUtil.GETMethod({ url: url });
   }
 }

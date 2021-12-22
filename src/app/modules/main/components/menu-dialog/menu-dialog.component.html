@@ -1,0 +1,26 @@
+<button mat-icon-button class="back-btn" *ngIf="showTemplate !== 'menu'" (click)="showMenu()">
+  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16">
+    <path id="ic_back_24px" d="M20,11H7.83l5.59-5.59L12,4,4,12l8,8,1.41-1.41L7.83,13H20Z" transform="translate(-4 -4)" fill="#fff"/>
+  </svg>
+</button>
+<button mat-icon-button class="close-btn" mat-dialog-close>
+  <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 14 14">
+    <path id="ic_close_24px" d="M19,6.41,17.59,5,12,10.59,6.41,5,5,6.41,10.59,12,5,17.59,6.41,19,12,13.41,17.59,19,19,17.59,13.41,12Z" transform="translate(-5 -5)" fill="#fff"/>
+  </svg>
+</button>
+<!-- <h2 mat-dialog-title>
+
+</h2> -->
+<div mat-dialog-content [ngSwitch]="showTemplate">
+  <ng-container #menu *ngSwitchDefault>
+    <button mat-raised-button color="primary" class="btn menu-btn" (click)="showAbout()">
+      關於
+    </button>
+    <button mat-raised-button color="primary" class="btn menu-btn" (click)="logout()">
+      登出
+    </button>
+  </ng-container>
+  <ng-container #about *ngSwitchCase="'about'">
+    工作人員名單...
+  </ng-container>
+</div>
