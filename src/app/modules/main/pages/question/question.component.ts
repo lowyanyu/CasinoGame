@@ -46,7 +46,7 @@ export class QuestionComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    console.log('question component ngOnInit');
+    // console.log('question component ngOnInit');
     this.getQuestionList();
   }
 
@@ -105,7 +105,7 @@ export class QuestionComponent implements OnInit, OnDestroy {
       case Choice.SKIP:
         return '--';
       default:
-        return '';
+        return '未作答';
     }
   }
 
@@ -114,7 +114,7 @@ export class QuestionComponent implements OnInit, OnDestroy {
   }
 
   getTotalWin(list: Question[]): number {
-    return list.map(item => item.score).reduce((a , b) => a + b, 0);
+    return list.map(item => (item.score ? item.score : 0)).reduce((a , b) => a + b, 0);
   }
 
 }

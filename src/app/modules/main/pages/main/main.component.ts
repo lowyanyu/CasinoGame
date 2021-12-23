@@ -6,7 +6,6 @@ import { MenuDialogComponent } from '@main/components/menu-dialog/menu-dialog.co
 import { Game } from '@main/enums/game-path.enum';
 import { BehaviorSubject } from 'rxjs';
 
-const swipe = [style({ transform: 'translateX(100%)' }), animate('.5s ease-out', style({ transform: 'translateX(0%)' }))];
 const fade = [style({ opacity: '0' }), animate('500ms', style({ opacity: '1' }))];
 
 @Component({
@@ -35,7 +34,7 @@ export class MainComponent implements OnInit {
   }
 
   reloadProfile(): void {
-    console.log('deactivate');
+    // console.log('deactivate');
     const val = this.detectChange$.value;
     this.detectChange$.next(val + 1);
   }

@@ -22,12 +22,14 @@ export class ApiService {
   userPoint$ = new BehaviorSubject<number>(0);
 
   _profileUrl = '';
+  _leaderBoardUrl = '';
   _questionUrl = '';
   _missionUrl = '';
   _stackUrl = '';
 
   questionList: Question[];
   missionList: Mission[];
+  about;
 
   constructor(
     private httpUtil: HttpUtilService,
@@ -38,17 +40,49 @@ export class ApiService {
     const apiUrl = `${coreUrl}/api`;
     const userId = this.authService.getPrincipal().getProperty('userId');
     this._profileUrl = `${apiUrl}/user/${userId}`;
+    this._leaderBoardUrl = `${apiUrl}/user/leaderBoard`;
     this._questionUrl = `${apiUrl}/binary`;
     this._missionUrl = `${apiUrl}/mission`;
     this._stackUrl = `${apiUrl}/stack`;
     this.questionList = this.configService.get('questions');
     this.missionList = this.configService.get('missions');
+    this.about = this.configService.get('about');
+  }
+
+  getDurationForLoop(): number {
+    return this.about.duration;
+  }
+
+  getMembers(): string[] {
+    const info = this.about.info as Array<any>;
+    const members = [];
+    let last = '';
+    info.forEach(i => {
+      const group = '[ ' + i.group + ' ]';
+      const person = i.members.join('\n\r');
+      const concat = group.concat('\n\r\n\r').concat(person);
+      members.push(concat);
+      if (i.showAtLast) {
+        if (last !== '') {
+          last = last.concat('\n\r\n\r');
+        }
+        last = last.concat(concat);
+      }
+    });
+    if (last !== '') {
+      members.push(last);
+    }
+    return members;
   }
 
   getProfile(): Observable<any> {
     return this.httpUtil.GETMethod({ url: this._profileUrl }).pipe(
       tap(data => this.userPoint$.next(data.userPoint))
-    )
+    );
+  }
+
+  getLeaderBoard(): Observable<any> {
+    return this.httpUtil.GETMethod({ url: this._leaderBoardUrl });
   }
 
   getQuestionList(): Observable<any> {
@@ -56,8 +90,12 @@ export class ApiService {
     return this.httpUtil.GETMethod({ url: this._questionUrl }).pipe(
       tap(data => this.qGameStatus$.next(data.status)),
       map(data => {
-        const merge: Question[] = data.result.map((item, i) => Object.assign({}, item, this.questionList[i]));
-        data.result = merge;
+        if (data.result) {
+          const merge: Question[] = data.result.map((item, i) => Object.assign({}, item, this.questionList[i]));
+          data.result = merge;
+        } else {
+          data.result = this.questionList;
+        }
         return data;
       }),
       catchError(() => {
@@ -105,8 +143,12 @@ export class ApiService {
     return this.httpUtil.GETMethod({ url: this._missionUrl }).pipe(
       tap(data => this.mGameStatus$.next(data.status)),
       map(data => {
-        const merge: Mission[] = data.result.map((item, i) => Object.assign({}, item, this.missionList[i]));
-        data.result = merge;
+        if (data.result) {
+          const merge: Mission[] = data.result.map((item, i) => Object.assign({}, item, this.missionList[i]));
+          data.result = merge;
+        } else {
+          data.result = this.missionList;
+        }
         return data;
       }),
       catchError(() => {
@@ -141,7 +183,6 @@ export class ApiService {
     return this.httpUtil.GETMethod({ url: this._stackUrl }).pipe(
       tap(data => Object.keys(data).length === 0 ? this.sGameStatus$.next(GameStatus.BLANK) : this.sGameStatus$.next(data.status)),
       filter(data => Object.keys(data).length !== 0),
-      tap(x => console.log(x)),
       mergeMap(data => {
         return this.getStackHistoryList().pipe(
           map(resp => resp.result.filter(his => his.stackId === data.stackId)[0]),
@@ -150,10 +191,10 @@ export class ApiService {
       }),
       tap(stack => {
         if (stack.createTime !== undefined) {
-          console.log('stack is completed');
+          // console.log('stack is completed');
           this.sGameStatus$.next(GameStatus.COMPLETE);
         } else {
-          console.log('stack is not completed');
+          // console.log('stack is not completed');
         }
       }),
       catchError(() => {

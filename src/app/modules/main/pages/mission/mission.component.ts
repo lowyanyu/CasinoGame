@@ -35,7 +35,7 @@ export class MissionComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit(): void {
-    console.log('mission component ngOnInit');
+    // console.log('mission component ngOnInit');
     this.getMissionList();
   }
 

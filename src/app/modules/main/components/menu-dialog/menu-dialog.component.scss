@@ -1,5 +1,5 @@
 ::ng-deep .cdk-overlay-dark-backdrop {
-  background: rgba(0, 0, 0, 0.85);
+  background: rgba(48, 49, 45, 0.9);
 }
 
 ::ng-deep .mat-dialog-container {
@@ -7,11 +7,20 @@
   background: rgba(0, 0, 0, 0);
 }
 
+.mat-dialog-title {
+  position: absolute;
+  margin: 0;
+  top: 14px;
+  left: 60px;
+  color: #fff;
+}
+
 .mat-dialog-content {
   height: 100%;
-  max-height: 100%;
+  margin-top: 34px;
+  max-height: calc(100% - 34px);
   box-sizing: border-box;
-  padding: 24px;
+  padding: 0 24px;
   color: #fff;
 }
 
@@ -19,7 +28,7 @@
   height: 0px;
 }
 
-.close-btn {
+.close-btn, .refresh-btn {
   position: absolute;
   top: 10px;
   right: 16px;
@@ -32,42 +41,93 @@
   left: 16px;
 }
 
-.menu {
+.menu, .about {
   display: flex;
+  box-sizing: border-box;
   flex-direction: column;
-  height: 400px;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
   padding: 24px;
+  text-align: center;
 }
 
 .menu-btn-wrap {
-  background: linear-gradient(to right, #ebd7a4, #af9659, #ede2af, #877143);
+  background-image: linear-gradient(135deg, #F2ECB6, #D1A868, #A96F44);
   height: 64px;
   width: 200px;
   border-radius: 40px;
-  margin: auto;
   box-sizing: border-box;
   padding: 5px;
-  border: 5px solid rgb(67, 30, 4, .7);
+  box-shadow: 2px 3px rgb(0 0 0 / 18%);
+}
+
+.menu-btn-wrap:not(:first-of-type) {
+  margin-top: 40px;
 }
 
 .menu-btn {
   height: 100%;
   width: 100%;
   border-radius: 40px;
-  color: #fff;
-  background-color: rgba(9, 6, 0, .8);
+  color: #EFD182;
+  background-color: #23221F;
   font-weight: 900;
   font-size: 20px;
+
+  svg {
+    position: absolute;
+    top: 0;
+    left: 18px;
+    height: 54px;
+  }
 }
 
-.block {
-  position: relative;
-  text-align: center;
-}
 .member-info {
-  position: absolute;
-  width: 100%;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
   font-size: 18px;
   line-height: 26px;
+}
+
+.board-card {
+  border-radius: 4px;
+  background-color: #23221F;
+  margin-top: 8px;
+  color: #fff;
+  font-size: 22px;
+  .user-point::before {
+    content: url('~/assets/images/coin-white.png');
+    position: absolute;
+    left: 0;
+  }
+}
+
+.rank-1, .rank-2, .rank-3 {
+  color: #000;
+  .user-point::before {
+    content: url('~/assets/images/coin-black.png');
+  }
+}
+
+.rank-1 {
+  background: linear-gradient(135deg, #EFD182, #C4A34A) !important;
+}
+
+.rank-2 {
+  background: linear-gradient(135deg, #D8D7CD, #EBE9E3) !important;
+}
+
+.rank-3 {
+  background: linear-gradient(135deg, #F4A66D, #F8B17A) !important;
+}
+
+.user-rank {
+  width: 40px;
+  font-weight: 700;
+}
+
+.user-point {
+  position: relative;
+  min-width: 75px;
+  text-align: right;
 }

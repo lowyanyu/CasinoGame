@@ -20,6 +20,7 @@ export class Mission {
   missionReward: number;
   missionStatus: 0 | 1 | 2 | 3;
   missionOption?: {optionId: number, optionName: string};
+  missionImg: string[];
   answer?: string[];
   score?: number;
 }

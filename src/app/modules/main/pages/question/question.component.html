@@ -14,7 +14,7 @@
       <div *ngFor="let question of questionList; let i = index" style="margin-top: 10px;" [@flyInOut]="'in'">
         <div class="card result-card">
           <div class="card-container">
-            <span class="result-score">+{{question.score}}</span>
+            <span class="result-score">+{{question.score || 0}}</span>
             <span>第 {{i + 1}} 題</span>
             <div class="spacer"></div>
             <span>{{getChoice(question.choose)}}</span>

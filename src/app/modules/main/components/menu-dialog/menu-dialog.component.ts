@@ -3,6 +3,9 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { NgAuthService } from '@cg/ng-auth';
+import { Menu } from '@main/enums/menu.enum';
+import { User } from '@main/models/user.model';
+import { ApiService } from '@main/services/api.service';
 import { Subscription, timer } from 'rxjs';
 import { tap, map, takeWhile } from 'rxjs/operators';
 
@@ -13,10 +16,10 @@ const fadeIn = [style({ opacity: '0' }), animate('500ms', style({ opacity: '1' }
   templateUrl: './menu-dialog.component.html',
   styleUrls: ['./menu-dialog.component.scss'],
   animations: [
-    trigger('fade', [
+    trigger('fadeAnimation', [
       transition('* => *', fadeIn)
     ]),
-    trigger('wordUpdated', [
+    trigger('loopAnimation', [
       transition('* => *', group([
         query(':enter', fadeIn, { optional: true })
       ]))
@@ -25,23 +28,27 @@ const fadeIn = [style({ opacity: '0' }), animate('500ms', style({ opacity: '1' }
 })
 export class MenuDialogComponent implements OnInit, OnDestroy {
 
-  showTemplate = 'menu';
+  MENU: typeof Menu = Menu;
+
+  showTemplate = Menu.MENU;
+
+  duration: number;
   index = -1;
-  members = [
-    '技術處三組\n\r\n\rEthan 杜宜霖\n\rEvan 林宗霖',
-    '技術處四組\n\r\n\rZiv 吳佳翰\n\rDoreen 林語婷\n\rChristy 劉彥妤\n\rEileen 黎怡伶',
-    '技術處五組\n\r\n\rMike 陳奕明\n\rCalvin 鄭朝隆\n\r',
-  ];
+  members: string[];
   member: string;
 
   changeSubscription: Subscription;
 
+  leaderBoard: User[];
+
   constructor(
     private dialogRef: MatDialogRef<MenuDialogComponent>,
     private authService: NgAuthService,
-    public router: Router
+    public router: Router,
+    private apiService: ApiService
   ) {
-    this.members.push(this.members.join('\n\r\n\r'));
+    this.duration = this.apiService.getDurationForLoop();
+    this.members = this.apiService.getMembers();
   }
 
   ngOnInit(): void {
@@ -51,15 +58,44 @@ export class MenuDialogComponent implements OnInit, OnDestroy {
     this.killTimer();
   }
 
+  getTitle(page: string): string {
+    switch(page) {
+      case Menu.MENU:
+        return '';
+      case Menu.ABOUT:
+        return '工作人員名單';
+      case Menu.LEADER_BOARD:
+        return '排行榜';
+      default:
+        return '';
+    }
+  }
+
   showMenu(): void {
     this.killTimer();
-    this.showTemplate = 'menu';
+    this.showTemplate = Menu.MENU;
+  }
+
+  showRank(): void {
+    this.showTemplate = Menu.LEADER_BOARD;
+    this.getLeaderBoard();
+  }
+
+  getLeaderBoard(): void {
+    this.apiService.getLeaderBoard().subscribe({
+      next: data => {
+        this.leaderBoard = data.result;
+      },
+      error: error => {
+        // TODO:
+      }
+    });
   }
 
   showAbout(): void {
-    this.showTemplate = 'about';
+    this.showTemplate = Menu.ABOUT;
 
-    this.changeSubscription = timer(100, 3000).pipe(
+    this.changeSubscription = timer(100, this.duration).pipe(
       map(() => this.index + 1),
       tap(i => this.index = i),
       takeWhile(() => this.index < this.members.length)

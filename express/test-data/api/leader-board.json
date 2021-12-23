@@ -1,0 +1,58 @@
+{
+  "errorCode": 0,
+  "errorMessage": "Success",
+  "data": {
+    "result": [
+      {
+        "userRank": 1,
+        "userName": "Doreen",
+        "userPoint": 999
+      },
+      {
+        "userRank": 2,
+        "userName": "Christy",
+        "userPoint": 998
+      },
+      {
+        "userRank": 3,
+        "userName": "Ziv",
+        "userPoint": 997
+      },
+      {
+        "userRank": 3,
+        "userName": "Eileen",
+        "userPoint": 997
+      },
+      {
+        "userRank": 5,
+        "userName": "User1",
+        "userPoint": 996
+      },
+      {
+        "userRank": 6,
+        "userName": "User2",
+        "userPoint": 995
+      },
+      {
+        "userRank": 7,
+        "userName": "User3",
+        "userPoint": 888
+      },
+      {
+        "userRank": 8,
+        "userName": "User4",
+        "userPoint": 777
+      },
+      {
+        "userRank": 9,
+        "userName": "User5",
+        "userPoint": 666
+      },
+      {
+        "userRank": 10,
+        "userName": "User6",
+        "userPoint": 555
+      }
+    ]
+  }
+}

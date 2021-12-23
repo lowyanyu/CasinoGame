@@ -60,8 +60,24 @@
   color: #efd181;
 }
 
-.preview-image-block {
+.preview-image-block, .mission-image-block {
   position: relative;
+}
+
+.mission-image-block input[type=checkbox] {
+  display: none;
+}
+
+.mission-image {
+  width: 40%;
+  height: auto;
+  transition: transform 0.25s ease;
+  cursor: zoom-in;
+}
+
+.mission-image-block input[type=checkbox]:checked ~ label > img {
+  width: 100%;
+  cursor: zoom-out;
 }
 
 .preview-image {

@@ -53,8 +53,8 @@ export class MissionCardComponent implements OnInit {
       }
     }
     this.mission = Object.assign({}, this.mission, {status: 'collapsed'});
-    console.log('mission card component ngOnInit:', this.mission);
-    console.log('mission is finished?', this.finished);
+    // console.log('mission card component ngOnInit:', this.mission);
+    // console.log('mission is finished?', this.finished);
   }
 
   fileChangeEvent(fileInput: any, index: number): void {
@@ -77,7 +77,6 @@ export class MissionCardComponent implements OnInit {
     this.mission = status === 'expanded' ?
         Object.assign({}, this.mission, {status: 'collapsed'}) :
         Object.assign({}, this.mission, {status: 'expanded'});
-    console.log('toggle mission to ' + this.mission['status']);
   }
 
   getMissionStatusDesc(mission: Mission): string {

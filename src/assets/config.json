@@ -1,5 +1,25 @@
 {
-  "coreUrl": "http://localhost:8889/rest",
+  "coreUrl": "http://192.168.31.82:8889/rest",
+  "about": {
+    "duration": 3000,
+    "info": [
+      {
+        "group": "技術處三組",
+        "members": ["Ethan 杜宜霖", "Evan 林宗霖"],
+        "showAtLast": true
+      },
+      {
+        "group": "技術處四組",
+        "members": ["Ziv 吳佳翰", "Doreen 林語婷", "Christy 劉彥妤", "Eileen 黎怡伶"],
+        "showAtLast": true
+      },
+      {
+        "group": "技術處五組",
+        "members": ["Mike 陳奕明", "Calvin 鄭朝隆"],
+        "showAtLast": true
+      }
+    ]
+  },
   "questions": [
     {
       "questionId": 1,
@@ -49,21 +69,23 @@
       "missionContent": "找出以下雕像, 並與他擺出同個姿勢拍照留念吧! 需至少3人同框。",
       "missionType": 1,
       "missionRequire": {"number": 2, "unit": "張"},
-      "imageUrl": "assets/images/mission1"
+      "missionImg": ["assets/images/missions/mission1-1.jpg", "assets/images/missions/mission1-2.jpg"]
     },
     {
       "missionId": 2,
       "missionTitle": "景點跟人大合照",
       "missionContent": "松菸有好多值得拍照的地方呢! 試找出下列其中3個地點並邀請同仁們來張大合照吧! 需至少5人同框。",
       "missionType": 1,
-      "missionRequire": {"number": 3, "unit": "張"}
+      "missionRequire": {"number": 3, "unit": "張"},
+      "missionImg": ["assets/images/missions/mission2-1.jpg", "assets/images/missions/mission2-2.jpg", "assets/images/missions/mission2-3.jpg", "assets/images/missions/mission2-4.jpg", "assets/images/missions/mission2-5.jpg"]
     },
     {
       "missionId": 3,
       "missionTitle": "挖字填空",
-      "missionContent": "在松菸的某一處有這一個紀念牌匾... 這模糊的字到底是什麼呢? 猜一人名",
+      "missionContent": "在松菸的某一處有這一個紀念牌匾... 這🤔到底是什麼字呢? 猜一人名",
       "missionType": 3,
-      "missionRequire": {"number": 1, "unit": "題"}
+      "missionRequire": {"number": 1, "unit": "題"},
+      "missionImg": ["assets/images/missions/mission3.jpg"]
     },
     {
       "missionId": 4,
@@ -88,21 +110,24 @@
           "optionId": 4,
           "optionName": "臺灣野球隊"
         }
-      ]
+      ],
+      "missionImg": ["assets/images/missions/mission4.jpg"]
     },
     {
       "missionId": 5,
       "missionTitle": "【松菸拾光】知識問答",
-      "missionContent": "以上物件被認為早期有何功用?",
+      "missionContent": "以上物件早期被認為有何功用?",
       "missionType": 3,
-      "missionRequire": {"number": 1, "unit": "題"}
+      "missionRequire": {"number": 1, "unit": "題"},
+      "missionImg": ["assets/images/missions/mission5.jpg"]
     },
     {
       "missionId": 6,
       "missionTitle": "【松菸拾光】知識問答2",
       "missionContent": "松菸的窗，最早期都是使用木構造的OO?",
       "missionType": 3,
-      "missionRequire": {"number": 1, "unit": "題"}
+      "missionRequire": {"number": 1, "unit": "題"},
+      "missionImg": ["assets/images/missions/mission6.jpg"]
     },
     {
       "missionId": 7,
@@ -123,14 +148,16 @@
           "optionId": 3,
           "optionName": "人心之煩，煩在計較；人生之苦，苦在執著"
         }
-      ]
+      ],
+      "missionImg": ["assets/images/missions/mission7.jpg"]
     },
     {
       "missionId": 8,
       "missionTitle": "考考你的觀察力",
       "missionContent": "松山文創園區總共有幾個AED站?",
       "missionType": 3,
-      "missionRequire": {"number": 1, "unit": "題"}
+      "missionRequire": {"number": 1, "unit": "題"},
+      "missionImg": ["assets/images/missions/mission8.jpg"]
     },
     {
       "missionId": 9,
@@ -155,7 +182,8 @@
           "optionId": 4,
           "optionName": "松菸口"
         }
-      ]
+      ],
+      "missionImg": []
     }
   ]
 }

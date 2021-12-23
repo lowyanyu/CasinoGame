@@ -1,6 +1,13 @@
 var express = require('express');
 var router = express.Router();
 
+// get leaderBoard
+router.get('/user/leaderBoard', function(req, res) {
+  console.log('GET /user/leaderBoard' );
+  var respBody = require('./leader-board.json');
+  res.json(respBody);
+});
+
 // get user info
 router.get('/user/:userId', function(req, res) {
   const userId = req.params.userId;
@@ -61,14 +68,14 @@ router.post('/mission/:missionType/:missionId', function(req, res) {
 });
 
 // get current stack
-router.get('/stack', function(req, res) {
+router.get('/stacks', function(req, res) {
   console.log('GET /stack' );
   var respBody = require('./current-stack.json');
   res.json(respBody);
 });
 
 // get stack history list
-router.get('/stack/history', function(req, res) {
+router.get('/stacks/history', function(req, res) {
   console.log('GET /stack/history' );
   var respBody = require('./stack-history-list.json');
   res.json(respBody);
