@@ -30,9 +30,10 @@ router-outlet {
 }
 
 .mat-dialog-container {
-  position: relative !important;
+  // position: relative !important;
   background: rgba(0, 0, 0, 0) !important;
   padding: 0px !important;
+  overflow: hidden !important;
 }
 
 .mat-dialog-container {

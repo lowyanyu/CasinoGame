@@ -1,66 +1,68 @@
-<button mat-icon-button class="back-btn" *ngIf="showTemplate !== MENU.MENU" (click)="showMenu()">
-  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16">
-    <path id="ic_back" d="M20,11H7.83l5.59-5.59L12,4,4,12l8,8,1.41-1.41L7.83,13H20Z" transform="translate(-4 -4)" fill="#fff"/>
-  </svg>
-</button>
-<button mat-icon-button class="close-btn" *ngIf="showTemplate === MENU.MENU" mat-dialog-close>
-  <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 14 14">
-    <path id="ic_close" d="M19,6.41,17.59,5,12,10.59,6.41,5,5,6.41,10.59,12,5,17.59,6.41,19,12,13.41,17.59,19,19,17.59,13.41,12Z" transform="translate(-5 -5)" fill="#fff"/>
-  </svg>
-</button>
-<button mat-icon-button class="refresh-btn" *ngIf="showTemplate === MENU.LEADER_BOARD" (click)="getLeaderBoard()">
-  <svg xmlns="http://www.w3.org/2000/svg" width="15.99" height="16" viewBox="0 0 15.99 16">
-    <path id="ic_refresh" d="M17.65,6.35A8,8,0,1,0,19.73,14H17.65A6,6,0,1,1,12,6a5.915,5.915,0,0,1,4.22,1.78L13,11h7V4Z" transform="translate(-4.01 -4)" fill="#fff"/>
-  </svg>
-</button>
-<h2 mat-dialog-title>{{getTitle(showTemplate)}}</h2>
-<div mat-dialog-content [ngSwitch]="showTemplate" [@fadeAnimation]="showTemplate">
-  <div class="menu" #menu *ngSwitchDefault>
-    <div class="menu-btn-wrap">
-      <button mat-raised-button class="menu-btn" (click)="showAbout()">
-        <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 30 30">
-          <path d="M0,0H30V30H0Z" fill="none"/>
-          <path id="ic_info" d="M14.25,2A12.25,12.25,0,1,0,26.5,14.25,12.254,12.254,0,0,0,14.25,2Zm1.225,18.375h-2.45v-7.35h2.45Zm0-9.8h-2.45V8.125h2.45Z" transform="translate(0.75 0.75)" fill="#f2ecb6"/>
-        </svg>
-        <span>關於</span>
-      </button>
-    </div>
-    <div class="menu-btn-wrap">
-      <button mat-raised-button class="menu-btn" (click)="showRank()">
-        <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 30 30">
-          <g transform="translate(32 99.621)">
-            <g transform="translate(-32 -99.621)">
-              <rect width="30" height="30" fill="none"/>
-              <path id="ic_rank" d="M23.588,13.876V2H7V13.876a1.369,1.369,0,0,0,.813,1.212l6.934,3.536L13.1,21.92l-5.656.409,4.3,3.156-1.31,4.691,4.86-2.494,4.86,2.494L18.86,25.484l4.3-3.156L17.5,21.92l-1.642-3.3,6.934-3.536A1.365,1.365,0,0,0,23.588,13.876Zm-6.635,2.536-1.659.845-1.659-.845v-13h3.318Z" transform="translate(-0.173 -0.94)" fill="#f2ecb6"/>
+<div class="menu-dialog">
+  <button mat-icon-button class="back-btn" *ngIf="showTemplate !== MENU.MENU" (click)="showMenu()">
+    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16">
+      <path id="ic_back" d="M20,11H7.83l5.59-5.59L12,4,4,12l8,8,1.41-1.41L7.83,13H20Z" transform="translate(-4 -4)" fill="#fff"/>
+    </svg>
+  </button>
+  <button mat-icon-button class="close-btn" *ngIf="showTemplate === MENU.MENU" mat-dialog-close>
+    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 14 14">
+      <path id="ic_close" d="M19,6.41,17.59,5,12,10.59,6.41,5,5,6.41,10.59,12,5,17.59,6.41,19,12,13.41,17.59,19,19,17.59,13.41,12Z" transform="translate(-5 -5)" fill="#fff"/>
+    </svg>
+  </button>
+  <button mat-icon-button class="refresh-btn" *ngIf="showTemplate === MENU.LEADER_BOARD" (click)="getLeaderBoard()">
+    <svg xmlns="http://www.w3.org/2000/svg" width="15.99" height="16" viewBox="0 0 15.99 16">
+      <path id="ic_refresh" d="M17.65,6.35A8,8,0,1,0,19.73,14H17.65A6,6,0,1,1,12,6a5.915,5.915,0,0,1,4.22,1.78L13,11h7V4Z" transform="translate(-4.01 -4)" fill="#fff"/>
+    </svg>
+  </button>
+  <h2 mat-dialog-title>{{getTitle(showTemplate)}}</h2>
+  <div mat-dialog-content [ngSwitch]="showTemplate" [@fadeAnimation]="showTemplate">
+    <div class="menu" #menu *ngSwitchDefault>
+      <div class="menu-btn-wrap">
+        <button mat-raised-button class="menu-btn" (click)="showAbout()">
+          <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 30 30">
+            <path d="M0,0H30V30H0Z" fill="none"/>
+            <path id="ic_info" d="M14.25,2A12.25,12.25,0,1,0,26.5,14.25,12.254,12.254,0,0,0,14.25,2Zm1.225,18.375h-2.45v-7.35h2.45Zm0-9.8h-2.45V8.125h2.45Z" transform="translate(0.75 0.75)" fill="#f2ecb6"/>
+          </svg>
+          <span>關於</span>
+        </button>
+      </div>
+      <div class="menu-btn-wrap">
+        <button mat-raised-button class="menu-btn" (click)="showRank()">
+          <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 30 30">
+            <g transform="translate(32 99.621)">
+              <g transform="translate(-32 -99.621)">
+                <rect width="30" height="30" fill="none"/>
+                <path id="ic_rank" d="M23.588,13.876V2H7V13.876a1.369,1.369,0,0,0,.813,1.212l6.934,3.536L13.1,21.92l-5.656.409,4.3,3.156-1.31,4.691,4.86-2.494,4.86,2.494L18.86,25.484l4.3-3.156L17.5,21.92l-1.642-3.3,6.934-3.536A1.365,1.365,0,0,0,23.588,13.876Zm-6.635,2.536-1.659.845-1.659-.845v-13h3.318Z" transform="translate(-0.173 -0.94)" fill="#f2ecb6"/>
+              </g>
             </g>
-          </g>
-        </svg>
-        <span>排行榜</span>
-      </button>
+          </svg>
+          <span>排行榜</span>
+        </button>
+      </div>
+      <div class="menu-btn-wrap">
+        <button mat-raised-button class="menu-btn" (click)="logout()">
+          <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 30 30">
+            <path d="M0,0H30V30H0Z" fill="none"/>
+            <path id="ic_logout" d="M20.375,7.833l-1.727,1.7,3.16,3.13H9.35v2.417H21.808L18.648,18.2l1.727,1.716L26.5,13.875ZM4.45,5.417h9.8V3H4.45A2.441,2.441,0,0,0,2,5.417V22.333A2.441,2.441,0,0,0,4.45,24.75h9.8V22.333H4.45Z" transform="translate(0.75 1.125)" fill="#f2ecb6"/>
+          </svg>
+          <span>登出</span>
+        </button>
+      </div>
     </div>
-    <div class="menu-btn-wrap">
-      <button mat-raised-button class="menu-btn" (click)="logout()">
-        <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 30 30">
-          <path d="M0,0H30V30H0Z" fill="none"/>
-          <path id="ic_logout" d="M20.375,7.833l-1.727,1.7,3.16,3.13H9.35v2.417H21.808L18.648,18.2l1.727,1.716L26.5,13.875ZM4.45,5.417h9.8V3H4.45A2.441,2.441,0,0,0,2,5.417V22.333A2.441,2.441,0,0,0,4.45,24.75h9.8V22.333H4.45Z" transform="translate(0.75 1.125)" fill="#f2ecb6"/>
-        </svg>
-        <span>登出</span>
-      </button>
+    <div class="about" #about *ngSwitchCase="MENU.ABOUT">
+      <div [@loopAnimation]="member">
+        <pre class="member-info" *ngFor="let m of [member]">{{ m }}</pre>
+      </div>
     </div>
-  </div>
-  <div class="about" #about *ngSwitchCase="MENU.ABOUT">
-    <div [@loopAnimation]="member">
-      <pre class="member-info" *ngFor="let m of [member]">{{ m }}</pre>
-    </div>
-  </div>
-  <div #rank *ngSwitchCase="MENU.LEADER_BOARD">
-    <div [@loopAnimation]="leaderBoard">
-      <div *ngFor="let user of leaderBoard">
-        <div class="card board-card rank-{{user.userRank}}">
-          <span class="user-rank">{{ user.userRank }}</span>
-          <span>{{ user.userName }}</span>
-          <div class="spacer"></div>
-          <span class="user-point">{{ user.userPoint }}</span>
+    <div #rank *ngSwitchCase="MENU.LEADER_BOARD">
+      <div [@loopAnimation]="leaderBoard">
+        <div *ngFor="let user of leaderBoard">
+          <div class="card board-card rank-{{user.userRank}}">
+            <span class="user-rank">{{ user.userRank }}</span>
+            <span>{{ user.userName }}</span>
+            <div class="spacer"></div>
+            <span class="user-point">{{ user.userPoint }}</span>
+          </div>
         </div>
       </div>
     </div>
