@@ -25,6 +25,16 @@ router-outlet {
   margin: auto;
 }
 
+.cdk-overlay-dark-backdrop {
+  background: rgba(48, 49, 45, 0.9) !important;
+}
+
+.mat-dialog-container {
+  position: relative !important;
+  background: rgba(0, 0, 0, 0) !important;
+  padding: 0px !important;
+}
+
 .mat-dialog-container {
   color: #000;
 }
