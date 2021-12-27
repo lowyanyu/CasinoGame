@@ -82,13 +82,41 @@ export class StackComponent implements OnInit, OnDestroy {
 
   submitStack(): void {
     console.log(this.stackForm.value);
+    if (this.stackForm.invalid) {
+      return;
+    }
+    const formVal = this.stackForm.value;
+    const stacks = [];
+    let allZero = true;
+    Object.keys(formVal).forEach(player => {
+      const point = formVal[player];
+      if (point > 0) {
+        allZero = false;
+      }
+      stacks.push({playerId: player, point: point});
+    });
+    if (allZero) {
+      this.snackBar.open('你沒有下注任何金額！', '知道了', {
+        duration: 2000,
+        panelClass: ['my-snackbar']
+      });
+      return;
+    }
+
+    this.apiService.submitStack(this.stack.stackId, stacks).subscribe({
+      next: () => {
+
+      },
+      error: error => {
+        // TODO:
+      }
+    })
     // this.stackForm.controls.stack.setValue(val);
   }
 
   verifyInput(event): void {
-    const value = event.target.value;
+    const value = event.target.value || 0;
     event.target.value = parseInt(value);
-    console.log(value);
   }
 
 }

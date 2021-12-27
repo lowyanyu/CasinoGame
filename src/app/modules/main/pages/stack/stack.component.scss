@@ -1,0 +1,43 @@
+::ng-deep .input-field .mat-form-field-infix {
+  padding: 0px !important;
+  border-top: none !important;
+}
+
+.stack-form {
+  width: 100%;
+  padding: 10px 0px;
+
+  .stack-label {
+    display: block;
+    text-align: left;
+    color: #efd082;
+    font-size: 16px;
+  }
+}
+
+.input-field {
+  box-sizing: border-box;
+  border-radius: 4px;
+  width: 100%;
+  padding: 8px 0px;
+
+  .mat-input-element {
+    position: relative;
+    border: 1px solid #707070;
+    border-radius: 4px;
+    color: #000;
+    background-color: #fff;
+    width: calc(100% - 20px);
+    height: 36px;
+    padding: 0px 10px;
+    font-size: 14px;
+  }
+}
+
+.stack-btn {
+  border-color: currentColor;
+  border-radius: 40px;
+  width: 200px;
+  height: 55px;
+  font-size: 18px;
+}

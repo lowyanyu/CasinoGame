@@ -213,4 +213,9 @@ export class ApiService {
     const url = `${this._stackUrl}/history`;
     return this.httpUtil.GETMethod({ url: url });
   }
+
+  submitStack(stackId: number, stacks: any[]): Observable<any> {
+    const url = `${this._stackUrl}/${stackId}`;
+    return this.httpUtil.POSTMethod({ url: url, body: stacks });
+  }
 }

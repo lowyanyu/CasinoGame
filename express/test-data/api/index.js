@@ -68,14 +68,14 @@ router.post('/mission/:missionType/:missionId', function(req, res) {
 });
 
 // get current stack
-router.get('/stacks', function(req, res) {
+router.get('/stack', function(req, res) {
   console.log('GET /stack' );
   var respBody = require('./current-stack.json');
   res.json(respBody);
 });
 
 // get stack history list
-router.get('/stacks/history', function(req, res) {
+router.get('/stack/history', function(req, res) {
   console.log('GET /stack/history' );
   var respBody = require('./stack-history-list.json');
   res.json(respBody);
