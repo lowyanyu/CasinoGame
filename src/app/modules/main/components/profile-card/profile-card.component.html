@@ -9,15 +9,19 @@
 
     <ng-container *ngIf="info; else noData">
       <h1>
-        <svg xmlns="http://www.w3.org/2000/svg" width="23.13" height="23.13" viewBox="0 0 23.13 23.13">
-          <path id="ic_account_circle" d="M13.565,2A11.565,11.565,0,1,0,25.13,13.565,11.569,11.569,0,0,0,13.565,2Zm0,3.469A3.469,3.469,0,1,1,10.1,8.939,3.465,3.465,0,0,1,13.565,5.469Zm0,16.422a8.327,8.327,0,0,1-6.939-3.724c.035-2.3,4.626-3.562,6.939-3.562s6.9,1.261,6.939,3.562A8.327,8.327,0,0,1,13.565,21.892Z" transform="translate(-2 -2)" fill="#803d0b"/>
+        <svg (click)="openQRCodeDialog()" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20">
+          <path id="ic_qrcode" d="M16.333,23H14.111V20.778h2.222Zm-2.222-7.778H11.889v5.556h2.222ZM23,13H20.778v4.444H23Zm-2.222-2.222H18.556V13h2.222ZM7.444,13H5.222v2.222H7.444ZM5.222,10.778H3V13H5.222ZM13,5.222h2.222V3H13ZM4.667,4.667V8H8V4.667Zm5,5H3V3H9.667ZM4.667,18v3.333H8V18Zm5,5H3V16.333H9.667ZM18,4.667V8h3.333V4.667Zm5,5H16.333V3H23ZM20.778,20.778V17.444H16.333v2.222h2.222V23H23V20.778ZM18.556,13H14.111v2.222h4.444Zm-4.444-2.222H7.444V13H9.667v2.222h2.222V13h2.222Zm1.111-1.111V7.444H13V5.222H10.778V9.667ZM7.167,5.5H5.5V7.167H7.167Zm0,13.333H5.5V20.5H7.167ZM20.5,5.5H18.833V7.167H20.5Z" transform="translate(-3 -3)" fill="#803d0b"/>
         </svg>
         {{info.userName}}
       </h1>
       <span>{{info.title}}</span>
       <div class="profile-card__stat">
         <span>目前籌碼</span>
-        <h1>{{info.userPoint}}</h1>
+        <h1>
+          <div id="userRank">第 {{info.userRank}} 名</div>
+          <div class="spacer"></div>
+          <div>{{info.userPoint}}</div>
+        </h1>
       </div>
     </ng-container>
     <ng-template #noData>
@@ -25,3 +29,7 @@
     </ng-template>
   </div>
 </div>
+
+<ng-template #qrcodeRef>
+  <qrcode [qrdata]="getQRCodeInfo()" [width]="256" [errorCorrectionLevel]="'M'"></qrcode>
+</ng-template>

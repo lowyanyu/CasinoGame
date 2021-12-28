@@ -24,6 +24,7 @@
     "@cg/ng-auth": "^3.0.0",
     "@cg/ng-config": "^1.0.2",
     "@cg/ng-errorhandler": "^1.1.0",
+    "angularx-qrcode": "^2.3.5",
     "rxjs": "~6.5.4",
     "tslib": "^1.10.0",
     "zone.js": "~0.10.2"

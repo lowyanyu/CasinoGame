@@ -3,7 +3,7 @@
   height: 100%;
 }
 
-.mat-dialog-title {
+.menu-dialog > .mat-dialog-title {
   position: absolute;
   margin: 0;
   top: 14px;
@@ -11,7 +11,7 @@
   color: #fff;
 }
 
-.mat-dialog-content {
+.menu-dialog > .mat-dialog-content {
   height: calc(100% - 50px);
   margin-top: 50px;
   max-height: calc(100% - 50px);
@@ -20,7 +20,7 @@
   color: #fff;
 }
 
-.mat-dialog-actions {
+.menu-dialog > .mat-dialog-actions {
   height: 0px;
 }
 

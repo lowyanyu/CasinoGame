@@ -161,12 +161,17 @@ svg.material-icons:not(:last-child) {
 
 .profile-card {
   &__stat {
-    margin-top: -16px;
+    margin-top: -10px;
     text-align: right;
 
     h1 {
+      display: flex;
       font-size: 44px;
       color: #431E04;
+
+      #userRank {
+        font-size: 34px;
+      }
     }
   }
 }

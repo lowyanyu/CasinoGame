@@ -16,6 +16,7 @@ import { MissionCardComponent } from '@main/components/mission-card/mission-card
 import { StackComponent } from './pages/stack/stack.component';
 import { ConfirmDialogComponent } from './components/confirm-dialog/confirm-dialog.component';
 import { MenuDialogComponent } from './components/menu-dialog/menu-dialog.component';
+import { QRCodeModule } from 'angularx-qrcode';
 
 
 @NgModule({
@@ -40,7 +41,8 @@ import { MenuDialogComponent } from './components/menu-dialog/menu-dialog.compon
     MaterialModule,
     SharedModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    QRCodeModule
   ],
   providers: [
     NgAuthGuard,

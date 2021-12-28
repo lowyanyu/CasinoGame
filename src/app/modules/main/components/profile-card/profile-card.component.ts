@@ -1,4 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { NgAuthService } from '@cg/ng-auth';
+import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { ApiService } from '@main/services/api.service';
 
 @Component({
@@ -8,11 +10,20 @@ import { ApiService } from '@main/services/api.service';
 })
 export class ProfileCardComponent implements OnInit {
 
+  @ViewChild('qrcodeRef') qrcode: TemplateRef<any>;
+
+  userId: number;
+  token: string;
   info;
 
   constructor(
-    private apiService: ApiService
-  ) { }
+    private apiService: ApiService,
+    private dialog: MatDialog,
+    private authService: NgAuthService
+  ) {
+    this.userId = this.authService.getPrincipal().getProperty('userId');
+    this.token = this.authService.authToken.accessToken;
+  }
 
   ngOnInit(): void {
     this.getProfile();
@@ -27,6 +38,17 @@ export class ProfileCardComponent implements OnInit {
         // TODO:
       }
     })
+  }
+
+  openQRCodeDialog(): void {
+    this.dialog.open(this.qrcode);
+  }
+
+  getQRCodeInfo(): string {
+    return JSON.stringify({
+      'userId': this.userId,
+      'token': this.token
+    });
   }
 
 }

@@ -27,14 +27,22 @@
       <p>獎勵: {{mission.missionReward}} 籌碼</p>
       <span class="mission-tag"></span>
       <p class="mission-notify"></p>
+      <!-- show one image -->
       <div *ngIf="mission.missionImg.length === 1" class="mission-image-block">
         <input type="checkbox" id="zoomCheck{{mission.missionId}}">
         <label for="zoomCheck{{mission.missionId}}">
           <img class="mission-image" [src]="mission.missionImg[0]"/>
         </label>
       </div>
-      <p>{{mission.missionContent}}</p>
-      <div *ngIf="mission.missionImg.length > 1"><img class="mission-image" [src]="mission.missionImg[0]"/></div>
+      <p>
+        {{mission.missionContent}}
+        <!-- click to show multiple images -->
+        <button mat-icon-button type="button" class="img-search-btn" *ngIf="mission.missionImg.length > 1">
+          <svg xmlns="http://www.w3.org/2000/svg" width="14.294" height="14" viewBox="0 0 14.294 14">
+            <path id="Path_39" data-name="Path 39" d="M13.2,9.7v4.9H3.4V4.8H6.914A4.412,4.412,0,0,1,7.25,3.4H3.4A1.4,1.4,0,0,0,2,4.8v9.8A1.4,1.4,0,0,0,3.4,16h9.8a1.4,1.4,0,0,0,1.4-1.4V11.1Zm-1.05,3.5H4.45l1.925-2.471,1.372,1.652L9.672,9.9Zm1.96-6.377A3.144,3.144,0,1,0,11.443,8.3a3.1,3.1,0,0,0,1.673-.49L15.3,9.994,16.294,9ZM11.45,6.9A1.75,1.75,0,1,1,13.2,5.15,1.751,1.751,0,0,1,11.45,6.9Z" transform="translate(-2 -2)" fill="#efd182"/>
+          </svg>
+        </button>
+      </p>
       <div [ngSwitch]="mission.missionType">
         <ng-container *ngSwitchCase="MISSION_TYPE.IMAGE">
           <div class="mission-field" *ngFor="let control of inputControls; let i = index">
