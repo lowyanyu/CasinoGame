@@ -20,7 +20,7 @@ export class LoginService {
 
   login(account: string, pwd: string) {
     const credential = {account: account, pwd: pwd};
-    return this.authService.login(this._loginUrl, '', credential).pipe(
+    return this.authService.login(this._loginUrl, 'refresh', credential).pipe(
       map(resp => {
         return resp;
       }),

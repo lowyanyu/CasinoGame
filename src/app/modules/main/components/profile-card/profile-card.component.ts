@@ -2,6 +2,7 @@ import { NgAuthService } from '@cg/ng-auth';
 import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ApiService } from '@main/services/api.service';
+import { User } from '@main/models/user.model';
 
 @Component({
   selector: 'app-profile-card',
@@ -14,7 +15,7 @@ export class ProfileCardComponent implements OnInit {
 
   userId: number;
   token: string;
-  info;
+  info: User;
 
   constructor(
     private apiService: ApiService,
@@ -30,7 +31,7 @@ export class ProfileCardComponent implements OnInit {
   }
 
   getProfile(): void {
-    this.apiService.getProfile().subscribe({
+    this.apiService.getProfile(this.userId).subscribe({
       next: data => {
         this.info = data;
       },
@@ -41,7 +42,12 @@ export class ProfileCardComponent implements OnInit {
   }
 
   openQRCodeDialog(): void {
-    this.dialog.open(this.qrcode);
+    const dialogRef = this.dialog.open(this.qrcode);
+    dialogRef.beforeClosed().subscribe({
+      next: () => {
+        this.getProfile();
+      }
+    });
   }
 
   getQRCodeInfo(): string {

@@ -23,6 +23,7 @@
     "@angular/router": "~9.1.13",
     "@cg/ng-auth": "^3.0.0",
     "@cg/ng-config": "^1.0.2",
+    "@cg/ng-crypto": "^1.1.0",
     "@cg/ng-errorhandler": "^1.1.0",
     "angularx-qrcode": "^2.3.5",
     "rxjs": "~6.5.4",

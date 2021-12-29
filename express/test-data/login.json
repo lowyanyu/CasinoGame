@@ -11,7 +11,9 @@
       "userName": "Rusty",
       "userId": 25,
       "userPoint": 999,
-      "userRank": 50
+      "userRank": 50,
+      "isCheckIn": true,
+      "isAgree": true
     }
   }
 }

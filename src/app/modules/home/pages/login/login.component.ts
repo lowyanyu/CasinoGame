@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { NgCryptoService } from '@cg/ng-crypto';
 import { LoginService } from '@home/services/login.service';
 
 @Component({
@@ -15,7 +16,8 @@ export class LoginComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private router: Router,
-    private loginService: LoginService
+    private loginService: LoginService,
+    private crypto: NgCryptoService
   ) {
     this.loginForm = this.fb.group({
       account: ['', Validators.required],
@@ -32,9 +34,9 @@ export class LoginComponent implements OnInit {
     }
 
     const value = this.loginForm.value;
-    this.loginService.login(value.account, value.pwd).subscribe({
+    this.loginService.login(value.account, this.crypto.sha256(value.pwd)).subscribe({
       next: () => {
-        this.router.navigateByUrl('/main');
+        this.router.navigate(['/main']);
       },
       error: error => {
         // TODO:

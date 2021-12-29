@@ -19,8 +19,9 @@ export class Mission {
   missionRequire: {number: number, unit: string};
   missionReward: number;
   missionStatus: 0 | 1 | 2 | 3;
-  missionOption?: {optionId: number, optionName: string};
-  missionImg: string[];
-  answer?: string[];
+  missionOption?: {optionId: string, optionName: string};
+  missionImg: string | {src: string, disp: 'h' | 'v'}[];
+  exampleImg?: string;
+  answer?: string | string[];
   score?: number;
 }

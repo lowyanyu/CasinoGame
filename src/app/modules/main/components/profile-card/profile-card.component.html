@@ -8,13 +8,15 @@
     </button>
 
     <ng-container *ngIf="info; else noData">
-      <h1>
-        <svg (click)="openQRCodeDialog()" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20">
-          <path id="ic_qrcode" d="M16.333,23H14.111V20.778h2.222Zm-2.222-7.778H11.889v5.556h2.222ZM23,13H20.778v4.444H23Zm-2.222-2.222H18.556V13h2.222ZM7.444,13H5.222v2.222H7.444ZM5.222,10.778H3V13H5.222ZM13,5.222h2.222V3H13ZM4.667,4.667V8H8V4.667Zm5,5H3V3H9.667ZM4.667,18v3.333H8V18Zm5,5H3V16.333H9.667ZM18,4.667V8h3.333V4.667Zm5,5H16.333V3H23ZM20.778,20.778V17.444H16.333v2.222h2.222V23H23V20.778ZM18.556,13H14.111v2.222h4.444Zm-4.444-2.222H7.444V13H9.667v2.222h2.222V13h2.222Zm1.111-1.111V7.444H13V5.222H10.778V9.667ZM7.167,5.5H5.5V7.167H7.167Zm0,13.333H5.5V20.5H7.167ZM20.5,5.5H18.833V7.167H20.5Z" transform="translate(-3 -3)" fill="#803d0b"/>
+      <button class="qrcode-btn" (click)="openQRCodeDialog()" [ngClass]="info.isCheckIn ? 'qrcode-btn--is-checkin' : ''">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+          <path id="ic_qrcode" d="M19,27H16.333V24.333H19Zm-2.667-9.333H13.667v6.667h2.667ZM27,15H24.333v5.333H27Zm-2.667-2.667H21.667V15h2.667ZM8.333,15H5.667v2.667H8.333ZM5.667,12.333H3V15H5.667ZM15,5.667h2.667V3H15ZM5,5V9H9V5Zm6,6H3V3h8ZM5,21v4H9V21Zm6,6H3V19h8ZM21,5V9h4V5Zm6,6H19V3h8ZM24.333,24.333v-4H19V23h2.667v4H27V24.333ZM21.667,15H16.333v2.667h5.333Zm-5.333-2.667h-8V15H11v2.667h2.667V15h2.667ZM17.667,11V8.333H15V5.667H12.333V11ZM8,6H6V8H8ZM8,22H6v2H8ZM24,6H22V8h2Z" transform="translate(-3 -3)" fill="#803d0b"/>
         </svg>
+      </button>
+      <h1 class="user-name">
         {{info.userName}}
       </h1>
-      <span>{{info.title}}</span>
+      <span>{{info.title}} | ID : {{info.userId}}</span>
       <div class="profile-card__stat">
         <span>目前籌碼</span>
         <h1>
@@ -31,5 +33,10 @@
 </div>
 
 <ng-template #qrcodeRef>
-  <qrcode [qrdata]="getQRCodeInfo()" [width]="256" [errorCorrectionLevel]="'M'"></qrcode>
+  <h2 mat-dialog-title style="color: #fff">
+    {{info.isCheckIn ? '你已完成報到！' : '請向工作人員出示以下 QRCode 以完成報到'}}
+  </h2>
+  <div mat-dialog-content>
+    <qrcode [qrdata]="getQRCodeInfo()" [width]="256" [errorCorrectionLevel]="'M'"></qrcode>
+  </div>
 </ng-template>

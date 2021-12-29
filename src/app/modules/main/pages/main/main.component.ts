@@ -28,7 +28,7 @@ export class MainComponent implements OnInit {
   constructor(
     public router: Router,
     private dialog: MatDialog
-  ) { }
+  ) {}
 
   ngOnInit(): void {
   }

@@ -4,4 +4,6 @@ export class User {
   title: string;
   userPoint: number;
   userRank: number;
+  isCheckIn: boolean;
+  isAgree: boolean;
 }

@@ -1,6 +1,7 @@
 import { style, animate, trigger, transition, state } from '@angular/animations';
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, TemplateRef, ViewChild } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
+import { MatDialog } from '@angular/material/dialog';
 import { Mission, MissionStatus, MissionType } from '@main/models/mission.model';
 import { ApiService } from '@main/services/api.service';
 
@@ -18,6 +19,8 @@ import { ApiService } from '@main/services/api.service';
 })
 export class MissionCardComponent implements OnInit {
 
+  @ViewChild('exImgRef') example: TemplateRef<any>;
+
   MISSION_TYPE: typeof MissionType = MissionType;
   MISSION_STATUS: typeof MissionStatus = MissionStatus;
 
@@ -26,11 +29,15 @@ export class MissionCardComponent implements OnInit {
 
   @Output() updateMission = new EventEmitter<Mission>();
 
-  inputControls: FormControl[] = [];
+  imageControls: FormControl[] = [];
+  inputControl: FormControl;
   uploadImages;
   reupload;
 
-  constructor(private apiService: ApiService) {
+  constructor(
+    private apiService: ApiService,
+    private dialog: MatDialog
+  ) {
   }
 
   ngOnInit(): void {
@@ -38,18 +45,24 @@ export class MissionCardComponent implements OnInit {
     if (this.mission.missionType === MissionType.IMAGE) {
       this.uploadImages = Array(ctrlNum).fill(null);
       this.reupload = Array(ctrlNum).fill(false);
-    }
-    for (let i = 0; i < ctrlNum; i++) {
-      if (this.mission.answer) {
-        this.inputControls.push(new FormControl(this.mission.answer[i], Validators.required));
-        if (this.mission.missionType === MissionType.IMAGE) {
+      for (let i = 0; i < ctrlNum; i++) {
+        if (this.mission.answer) {
+          this.imageControls.push(new FormControl(this.mission.answer[i], Validators.required));
           this.uploadImages[i] = this.mission.answer[i];
+        } else {
+          this.imageControls.push(new FormControl('', Validators.required));
         }
-      } else {
-        this.inputControls.push(new FormControl('', Validators.required));
+        if (this.finished || !this.checkCanEdit(this.mission.missionStatus)) {
+          this.imageControls[i].disable();
+        }
+      }
+    } else {
+      this.inputControl = new FormControl('', Validators.required);
+      if (this.mission.answer) {
+        this.inputControl.setValue(this.mission.answer);
       }
       if (this.finished || !this.checkCanEdit(this.mission.missionStatus)) {
-        this.inputControls[i].disable();
+        this.inputControl.disable();
       }
     }
     this.mission = Object.assign({}, this.mission, {status: 'collapsed'});
@@ -66,7 +79,7 @@ export class MissionCardComponent implements OnInit {
       reader.onload = () => {
         let content = reader.result as string;
         if (content.length !== 0 && null != reader.result) {
-          this.inputControls[index].setValue(content.split(',')[1]);
+          this.imageControls[index].setValue(content.split(',')[1]);
           this.uploadImages[index] = content;
         }
       };
@@ -91,32 +104,48 @@ export class MissionCardComponent implements OnInit {
     return false;
   }
 
-  checkControlDisabled(): boolean {
-    return this.inputControls.filter(ctrl => ctrl.disabled === true).length > 0;
+  checkControlsDisabled(): boolean {
+    return this.imageControls.filter(ctrl => ctrl.disabled === true).length > 0;
   }
 
-  checkControlInvalid(): boolean {
-    return this.inputControls.filter(ctrl => ctrl.invalid === true).length > 0;
+  checkControlsInvalid(): boolean {
+    return this.imageControls.filter(ctrl => ctrl.invalid === true).length > 0;
   }
 
   submit(mission: Mission): void {
-    const values = this.inputControls.map(ctrl => ctrl.value);
-    this.apiService.submitMission(values, mission).subscribe({
-      next: data => {
-        this.inputControls.forEach(ctrl => ctrl.disable());
-        this.mission.missionStatus = data.missionStatus;
-        this.mission.answer = this.mission.missionType === MissionType.IMAGE ? this.uploadImages : values;
-        this.mission.score = data.score;
-        this.updateMission.emit(this.mission);
-      },
-      error: error => {
-        // TODO:
-      }
-    })
+    if (mission.missionType === MissionType.IMAGE) {
+      const answer: string[] = this.imageControls.map(ctrl => ctrl.value);
+      this.apiService.submitImage(answer, mission.missionId).subscribe({
+        next: data => {
+          this.imageControls.forEach(ctrl => ctrl.disable());
+          this.mission.missionStatus = data.missionStatus;
+          this.mission.answer = this.uploadImages;
+          this.mission.score = data.score;
+          this.updateMission.emit(this.mission);
+        },
+        error: error => {
+          // TODO:
+        }
+      });
+    } else {
+      const answer: string = this.inputControl.value;
+      this.apiService.submitAnswer(answer, mission.missionId).subscribe({
+        next: data => {
+          this.inputControl.disable();
+          this.mission.missionStatus = data.missionStatus;
+          this.mission.answer = answer;
+          this.mission.score = data.score;
+          this.updateMission.emit(this.mission);
+        },
+        error: error => {
+          // TODO:
+        }
+      });
+    }
   }
 
   removeUploadImage(index: number): void {
-    this.inputControls[index].setValue('');
+    this.imageControls[index].setValue('');
     this.uploadImages[index] = null;
     this.hideReupload(index);
   }
@@ -136,5 +165,9 @@ export class MissionCardComponent implements OnInit {
 
   hideReupload(index: number): void {
     this.reupload[index] = false;
+  }
+
+  openExample(): void {
+    const dialogRef = this.dialog.open(this.example);
   }
 }

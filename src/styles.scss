@@ -32,12 +32,18 @@ router-outlet {
 .mat-dialog-container {
   // position: relative !important;
   background: rgba(0, 0, 0, 0) !important;
+  box-shadow: none !important;
   padding: 0px !important;
   overflow: hidden !important;
+  text-align: center;
 }
 
 .mat-dialog-container {
   color: #000;
+}
+
+.mat-dialog-actions {
+  justify-content: center;
 }
 
 .mat-menu-content {

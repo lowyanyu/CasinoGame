@@ -116,7 +116,7 @@ export class MenuDialogComponent implements OnInit, OnDestroy {
     this.authService.logout().subscribe({
       next: () => {
         this.dialogRef.close();
-        this.router.navigate(['/home']);
+        this.router.navigateByUrl('/home');
       }
     });
   }

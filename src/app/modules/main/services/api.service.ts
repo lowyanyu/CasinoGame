@@ -2,12 +2,14 @@ import { Injectable } from '@angular/core';
 import { NgAuthService } from '@cg/ng-auth';
 import { NgConfigService } from '@cg/ng-config';
 import { GameStatus } from '@main/enums/game-status.enum';
-import { Mission, MissionType } from '@main/models/mission.model';
+import { Mission } from '@main/models/mission.model';
 import { Question } from '@main/models/question.model';
 import { Stack } from '@main/models/stack.model';
 import { HttpUtilService } from '@shared/services/http-util.service';
 import { BehaviorSubject, iif, Observable, of, throwError } from 'rxjs';
-import { catchError, filter, map, mergeMap, switchMap, takeWhile, tap } from 'rxjs/operators';
+import { catchError, filter, map, mergeMap, switchMap, tap } from 'rxjs/operators';
+
+const D_DAY = new Date('2021-12-30 9:00:00');
 
 @Injectable()
 export class ApiService {
@@ -21,15 +23,14 @@ export class ApiService {
 
   userPoint$ = new BehaviorSubject<number>(0);
 
-  _profileUrl = '';
-  _leaderBoardUrl = '';
+  _userUrl = '';
   _questionUrl = '';
   _missionUrl = '';
   _stackUrl = '';
 
   questionList: Question[];
   missionList: Mission[];
-  about;
+  about: any;
 
   constructor(
     private httpUtil: HttpUtilService,
@@ -38,15 +39,17 @@ export class ApiService {
   ) {
     const coreUrl = this.configService.get('coreUrl');
     const apiUrl = `${coreUrl}/api`;
-    const userId = this.authService.getPrincipal().getProperty('userId');
-    this._profileUrl = `${apiUrl}/user/${userId}`;
-    this._leaderBoardUrl = `${apiUrl}/user/leaderBoard`;
+    this._userUrl = `${apiUrl}/user`;
     this._questionUrl = `${apiUrl}/binary`;
     this._missionUrl = `${apiUrl}/mission`;
     this._stackUrl = `${apiUrl}/stack`;
     this.questionList = this.configService.get('questions');
     this.missionList = this.configService.get('missions');
     this.about = this.configService.get('about');
+  }
+
+  isDDay(): boolean {
+    return (new Date() <= D_DAY ) ? true : false;
   }
 
   getDurationForLoop(): number {
@@ -75,14 +78,16 @@ export class ApiService {
     return members;
   }
 
-  getProfile(): Observable<any> {
-    return this.httpUtil.GETMethod({ url: this._profileUrl }).pipe(
+  getProfile(userId: number): Observable<any> {
+    const url = `${this._userUrl}/${userId}`;
+    return this.httpUtil.GETMethod({ url: url }).pipe(
       tap(data => this.userPoint$.next(data.userPoint))
     );
   }
 
   getLeaderBoard(): Observable<any> {
-    return this.httpUtil.GETMethod({ url: this._leaderBoardUrl });
+    const url = `${this._userUrl}/leaderBoard`;
+    return this.httpUtil.GETMethod({ url: url });
   }
 
   getQuestionList(): Observable<any> {
@@ -129,7 +134,10 @@ export class ApiService {
   }
 
   submitQuestion(): Observable<any> {
-    return this.httpUtil.POSTMethod({ url: this._questionUrl, body: this._cacheAnswers$.value }).pipe(
+    const body = {
+      choose: this._cacheAnswers$.value
+    };
+    return this.httpUtil.POSTMethod({ url: this._questionUrl, body: body }).pipe(
       tap(() => this.qGameStatus$.next(GameStatus.COMPLETE)),
       catchError(() => {
         this.qGameStatus$.next(GameStatus.ERROR);
@@ -159,23 +167,14 @@ export class ApiService {
     );
   }
 
-  submitMission(answers: Array<any>, mission: Mission): Observable<any> {
-    let apiPath;
-    switch(mission.missionType) {
-      case MissionType.IMAGE:
-        apiPath = 'image';
-        break;
-      case MissionType.CHOOSE:
-        apiPath = 'choose';
-        break;
-      case MissionType.SHORT_TEXT:
-        apiPath = 'short';
-        break;
-      default:
-        return throwError('Unknown mission type');
-    }
-    const url = `${this._missionUrl}/${apiPath}/${mission.missionId}`
+  submitImage(answers: string[], missionId: number): Observable<any> {
+    const url = `${this._missionUrl}/image/${missionId}`
     return this.httpUtil.POSTMethod({ url: url, body: answers });
+  }
+
+  submitAnswer(answer: string, missionId: number): Observable<any> {
+    const url = `${this._missionUrl}/answer/${missionId}`
+    return this.httpUtil.POSTMethod({ url: url, body: answer });
   }
 
   getCurrentStack(): Observable<any> {
