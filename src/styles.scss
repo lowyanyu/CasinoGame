@@ -137,6 +137,7 @@ svg.material-icons:not(:last-child) {
   align-items: center;
   transition: all 0.2s ease-in-out;
   line-height: 24px;
+  position: relative;
 }
 
 .card-container .card:hover .material-icons path {
@@ -370,6 +371,11 @@ footer a {
   .mat-button {
     color: $main-color;
   }
+}
+
+.warn-snackbar {
+  background: #ef9a82;
+  color: #fff;
 }
 
 @media screen and (max-width: 300px) {

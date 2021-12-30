@@ -48,6 +48,17 @@ export class ApiService {
     this.about = this.configService.get('about');
   }
 
+  initialize(): void {
+    this.qGameStatus$ = new BehaviorSubject<number>(0);
+    this.mGameStatus$ = new BehaviorSubject<number>(0);
+    this.sGameStatus$ = new BehaviorSubject<number>(0);
+
+    this.currentIndex$ = new BehaviorSubject<number>(0);
+    this._cacheAnswers$ = new BehaviorSubject<number[]>([]);
+
+    this.userPoint$ = new BehaviorSubject<number>(0);
+  }
+
   isDDay(): boolean {
     return (new Date() <= D_DAY ) ? true : false;
   }
@@ -122,7 +133,10 @@ export class ApiService {
     const newIndex = this.currentIndex$.value + 1;
     if (newIndex === 10) {
       this.submitQuestion().subscribe({
-        next: () => {},
+        next: () => {
+          this._cacheAnswers$.next([]);
+          this.currentIndex$.next(0);
+        },
         error: () => {
           this._cacheAnswers$.next([]);
           this.currentIndex$.next(0);
@@ -168,13 +182,19 @@ export class ApiService {
   }
 
   submitImage(answers: string[], missionId: number): Observable<any> {
+    const body = {
+      answer: answers
+    };
     const url = `${this._missionUrl}/image/${missionId}`
-    return this.httpUtil.POSTMethod({ url: url, body: answers });
+    return this.httpUtil.POSTMethod({ url: url, body: body });
   }
 
   submitAnswer(answer: string, missionId: number): Observable<any> {
+    const body = {
+      answer: answer
+    };
     const url = `${this._missionUrl}/answer/${missionId}`
-    return this.httpUtil.POSTMethod({ url: url, body: answer });
+    return this.httpUtil.POSTMethod({ url: url, body: body });
   }
 
   getCurrentStack(): Observable<any> {

@@ -8,7 +8,8 @@ export enum MissionStatus {
   INIT = 0,
   SUCCESS = 1,
   FAIL = 2,
-  PENDING = 3
+  PENDING = 3,
+  IMG_UPLOADING = 4
 }
 
 export class Mission {
@@ -18,7 +19,7 @@ export class Mission {
   missionType: 1 | 2 | 3;
   missionRequire: {number: number, unit: string};
   missionReward: number;
-  missionStatus: 0 | 1 | 2 | 3;
+  missionStatus: 0 | 1 | 2 | 3 | 4;
   missionOption?: {optionId: string, optionName: string};
   missionImg: string | {src: string, disp: 'h' | 'v'}[];
   exampleImg?: string;

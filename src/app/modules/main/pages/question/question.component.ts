@@ -64,6 +64,9 @@ export class QuestionComponent implements OnInit, OnDestroy {
         this.questionList$.next(data.result);
       },
       error: () => {
+        if (this.menuIsOpened()) {
+          return;
+        }
         const snackBarRef = this.snackBar.open('載入問答題目失敗', '重新載入', {
           panelClass: ['my-snackbar']
         });
@@ -72,6 +75,10 @@ export class QuestionComponent implements OnInit, OnDestroy {
         });
       }
     });
+  }
+
+  menuIsOpened(): boolean {
+    return this.dialog.openDialogs.filter(d => d.id === 'menu-dialog').length !== 0;
   }
 
   answerQuestion(answer: number): void {

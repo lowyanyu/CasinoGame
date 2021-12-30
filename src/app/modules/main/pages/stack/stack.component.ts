@@ -1,12 +1,13 @@
 import { style, animate, trigger, state, transition } from '@angular/animations';
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { NgAuthService } from '@cg/ng-auth';
 import { GameStatus } from '@main/enums/game-status.enum';
 import { Stack } from '@main/models/stack.model';
 import { ApiService } from '@main/services/api.service';
-import { from, Subscription } from 'rxjs';
+import { Subscription } from 'rxjs';
 
 const flyIn = [style({ transform: 'translateX(100%)' }), animate('0.5s ease-in')];
 const fadeOut = [style({ opacity: '1' }), animate('0.5s ease-out', style({ opacity: '0' }))];
@@ -36,7 +37,8 @@ export class StackComponent implements OnInit, OnDestroy {
   constructor(
     private fb: FormBuilder,
     private snackBar: MatSnackBar,
-    public apiService: ApiService
+    public apiService: ApiService,
+    private dialog: MatDialog
   ) {
     this.stackForm = this.fb.group({});
   }
@@ -70,6 +72,10 @@ export class StackComponent implements OnInit, OnDestroy {
         console.log(this.stackForm.value);
       },
       error: () => {
+        if (this.menuIsOpened()) {
+          console.log('menu is open, not showing snackbar');
+          return;
+        }
         const snackBarRef = this.snackBar.open('載入問答題目失敗', '重新載入', {
           panelClass: ['my-snackbar']
         });
@@ -78,6 +84,10 @@ export class StackComponent implements OnInit, OnDestroy {
         });
       }
     })
+  }
+
+  menuIsOpened(): boolean {
+    return this.dialog.openDialogs.filter(d => d.id === 'menu-dialog').length !== 0;
   }
 
   submitStack(): void {

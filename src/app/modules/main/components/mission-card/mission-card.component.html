@@ -30,7 +30,7 @@
       <!-- show multiple images -->
       <div *ngIf="mission.missionType === MISSION_TYPE.IMAGE" class="image-block-wrap">
         <div class="image-wrap image-wrap--disp-{{img.disp}}" *ngFor="let img of mission.missionImg">
-          <img class="portait-image" [src]="img.src" width="100%"/>
+          <img class="portait-image" [src]="img.src"/>
         </div>
       </div>
       <!-- show one image -->
@@ -58,8 +58,8 @@
       <div [ngSwitch]="mission.missionType">
         <ng-container *ngSwitchCase="MISSION_TYPE.IMAGE">
           <div class="mission-field" *ngFor="let control of imageControls; let i = index">
-            <input *ngIf="uploadImages[i] === null" matInput (click)="fileInput.click()" [formControl]="control" readonly/>
-            <input hidden type="file" id="file-{{i}}" accept=".jpg, .jpeg" #fileInput (change)="fileChangeEvent($event, i)"/>
+            <input *ngIf="uploadImages[i] === null" matInput (click)="fileInput.click()" [formControl]="control" readonly onfocus="this.blur()"/>
+            <input hidden type="file" id="file-{{i}}" accept=".jpg, .jpeg, .png" #fileInput (change)="fileChangeEvent($event, i)"/>
             <div class="preview-image-block" #prevImg [ngClass]="reupload[i] ? 'reupload' : ''">
               <img *ngIf="uploadImages[i] as src" class="preview-image" [src]="src" (click)="showReupload(i)"/>
               <div class="preview-image-mask">
@@ -75,7 +75,7 @@
                     </svg>
                   </button>
                 </div>
-                <span class="uploaded-status"></span>
+                <span id="uploaded-status"></span>
               </div>
             </div>
           </div>

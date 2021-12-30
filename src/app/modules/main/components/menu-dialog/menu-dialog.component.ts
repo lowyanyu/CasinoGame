@@ -1,5 +1,5 @@
 import { trigger, transition, group, query, style, animate } from '@angular/animations';
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { NgAuthService } from '@cg/ng-auth';
@@ -26,7 +26,7 @@ const fadeIn = [style({ opacity: '0' }), animate('500ms', style({ opacity: '1' }
     ])
   ]
 })
-export class MenuDialogComponent implements OnInit, OnDestroy {
+export class MenuDialogComponent implements OnInit {
 
   MENU: typeof Menu = Menu;
 
@@ -37,9 +37,11 @@ export class MenuDialogComponent implements OnInit, OnDestroy {
   members: string[];
   member: string;
 
-  changeSubscription: Subscription;
+  lboardSubscription: Subscription;
+  timerSubscription: Subscription;
 
   leaderBoard: User[];
+  lboardStatus = 0;
 
   constructor(
     private dialogRef: MatDialogRef<MenuDialogComponent>,
@@ -52,10 +54,6 @@ export class MenuDialogComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-  }
-
-  ngOnDestroy(): void {
-    this.killTimer();
   }
 
   getTitle(page: string): string {
@@ -72,7 +70,11 @@ export class MenuDialogComponent implements OnInit, OnDestroy {
   }
 
   showMenu(): void {
-    this.killTimer();
+    if (this.showTemplate === Menu.ABOUT) {
+      this.exitAbout();
+    } else if (this.showTemplate === Menu.LEADER_BOARD) {
+      this.exitLeaderBoard();
+    }
     this.showTemplate = Menu.MENU;
   }
 
@@ -82,20 +84,25 @@ export class MenuDialogComponent implements OnInit, OnDestroy {
   }
 
   getLeaderBoard(): void {
-    this.apiService.getLeaderBoard().subscribe({
+    this.lboardStatus = 0;
+    this.lboardSubscription = this.apiService.getLeaderBoard().subscribe({
       next: data => {
+        this.lboardStatus = 1;
         this.leaderBoard = data.result;
       },
-      error: error => {
-        // TODO:
+      error: () => {
+        this.lboardStatus = -1;
       }
     });
   }
 
   showAbout(): void {
     this.showTemplate = Menu.ABOUT;
+    this.createTimer();
+  }
 
-    this.changeSubscription = timer(100, this.duration).pipe(
+  createTimer(): void {
+    this.timerSubscription = timer(100, this.duration).pipe(
       map(() => this.index + 1),
       tap(i => this.index = i),
       takeWhile(() => this.index < this.members.length)
@@ -106,15 +113,22 @@ export class MenuDialogComponent implements OnInit, OnDestroy {
     });
   }
 
-  killTimer(): void {
-    if (this.changeSubscription) {
-      this.changeSubscription.unsubscribe();
+  exitAbout(): void {
+    if (this.timerSubscription) {
+      this.timerSubscription.unsubscribe();
+    }
+  }
+
+  exitLeaderBoard(): void {
+    if (this.lboardSubscription) {
+      this.lboardSubscription.unsubscribe();
     }
   }
 
   logout(): void {
     this.authService.logout().subscribe({
       next: () => {
+        this.apiService.initialize();
         this.dialogRef.close();
         this.router.navigateByUrl('/home');
       }

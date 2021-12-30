@@ -1,5 +1,5 @@
 {
-  "coreUrl2": "http://localhost:8889/rest",
+  "coreUrl2": "http://192.168.0.32:8889/rest",
   "coreUrl": "http://192.168.0.68:9090/rest",
   "about": {
     "duration": 3000,

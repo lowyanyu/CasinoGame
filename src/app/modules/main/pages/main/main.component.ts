@@ -45,6 +45,7 @@ export class MainComponent implements OnInit {
 
   openMenuDialog(): void {
     this.dialog.open(MenuDialogComponent, {
+      id: 'menu-dialog',
       minWidth: '100%',
       height: '100vh',
       autoFocus: false

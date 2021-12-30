@@ -54,8 +54,8 @@
         <pre class="member-info" *ngFor="let m of [member]">{{ m }}</pre>
       </div>
     </div>
-    <div #rank *ngSwitchCase="MENU.LEADER_BOARD">
-      <div [@loopAnimation]="leaderBoard">
+    <div #rank [ngClass]="lboardStatus === 1 ? '' : 'rank'" *ngSwitchCase="MENU.LEADER_BOARD">
+      <div [@loopAnimation]="leaderBoard" *ngIf="lboardStatus === 1">
         <div *ngFor="let user of leaderBoard">
           <div class="card board-card rank-{{user.userRank}}">
             <span class="user-rank">{{ user.userRank }}</span>
@@ -65,6 +65,8 @@
           </div>
         </div>
       </div>
+      <mat-spinner [diameter]="40" *ngIf="lboardStatus === 0"></mat-spinner>
+      <p *ngIf="lboardStatus === -1">載入排行榜失敗！</p>
     </div>
   </div>
 </div>

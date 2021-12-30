@@ -1,5 +1,6 @@
 import { trigger, state, style, transition, animate } from '@angular/animations';
-import { Component, HostListener, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { GameStatus } from '@main/enums/game-status.enum';
 import { Mission, MissionStatus } from '@main/models/mission.model';
@@ -31,7 +32,8 @@ export class MissionComponent implements OnInit, OnDestroy {
 
   constructor(
     public apiService: ApiService,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
+    private dialog: MatDialog
   ) { }
 
   ngOnInit(): void {
@@ -52,6 +54,9 @@ export class MissionComponent implements OnInit, OnDestroy {
         this.missionList = data.result;
       },
       error: () => {
+        if (this.menuIsOpened()) {
+          return;
+        }
         const snackBarRef = this.snackBar.open('載入任務清單失敗', '重新載入', {
           panelClass: ['my-snackbar']
         });
@@ -60,6 +65,10 @@ export class MissionComponent implements OnInit, OnDestroy {
         });
       }
     })
+  }
+
+  menuIsOpened(): boolean {
+    return this.dialog.openDialogs.filter(d => d.id === 'menu-dialog').length !== 0;
   }
 
   updateMission(mission: Mission): void {

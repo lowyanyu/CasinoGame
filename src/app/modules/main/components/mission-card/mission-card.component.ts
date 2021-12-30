@@ -2,6 +2,7 @@ import { style, animate, trigger, transition, state } from '@angular/animations'
 import { Component, EventEmitter, Input, OnInit, Output, TemplateRef, ViewChild } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { Mission, MissionStatus, MissionType } from '@main/models/mission.model';
 import { ApiService } from '@main/services/api.service';
 
@@ -36,7 +37,8 @@ export class MissionCardComponent implements OnInit {
 
   constructor(
     private apiService: ApiService,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private snackBar: MatSnackBar
   ) {
   }
 
@@ -74,6 +76,13 @@ export class MissionCardComponent implements OnInit {
     const fileToUpload = fileInput.target.files as Array<File>;
     const file = fileToUpload[0];
     if (file !== undefined) {
+      if (!(file.type.includes('jpeg') || file.type.includes('jpg') || file.type.includes('png'))) {
+        this.snackBar.open(`僅允許.jpg .jpeg .png檔案，請重新上傳！`, '知道了', {
+          duration: 2000,
+          panelClass: 'my-snackbar'
+        });
+        return;
+      }
       let reader = new FileReader();
       reader.readAsDataURL(file);
       reader.onload = () => {
@@ -115,6 +124,7 @@ export class MissionCardComponent implements OnInit {
   submit(mission: Mission): void {
     if (mission.missionType === MissionType.IMAGE) {
       const answer: string[] = this.imageControls.map(ctrl => ctrl.value);
+      this.mission.missionStatus = 4;
       this.apiService.submitImage(answer, mission.missionId).subscribe({
         next: data => {
           this.imageControls.forEach(ctrl => ctrl.disable());

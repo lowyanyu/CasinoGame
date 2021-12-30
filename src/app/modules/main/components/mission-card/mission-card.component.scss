@@ -78,23 +78,21 @@
   flex-wrap: wrap;
   justify-content: center;
   align-items: center;
+  padding-top: 8px;
 }
 
 .image-wrap {
   box-sizing: border-box;
-  padding: 8px 14px 0px 0px;
+  margin-right: 8px;
 
-  &--disp-h {
+  &--disp-h .portait-image {
     width: 200px;
   }
 
-  &--disp-v {
-    width: 160px;
+  &--disp-v .portait-image {
+    // width: 160px;
+    height: 200px;
   }
-}
-
-.image-wrap:last-of-type {
-  padding: 8px 0px 0px 0px;
 }
 
 .portait-image {
@@ -139,7 +137,7 @@
   justify-content: center;
 }
 
-.reupload-actions, .uploaded-status {
+.reupload-actions, #uploaded-status {
   display: none;
   margin: auto;
 }
@@ -179,12 +177,30 @@
     display: flex;
   }
 
-  .uploaded-status {
+  #uploaded-status {
     display: inherit;
   }
 
-  .uploaded-status::after {
+  #uploaded-status::after {
     content: '審核中';
+  }
+}
+
+.mission-stat-4 {
+  .preview-image {
+    opacity: 0.3;
+  }
+
+  .preview-image-mask {
+    display: flex;
+  }
+
+  #uploaded-status {
+    display: inherit;
+  }
+
+  #uploaded-status::after {
+    content: '上傳中';
   }
 }
 

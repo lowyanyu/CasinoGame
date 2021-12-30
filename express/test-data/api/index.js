@@ -35,7 +35,7 @@ router.get('/binary', function(req, res) {
 
 // submit question answer
 router.post('/binary', function(req, res) {
-  completeBinary();
+  // completeBinary();
   console.log('POST /binary');
   console.log(req.body);
 	var respBody = require('./binary-answer.json');
@@ -60,8 +60,10 @@ router.post('/mission/:missionType/:missionId', function(req, res) {
   console.log('POST /mission/' + missionType + '/' + missionId);
 	var respBody;
   if (missionType === 'image') {
+    console.log(req.body);
     respBody = require('./mission-answer-pending.json');
   } else {
+    console.log(req.body);
     respBody = require('./mission-answer.json');
   }
   res.json(respBody);

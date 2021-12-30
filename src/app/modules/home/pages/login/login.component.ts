@@ -13,6 +13,8 @@ export class LoginComponent implements OnInit {
 
   loginForm: FormGroup;
 
+  alertMsg: string;
+
   constructor(
     private fb: FormBuilder,
     private router: Router,
@@ -35,11 +37,12 @@ export class LoginComponent implements OnInit {
 
     const value = this.loginForm.value;
     this.loginService.login(value.account, this.crypto.sha256(value.pwd)).subscribe({
-      next: () => {
+      next: data => {
+        this.alertMsg = '登入成功';
         this.router.navigate(['/main']);
       },
       error: error => {
-        // TODO:
+        this.alertMsg = '登入失敗！' + ( error.errorMessage || '' );
       }
     })
   }
