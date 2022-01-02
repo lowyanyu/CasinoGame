@@ -3,18 +3,19 @@
     <div>
       <mat-form-field appearance="outline">
         <mat-label>帳號</mat-label>
-        <input matInput #account type="text" formControlName="account" required autofocus (keydown.enter)="pwd.focus()" (mousedown.enter)="pwd.focus()"/>
+        <input matInput #account type="text" formControlName="account" required autofocus (keydown.enter)="pwd.focus()" (mousedown.enter)="pwd.focus()" [readonly]="loginStatus === 1"/>
         <mat-error>請輸入帳號</mat-error>
       </mat-form-field>
     </div>
     <div>
       <mat-form-field appearance="outline">
         <mat-label>密碼</mat-label>
-        <input matInput #pwd type="password" formControlName="pwd" autocomplete="off" required/>
+        <input matInput #pwd type="password" formControlName="pwd" autocomplete="off" required [readonly]="loginStatus === 1"/>
         <mat-error>請輸入密碼</mat-error>
       </mat-form-field>
     </div>
-    <button mat-raised-button color="primary" type="submit" class="btn btn-lg animation-btn">登入</button>
-    <p>{{alertMsg}}</p>
+    <button mat-raised-button color="primary" type="submit" id="loginBtn" class="btn btn-lg animation-btn" [disabled]="loginStatus === 1">
+      {{ loginStatus === 1 ? '登入中...' : '登入' }}
+    </button>
   </form>
 </div>

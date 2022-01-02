@@ -137,7 +137,7 @@
   justify-content: center;
 }
 
-.reupload-actions, #uploaded-status {
+.reupload-actions, #uploadedStatus {
   display: none;
   margin: auto;
 }
@@ -177,11 +177,11 @@
     display: flex;
   }
 
-  #uploaded-status {
+  #uploadedStatus {
     display: inherit;
   }
 
-  #uploaded-status::after {
+  #uploadedStatus::after {
     content: '審核中';
   }
 }
@@ -195,11 +195,11 @@
     display: flex;
   }
 
-  #uploaded-status {
+  #uploadedStatus {
     display: inherit;
   }
 
-  #uploaded-status::after {
+  #uploadedStatus::after {
     content: '上傳中';
   }
 }
