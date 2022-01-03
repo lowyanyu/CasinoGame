@@ -83,4 +83,13 @@ router.get('/stack/history', function(req, res) {
   res.json(respBody);
 });
 
+// submit stack
+router.post('/stack/:stackId', function(req, res) {
+  const stackId = req.params.stackId;
+  console.log('POST /stack/' + stackId);
+	var respBody;
+  respBody = require('./stack-submit.json');
+  res.json(respBody);
+});
+
 module.exports = router;

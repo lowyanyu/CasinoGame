@@ -1,26 +1,23 @@
-import { style, animate, trigger, state, transition } from '@angular/animations';
+import { style, animate, trigger, transition } from '@angular/animations';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { NgAuthService } from '@cg/ng-auth';
 import { GameStatus } from '@main/enums/game-status.enum';
-import { Stack } from '@main/models/stack.model';
+import { Stack, Player } from '@main/models/stack.model';
 import { ApiService } from '@main/services/api.service';
 import { Subscription } from 'rxjs';
 
-const flyIn = [style({ transform: 'translateX(100%)' }), animate('0.5s ease-in')];
-const fadeOut = [style({ opacity: '1' }), animate('0.5s ease-out', style({ opacity: '0' }))];
+const fadeIn = [style({ opacity: '0' }), animate('500ms', style({ opacity: '1' }))];
 
 @Component({
   selector: 'app-stack',
   templateUrl: './stack.component.html',
   styleUrls: ['./stack.component.scss'],
   animations: [
-    trigger('flyInOut', [
-      state('in', style({transform: 'translateX(0%)'})),
-      transition('void => *', flyIn),
-      transition('* => void', fadeOut)
+    trigger('fadeAnimation', [
+      transition('* => *', fadeIn)
     ])
   ]
 })
@@ -29,6 +26,7 @@ export class StackComponent implements OnInit, OnDestroy {
   STATUS: typeof GameStatus = GameStatus;
 
   stack: Stack;
+  stackHist: Stack[];
 
   stackForm: FormGroup;
 
@@ -58,6 +56,7 @@ export class StackComponent implements OnInit, OnDestroy {
     this.subscription = this.apiService.getCurrentStack().subscribe({
       next: data => {
         this.stack = data;
+        this.stackForm = this.fb.group({});
         this.stack.player.forEach(p => {
           console.log(this.apiService.userPoint$.value);
           let ctrl = new FormControl(0,
@@ -76,14 +75,14 @@ export class StackComponent implements OnInit, OnDestroy {
           console.log('menu is open, not showing snackbar');
           return;
         }
-        const snackBarRef = this.snackBar.open('載入問答題目失敗', '重新載入', {
+        const snackBarRef = this.snackBar.open('取得進行中賭盤失敗', '重新載入', {
           panelClass: ['my-snackbar']
         });
         snackBarRef.onAction().subscribe(() => {
           this.getCurrentStack();
         });
       }
-    })
+    });
   }
 
   menuIsOpened(): boolean {
@@ -96,14 +95,16 @@ export class StackComponent implements OnInit, OnDestroy {
       return;
     }
     const formVal = this.stackForm.value;
-    const stacks = [];
+    let stacks: Player[] = [];
     let allZero = true;
+    let accum = 0;
     Object.keys(formVal).forEach(player => {
       const point = formVal[player];
       if (point > 0) {
         allZero = false;
       }
-      stacks.push({playerId: player, point: point});
+      accum += point;
+      stacks.push({playerId: parseInt(player), point: point});
     });
     if (allZero) {
       this.snackBar.open('你沒有下注任何金額！', '知道了', {
@@ -112,21 +113,57 @@ export class StackComponent implements OnInit, OnDestroy {
       });
       return;
     }
+    if (accum > this.apiService.userPoint$.value) {
+      this.snackBar.open('你的籌碼不足啦！', '知道了', {
+        duration: 2000,
+        panelClass: ['my-snackbar']
+      });
+      return;
+    }
 
     this.apiService.submitStack(this.stack.stackId, stacks).subscribe({
       next: () => {
-
+        const merge: Player[] = this.stack.player.map((item, i) => Object.assign({}, item, stacks[i]));
+        this.stack.player = merge;
+        this.apiService.sGameStatus$.next(GameStatus.COMPLETE);
       },
       error: error => {
-        // TODO:
+        const msg = '下注失敗！' + ( error.errorMessage || '請聯絡全景娛樂城管理者' );
+        this.snackBar.open(msg, '知道了', {
+          duration: 2000,
+          panelClass: ['my-snackbar']
+        });
       }
-    })
-    // this.stackForm.controls.stack.setValue(val);
+    });
   }
 
-  verifyInput(event): void {
-    const value = event.target.value || 0;
-    event.target.value = parseInt(value);
+  verifyInput(event, playerId): void {
+    console.log('verify input');
+    let value = 0;
+    value = parseInt(event.target.value);
+    value = isNaN(value) ? 0 : value;
+    event.target.value = value;
+    this.stackForm.controls[playerId].setValue(value);
+  }
+
+  getStackHistoryList(): void {
+    this.subscription = this.apiService.getStackHistoryList().subscribe({
+      next: data => {
+        this.stackHist = data;
+      },
+      error: () => {
+        if (this.menuIsOpened()) {
+          console.log('menu is open, not showing snackbar');
+          return;
+        }
+        const snackBarRef = this.snackBar.open('載入下注歷史清單失敗', '重新載入', {
+          panelClass: ['my-snackbar']
+        });
+        snackBarRef.onAction().subscribe(() => {
+          this.getStackHistoryList();
+        });
+      }
+    });
   }
 
 }

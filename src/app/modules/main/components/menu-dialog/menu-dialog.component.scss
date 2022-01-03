@@ -93,8 +93,10 @@
   font-size: 22px;
   .user-point::before {
     content: url('~/assets/images/coin-white.png');
-    position: absolute;
-    left: 0;
+    position: relative;
+    right: 10px;
+    line-height: 24px;
+    vertical-align: middle;
   }
 }
 
@@ -126,4 +128,8 @@
   position: relative;
   min-width: 75px;
   text-align: right;
+
+  > span {
+    line-height: 24px;
+  }
 }

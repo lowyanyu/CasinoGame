@@ -15,6 +15,10 @@
   }
 }
 
+.stack-wrap {
+  padding: 10px 0px 25.5px 0px;
+}
+
 .input-field {
   box-sizing: border-box;
   border-radius: 4px;
@@ -40,4 +44,35 @@
   width: 200px;
   height: 55px;
   font-size: 18px;
+}
+
+.stack-card {
+  font-size: 16px;
+}
+
+.user-name {
+  width: 100px;
+  text-align: left;
+}
+
+.user-point {
+  position: relative;
+  min-width: 55px;
+  text-align: right;
+
+  > span {
+    line-height: 16px;
+  }
+}
+
+.user-point::before {
+  content: url('~/assets/images/coin-gold.png');
+  position: relative;
+  right: 10px;
+  line-height: 16px;
+  vertical-align: middle;
+}
+
+.stack-status-info {
+  margin-bottom: 25.5px;
 }

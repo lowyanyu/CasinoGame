@@ -130,7 +130,6 @@ svg.material-icons:not(:last-child) {
 
 .card {
   background-color: rgb(9,6,0,.32);
-  min-height: 40px;
   padding: 16px;
   display: flex;
   justify-content: center;
@@ -184,6 +183,8 @@ svg.material-icons:not(:last-child) {
 }
 
 .question-card {
+  height: 40px;
+
   .card-container {
     align-items: center;
     font-size: 18px;

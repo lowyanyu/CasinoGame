@@ -7,8 +7,8 @@ export class Stack {
   winPoint?: number;
 }
 
-class Player {
+export class Player {
   playerId: number;
-  playerName: string;
+  playerName?: string;
   point?: number;
 }
