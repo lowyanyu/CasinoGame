@@ -1,0 +1,60 @@
+<ng-container *ngIf="outlet2.isActivated === false">
+  <div class="content-padding" [ngSwitch]="apiService.sGameStatus$ | async" >
+    <div *ngSwitchCase="STATUS.START" class="align-center">
+      <h2>請輸入要下注的金額</h2>
+      <form class="stake-form" [formGroup]="stakeForm" [@fadeAnimation]="stake" *ngIf="stake">
+        <div *ngFor="let player of stake.player; let i = index" style="margin-top: 10px;">
+          <label class="stake-label">{{player.playerName}}</label>
+          <mat-form-field class="input-field">
+            <input matInput type="tel" [formControlName]="player.playerId" (change)="verifyInput($event, player.playerId)" required/>
+            <mat-error *ngIf="stakeForm.controls[player.playerId].hasError('max')">你的籌碼不夠喔！</mat-error>
+            <mat-error *ngIf="stakeForm.controls[player.playerId].hasError('min')">下注籌碼不允許負數喔！</mat-error>
+          </mat-form-field>
+        </div>
+        <button mat-stroked-button color="primary" class="stake-btn" type="button" (click)="submitStake()">下注！</button>
+      </form>
+    </div>
+    <div *ngSwitchCase="STATUS.COMPLETE" class="align-center">
+      <h2>等候開獎</h2>
+      <div class="stake-wrap" *ngIf="stake" [@fadeAnimation]="stake">
+        <div *ngFor="let player of stake.player" style="margin-top: 10px;">
+          <div class="card stake-card">
+            <span class="user-name">{{ player.playerName }}</span>
+            <div class="spacer"></div>
+            <span class="user-point"><span>{{ player.point }}</span></span>
+          </div>
+        </div>
+      </div>
+      <button mat-stroked-button color="primary" class="stake-btn" type="button" (click)="getCurrentStake()">重新整理</button>
+    </div>
+    <div *ngSwitchCase="STATUS.STOP" class="align-center">
+      <p class="stake-status-info">賭盤已經停止下注了！</p>
+    </div>
+    <div *ngSwitchCase="STATUS.FINISH" class="align-center">
+      <h2 *ngIf="stake">結果出爐！您贏得了 {{stake.winPoint}} 籌碼</h2>
+      <div class="stake-wrap" *ngIf="stake" [@fadeAnimation]="stake">
+        <div *ngFor="let player of stake.player" style="margin-top: 10px;">
+          <div class="card stake-card" [ngClass]="stake.winner === player.playerId ? 'winner' : 'blur'">
+            <span class="user-name">{{ player.playerName }}</span>
+            <div class="spacer"></div>
+            <span class="user-point"><span>{{ player.point }}</span></span>
+          </div>
+        </div>
+      </div>
+      <button mat-stroked-button color="primary" class="stake-btn" type="button" (click)="getCurrentStake()">重新整理</button>
+    </div>
+    <div *ngSwitchCase="STATUS.BLANK" class="align-center">
+      <p class="stake-status-info">目前沒有開放下注的賭盤！</p>
+    </div>
+    <div *ngSwitchCase="STATUS.ERROR" class="align-center">
+      <p>發生錯誤！</p>
+    </div>
+    <mat-spinner [diameter]="40" *ngSwitchDefault></mat-spinner>
+    <div class="align-center">
+      <button mat-stroked-button class="stake-hist-btn" type="button" (click)="showStakeHist()">查詢下注歷史</button>
+    </div>
+  </div>
+</ng-container>
+<div class="content-padding" [@fadeAnimation]="router.url">
+  <router-outlet #outlet2="outlet" (deactivate)="getCurrentStake()"></router-outlet>
+</div>

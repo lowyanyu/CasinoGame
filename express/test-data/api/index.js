@@ -69,26 +69,26 @@ router.post('/mission/:missionType/:missionId', function(req, res) {
   res.json(respBody);
 });
 
-// get current stack
-router.get('/stack', function(req, res) {
-  console.log('GET /stack' );
-  var respBody = require('./current-stack.json');
+// get current stake
+router.get('/stake', function(req, res) {
+  console.log('GET /stake' );
+  var respBody = require('./current-stake-finish.json');
   res.json(respBody);
 });
 
-// get stack history list
-router.get('/stack/history', function(req, res) {
-  console.log('GET /stack/history' );
-  var respBody = require('./stack-history-list.json');
+// get stake history list
+router.get('/stake/history', function(req, res) {
+  console.log('GET /stake/history' );
+  var respBody = require('./stake-history-list.json');
   res.json(respBody);
 });
 
-// submit stack
-router.post('/stack/:stackId', function(req, res) {
-  const stackId = req.params.stackId;
-  console.log('POST /stack/' + stackId);
+// submit stake
+router.post('/stake/:stakeId', function(req, res) {
+  const stakeId = req.params.stakeId;
+  console.log('POST /stake/' + stakeId);
 	var respBody;
-  respBody = require('./stack-submit.json');
+  respBody = require('./stake-submit.json');
   res.json(respBody);
 });
 

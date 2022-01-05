@@ -1,0 +1,36 @@
+.rules-dialog > .mat-dialog-title {
+  height: 0px;
+}
+
+.rules-dialog > .mat-dialog-content {
+  height: 100vh !important;
+  box-sizing: border-box;
+  padding: 0 40px;
+  color: #fff;
+  min-height: 100vh !important;
+}
+
+.rules-dialog > .mat-dialog-actions {
+  height: 0px;
+}
+
+.rules-info {
+  display: flex;
+  box-sizing: border-box;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-height: 100%;
+  padding: 24px;
+  text-align: left;
+  div {
+    width: 100%;
+  }
+  ul {
+    // text-align: left;
+    list-style-type: number;
+    margin-left: -20px;
+  }
+}
+
+

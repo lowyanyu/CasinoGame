@@ -1,0 +1,31 @@
+{
+  "errorCode": 0,
+  "errorMessage": "查詢進行中賭盤成功。",
+  "data": {
+    "status": 1,
+    "stakeId": 1,
+    "title": "遊戲名稱",
+    "player": [
+      {
+        "playerId": 1,
+        "playerName": "挑戰者一號",
+        "point": 5
+      },
+      {
+        "playerId": 2,
+        "playerName": "挑戰者二號",
+        "point": 10
+      },
+      {
+        "playerId": 3,
+        "playerName": "挑戰者三號",
+        "point": 5
+      },
+      {
+        "playerId": 4,
+        "playerName": "挑戰者四號",
+        "point": 20
+      }
+    ]
+  }
+}

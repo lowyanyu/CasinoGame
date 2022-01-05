@@ -1,0 +1,31 @@
+<p *ngIf="stakeHist && stakeHist.length > 0; else noData">下注歷史清單</p>
+<ng-template #noData><p class="stake-status-info">沒有可供顯示的歷史紀錄</p></ng-template>
+<div class="card" *ngFor="let stake of stakeHist" style="margin-top: 10px;">
+  <button mat-icon-button #expandBtn class="expand-btn" (click)="toggleStakeHist(stake)">
+    <svg *ngIf="stake['status'] === 'expanded'" xmlns="http://www.w3.org/2000/svg" width="12" height="7.41" viewBox="0 0 12 7.41">
+      <path id="ic_expand_less" d="M12,8,6,14l1.41,1.41L12,10.83l4.59,4.58L18,14Z" transform="translate(-6 -8)" fill="#fff"/>
+    </svg>
+    <svg *ngIf="stake['status'] === 'collapsed'" xmlns="http://www.w3.org/2000/svg" width="12" height="7.41" viewBox="0 0 12 7.41">
+      <path id="ic_expand_more" d="M16.59 8.59L12 13.17 7.41 8.59 6 10l6 6 6-6z" transform="translate(-6 -8)" fill="#fff"/>
+    </svg>
+  </button>
+  <div class="card-container">
+    <h3 class="mission-title" (click)="expandBtn._elementRef.nativeElement.click()">
+      {{stake.title}}
+    </h3>
+    <div [@detailExpand]="stake['status']">
+      <div>下注時間：{{stake.createTime | date: 'yyyy/MM/dd HH:mm:ss'}}</div>
+      <div>下注玩家：</div>
+      <div *ngFor="let p of stake.player">
+        {{p.playerName}}：{{p.point}} 籌碼
+        <span class="win-label" *ngIf="stake.winner === p.playerId">勝</span>
+      </div>
+    </div>
+    <mat-divider></mat-divider>
+    <h2 class="stake-footer">+ {{stake.winPoint}}</h2>
+    <!-- <h2 style="text-align: right">下注：{{getStakeTotal(stake)}}</h2> -->
+  </div>
+</div>
+<div class="align-center">
+  <button mat-stroked-button class="stake-hist-btn" type="button" (click)="backToStake()">返回</button>
+</div>

@@ -47,7 +47,7 @@ export class MenuDialogComponent implements OnInit {
     private dialogRef: MatDialogRef<MenuDialogComponent>,
     private authService: NgAuthService,
     public router: Router,
-    private apiService: ApiService
+    public apiService: ApiService
   ) {
     this.duration = this.apiService.getDurationForLoop();
     this.members = this.apiService.getMembers();

@@ -26,7 +26,7 @@
           <span>關於</span>
         </button>
       </div>
-      <div class="menu-btn-wrap">
+      <div class="menu-btn-wrap" *ngIf="(apiService.remainingTime$ | async) === 'START'">
         <button mat-raised-button class="menu-btn" (click)="showRank()">
           <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 30 30">
             <g transform="translate(32 99.621)">

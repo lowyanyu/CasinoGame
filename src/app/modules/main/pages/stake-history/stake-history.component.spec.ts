@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { StackComponent } from './stack.component';
+import { StakeHistoryComponent } from './stake-history.component';
 
-describe('StackComponent', () => {
-  let component: StackComponent;
-  let fixture: ComponentFixture<StackComponent>;
+describe('StakeHistoryComponent', () => {
+  let component: StakeHistoryComponent;
+  let fixture: ComponentFixture<StakeHistoryComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ StackComponent ]
+      declarations: [ StakeHistoryComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(StackComponent);
+    fixture = TestBed.createComponent(StakeHistoryComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

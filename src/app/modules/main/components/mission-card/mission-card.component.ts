@@ -3,6 +3,7 @@ import { Component, EventEmitter, Input, OnInit, Output, TemplateRef, ViewChild 
 import { FormControl, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { DomSanitizer } from '@angular/platform-browser';
 import { Mission, MissionStatus, MissionType } from '@main/models/mission.model';
 import { ApiService } from '@main/services/api.service';
 
@@ -38,7 +39,8 @@ export class MissionCardComponent implements OnInit {
   constructor(
     private apiService: ApiService,
     private dialog: MatDialog,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
+    private sanitizer: DomSanitizer
   ) {
   }
 
@@ -85,14 +87,73 @@ export class MissionCardComponent implements OnInit {
       }
       let reader = new FileReader();
       reader.readAsDataURL(file);
+      alert("before compress img size: " + file.size);
+      // reader.onload = () => {
+      //   let content = reader.result as string;
+      //   if (content.length !== 0 && null != reader.result) {
+      //     this.imageControls[index].setValue(content.split(',')[1]);
+      //     this.uploadImages[index] = content;
+      //   }
+      // };
+      const THIS = this;
       reader.onload = () => {
-        let content = reader.result as string;
-        if (content.length !== 0 && null != reader.result) {
-          this.imageControls[index].setValue(content.split(',')[1]);
-          this.uploadImages[index] = content;
+        const img = new Image();
+        const canvas = document.createElement("canvas");
+        const ctx = canvas.getContext("2d");
+
+        img.onload = () => {
+          let width = img.width;
+          let height = img.height;
+
+          const MAX_WIDTH = width > 2500 ? width / 2 : 2500;
+          const MAX_HEIGHT = height > 2500 ? height / 2 : 2500;
+
+          if (width > height) {
+            if (width > MAX_WIDTH) {
+              height *= MAX_WIDTH / width;
+              width = MAX_WIDTH;
+            }
+          } else {
+            if (height > MAX_HEIGHT) {
+              width *= MAX_HEIGHT / height;
+              height = MAX_HEIGHT;
+            }
+          }
+
+          canvas.width = width;
+          canvas.height = height;
+          ctx.drawImage(img, 0, 0, width, height);
+          let dataURL = canvas.toDataURL('image/jpeg', 1);
+          let blob = THIS.dataURItoBlob(dataURL);
+
+          // set image quality depends on size
+          if (blob.size > 2000 * 1024) {
+            dataURL = canvas.toDataURL('image/jpeg', .2);
+          } else if (blob.size > 1000 * 1024) {
+            dataURL = canvas.toDataURL('image/jpeg', .5);
+          } else {
+            dataURL = canvas.toDataURL('image/jpeg', .8);
+          }
+
+          blob = THIS.dataURItoBlob(dataURL);
+          let imgSrc = THIS.sanitizer.bypassSecurityTrustUrl(URL.createObjectURL(file));
+          alert("after compress img size: " + blob.size);
+          THIS.imageControls[index].setValue(dataURL.split(',')[1]);
+          THIS.uploadImages[index] = imgSrc;
         }
-      };
+        img.src = URL.createObjectURL(file);
+      }
     }
+  }
+
+  dataURItoBlob(dataURI) {
+    const byteString = atob(dataURI.split(',')[1]);
+    const ab = new ArrayBuffer(byteString.length);
+    const ia = new Uint8Array(ab);
+    for (let i = 0; i < byteString.length; i++) {
+      ia[i] = byteString.charCodeAt(i);
+    }
+    return new Blob([ab], { type: 'image/jpeg' });
   }
 
   toggleMission(status: 'expanded' | 'collapsed'): void {
@@ -124,10 +185,10 @@ export class MissionCardComponent implements OnInit {
   submit(mission: Mission): void {
     if (mission.missionType === MissionType.IMAGE) {
       const answer: string[] = this.imageControls.map(ctrl => ctrl.value);
-      this.mission.missionStatus = 4;
+      this.mission.missionStatus = MissionStatus.IMG_UPLOADING;
+      this.imageControls.forEach(ctrl => ctrl.disable());
       this.apiService.submitImage(answer, mission.missionId).subscribe({
         next: data => {
-          this.imageControls.forEach(ctrl => ctrl.disable());
           this.mission.missionStatus = data.missionStatus;
           this.mission.answer = this.uploadImages;
           this.mission.score = data.score;

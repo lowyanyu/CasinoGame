@@ -11,6 +11,7 @@ body {
   -moz-osx-font-smoothing: grayscale;
   background: $product-background;
   height: auto;
+  opacity: 1;
 }
 
 router-outlet {
@@ -200,6 +201,7 @@ svg.material-icons:not(:last-child) {
 
 .result-card {
   padding: 0px 16px;
+  height: 40px;
 
   .card-container {
     flex-direction: row;
@@ -363,6 +365,13 @@ footer a {
       background: #6F6F6C;
     }
   }
+}
+
+.expand-btn {
+  display: block;
+  position: absolute !important;
+  top: 16px;
+  right: 10px;
 }
 
 .my-snackbar {

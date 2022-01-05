@@ -3,11 +3,11 @@
   border-top: none !important;
 }
 
-.stack-form {
+.stake-form {
   width: 100%;
   padding: 10px 0px;
 
-  .stack-label {
+  .stake-label {
     display: block;
     text-align: left;
     color: #efd082;
@@ -15,7 +15,7 @@
   }
 }
 
-.stack-wrap {
+.stake-wrap {
   padding: 10px 0px 25.5px 0px;
 }
 
@@ -38,7 +38,7 @@
   }
 }
 
-.stack-btn {
+.stake-btn {
   border-color: currentColor;
   border-radius: 40px;
   width: 200px;
@@ -46,7 +46,18 @@
   font-size: 18px;
 }
 
-.stack-card {
+.stake-hist-btn {
+  margin-top: 16px;
+  border-color: #ccc;
+  color: #ccc;
+  border-radius: 40px;
+  width: 200px;
+  height: 55px;
+  font-size: 18px;
+}
+
+.stake-card {
+  position: relative;
   font-size: 16px;
 }
 
@@ -73,6 +84,19 @@
   vertical-align: middle;
 }
 
-.stack-status-info {
+.stake-status-info {
   margin-bottom: 25.5px;
+}
+
+.blur {
+  opacity: 0.3;
+}
+
+.winner::after {
+  content: '👑';
+  position: absolute;
+  right: -10px;
+  top: -10px;
+  font-size: 20px;
+  transform: rotate(25deg);
 }

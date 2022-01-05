@@ -1,5 +1,5 @@
-export class Stack {
-  stackId: number;
+export class Stake {
+  stakeId: number;
   title: string;
   player: Player[];
   createTime?: number;

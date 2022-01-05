@@ -2,8 +2,10 @@ import { style, animate, trigger, transition } from '@angular/animations';
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
+import { GameRulesDialogComponent } from '@main/components/game-rules-dialog/game-rules-dialog.component';
 import { MenuDialogComponent } from '@main/components/menu-dialog/menu-dialog.component';
 import { Game } from '@main/enums/game-path.enum';
+import { ApiService } from '@main/services/api.service';
 import { BehaviorSubject } from 'rxjs';
 
 const fade = [style({ opacity: '0' }), animate('500ms', style({ opacity: '1' }))];
@@ -27,7 +29,8 @@ export class MainComponent implements OnInit {
 
   constructor(
     public router: Router,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    public apiService: ApiService
   ) {}
 
   ngOnInit(): void {
@@ -45,6 +48,15 @@ export class MainComponent implements OnInit {
 
   openMenuDialog(): void {
     this.dialog.open(MenuDialogComponent, {
+      id: 'menu-dialog',
+      minWidth: '100%',
+      height: '100vh',
+      autoFocus: false
+    });
+  }
+
+  openGameRulesDialog(): void {
+    this.dialog.open(GameRulesDialogComponent, {
       id: 'menu-dialog',
       minWidth: '100%',
       height: '100vh',

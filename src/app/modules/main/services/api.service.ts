@@ -1,15 +1,17 @@
 import { Injectable } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { NgAuthService } from '@cg/ng-auth';
 import { NgConfigService } from '@cg/ng-config';
+import { GameRulesDialogComponent } from '@main/components/game-rules-dialog/game-rules-dialog.component';
 import { GameStatus } from '@main/enums/game-status.enum';
+import { StakeGameStatus } from '@main/enums/stake-game-status.enum';
 import { Mission } from '@main/models/mission.model';
 import { Question } from '@main/models/question.model';
-import { Stack } from '@main/models/stack.model';
 import { HttpUtilService } from '@shared/services/http-util.service';
-import { BehaviorSubject, iif, Observable, of, throwError } from 'rxjs';
-import { catchError, filter, map, mergeMap, switchMap, tap } from 'rxjs/operators';
+import { BehaviorSubject, from, iif, Observable, of, throwError, timer } from 'rxjs';
+import { catchError, filter, last, map, switchMap, take, takeLast, takeWhile, tap } from 'rxjs/operators';
 
-const D_DAY = new Date('2021-12-30 9:00:00');
+const test = false;
 
 @Injectable()
 export class ApiService {
@@ -26,26 +28,80 @@ export class ApiService {
   _userUrl = '';
   _questionUrl = '';
   _missionUrl = '';
-  _stackUrl = '';
+  _stakeUrl = '';
 
   questionList: Question[];
   missionList: Mission[];
   about: any;
 
+  remainingTime$ = new BehaviorSubject<string>('');
+
   constructor(
     private httpUtil: HttpUtilService,
     private configService: NgConfigService,
-    private authService: NgAuthService
+    private authService: NgAuthService,
+    private dialog: MatDialog
   ) {
     const coreUrl = this.configService.get('coreUrl');
     const apiUrl = `${coreUrl}/api`;
     this._userUrl = `${apiUrl}/user`;
     this._questionUrl = `${apiUrl}/binary`;
     this._missionUrl = `${apiUrl}/mission`;
-    this._stackUrl = `${apiUrl}/stack`;
+    this._stakeUrl = `${apiUrl}/stake`;
     this.questionList = this.configService.get('questions');
     this.missionList = this.configService.get('missions');
     this.about = this.configService.get('about');
+
+    const D_DAY = this.parseDate('2022-01-05 20:00:50');
+
+    timer(0, 1000).pipe(
+      map(() => new Date()),
+      tap(d => d.valueOf() > D_DAY.valueOf() ? this.remainingTime$.next('START') : null),
+      switchMap(d => iif(() => d.valueOf() < D_DAY.valueOf(), of(d), of(null))),
+      takeWhile(d => d !== null)
+    ).subscribe({
+      next: d => {
+        if (test) {
+          return;
+        }
+        this.remainingTime$.next(this.calcRemainingTime(d, D_DAY));
+      }
+    });
+    this.remainingTime$.pipe(
+      filter(r => r === 'START'),
+      take(1)
+    ).subscribe({
+      next: () => {
+        const opened = localStorage.getItem('opened');
+        if (opened !== null) {
+          console.log('skip open game rules dialog');
+          return;
+        }
+        console.log('open game rules dialog');
+        this.dialog.open(GameRulesDialogComponent, {
+          id: 'menu-dialog',
+          minWidth: '100%',
+          height: '100vh',
+          autoFocus: false
+        });
+        localStorage.setItem('opened', 'true');
+      }
+    });
+  }
+
+  parseDate(str) { // for iOS
+    const parts = str.split(" ");
+    const dateparts = parts[0].split("-");
+    const timeparts = (parts[1] || "").split(":");
+    const year = +dateparts[0];
+    const month = +dateparts[1];
+    const day = +dateparts[2];
+    const hours = timeparts[0] ? +timeparts[0] : 0;
+    const minutes = timeparts[1] ? +timeparts[1] : 0;
+    const seconds = timeparts[2] ? +timeparts[2] : 0;
+    // Treats the string as UTC, but you can remove the `Date.UTC` part and use
+    // `new Date` directly to treat the string as local time
+    return new Date(year, month - 1, day, hours, minutes, seconds);
   }
 
   initialize(): void {
@@ -59,8 +115,22 @@ export class ApiService {
     this.userPoint$ = new BehaviorSubject<number>(0);
   }
 
-  isDDay(): boolean {
-    return (new Date() <= D_DAY ) ? true : false;
+  calcRemainingTime(now: Date, end: Date): string {
+    const _second = 1000;
+    const _minute = _second * 60;
+    const _hour = _minute * 60;
+    const _day = _hour * 24;
+
+    const distance = end.valueOf() - now.valueOf();
+    if (distance < 0) {
+      return 'START';
+    }
+    let days = Math.floor(distance / _day);
+    let hours = Math.floor((distance % _day) / _hour);
+    let minutes = Math.floor((distance % _hour) / _minute);
+    let seconds = Math.floor((distance % _minute) / _second);
+
+    return days + ' 天 '+ hours + ' 小時 '+ minutes + ' 分鐘 ' + seconds + ' 秒';
   }
 
   getDurationForLoop(): number {
@@ -107,6 +177,9 @@ export class ApiService {
       tap(data => this.qGameStatus$.next(data.status)),
       map(data => {
         if (data.result) {
+          data.result.sort(function(a, b) {
+            return a.questionId - b.questionId;
+          });
           const merge: Question[] = data.result.map((item, i) => Object.assign({}, item, this.questionList[i]));
           data.result = merge;
         } else {
@@ -166,6 +239,9 @@ export class ApiService {
       tap(data => this.mGameStatus$.next(data.status)),
       map(data => {
         if (data.result) {
+          data.result.sort(function(a, b) {
+            return a.missionId - b.missionId;
+          });
           const merge: Mission[] = data.result.map((item, i) => Object.assign({}, item, this.missionList[i]));
           data.result = merge;
         } else {
@@ -191,50 +267,63 @@ export class ApiService {
 
   submitAnswer(answer: string, missionId: number): Observable<any> {
     const body = {
-      answer: answer
+      answer: answer.trim()
     };
     const url = `${this._missionUrl}/answer/${missionId}`
     return this.httpUtil.POSTMethod({ url: url, body: body });
   }
 
-  getCurrentStack(): Observable<any> {
-    this.sGameStatus$.next(GameStatus.INIT);
-    return this.httpUtil.GETMethod({ url: this._stackUrl }).pipe(
-      tap(data => Object.keys(data).length === 0 ? this.sGameStatus$.next(GameStatus.BLANK) : this.sGameStatus$.next(data.status)),
-      filter(data => Object.keys(data).length !== 0),
-      mergeMap(data => {
-        return this.getStackHistoryList().pipe(
-          map(resp => resp.result.filter(his => his.stackId === data.stackId)[0]),
-          switchMap(stack => iif(() => stack !== undefined, of(stack), of(data)))
-        );
-      }),
-      tap(stack => {
-        if (stack.createTime !== undefined) {
-          // console.log('stack is completed');
-          this.sGameStatus$.next(GameStatus.COMPLETE);
-        } else {
-          // console.log('stack is not completed');
-        }
-      }),
+  getCurrentStake(): Observable<any> {
+    this.sGameStatus$.next(StakeGameStatus.INIT);
+    return this.httpUtil.GETMethod({ url: this._stakeUrl }).pipe(
+      tap(data => data === undefined ? this.sGameStatus$.next(StakeGameStatus.BLANK) : this.sGameStatus$.next(data.status)),
+      filter(data => data !== undefined),
       catchError(() => {
-        this.sGameStatus$.next(GameStatus.ERROR);
+        this.sGameStatus$.next(StakeGameStatus.ERROR);
         // return of([]);
-        return throwError('Get current stack occur error');
+        return throwError('Get current stake occur error');
       })
     );
   }
 
-  getStackFromHistoryList(data: Stack, his: Stack[]): Stack {
-    return his.filter(h => h.stackId === data.stackId)[0];
-  }
+  // getCurrentStake(): Observable<any> {
+  //   this.sGameStatus$.next(GameStatus.INIT);
+  //   return this.httpUtil.GETMethod({ url: this._stakeUrl }).pipe(
+  //     tap(data => Object.keys(data).length === 0 ? this.sGameStatus$.next(GameStatus.BLANK) : this.sGameStatus$.next(data.status)),
+  //     filter(data => Object.keys(data).length !== 0),
+  //     mergeMap(data => {
+  //       return this.getStakeHistoryList().pipe(
+  //         map(resp => resp.result.filter(his => his.stakeId === data.stakeId)[0]),
+  //         switchMap(stake => iif(() => stake !== undefined, of(stake), of(data)))
+  //       );
+  //     }),
+  //     tap(stake => {
+  //       if (stake.createTime !== undefined) {
+  //         // console.log('stake is completed');
+  //         this.sGameStatus$.next(GameStatus.COMPLETE);
+  //       } else {
+  //         // console.log('stake is not completed');
+  //       }
+  //     }),
+  //     catchError(() => {
+  //       this.sGameStatus$.next(GameStatus.ERROR);
+  //       // return of([]);
+  //       return throwError('Get current stake occur error');
+  //     })
+  //   );
+  // }
 
-  getStackHistoryList(): Observable<any> {
-    const url = `${this._stackUrl}/history`;
+  // getStakeFromHistoryList(data: Stake, his: Stake[]): Stake {
+  //   return his.filter(h => h.stakeId === data.stakeId)[0];
+  // }
+
+  getStakeHistoryList(): Observable<any> {
+    const url = `${this._stakeUrl}/history`;
     return this.httpUtil.GETMethod({ url: url });
   }
 
-  submitStack(stackId: number, stacks: any[]): Observable<any> {
-    const url = `${this._stackUrl}/${stackId}`;
-    return this.httpUtil.POSTMethod({ url: url, body: stacks });
+  submitStake(stakeId: number, stakes: any[]): Observable<any> {
+    const url = `${this._stakeUrl}/${stakeId}`;
+    return this.httpUtil.POSTMethod({ url: url, body: stakes });
   }
 }

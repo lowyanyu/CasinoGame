@@ -3,6 +3,5 @@ export enum GameStatus {
   INIT = 0,
   START = 1,
   STOP = 2,
-  COMPLETE = 3,
-  BLANK = 4
+  COMPLETE = 3
 }

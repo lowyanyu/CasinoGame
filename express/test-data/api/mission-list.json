@@ -5,60 +5,50 @@
     "status": 1,
     "result": [
       {
-        "missionId": 1,
-        "missionStatus": 0,
-        "missionReward": 300
+         "missionId":1,
+         "missionStatus":0,
+         "missionReward":200
       },
       {
-        "missionId": 2,
-        "missionStatus": 1,
-        "missionReward": 500,
-        "answer": ["https://pic.pimg.tw/tony12345691/1563449393-3685146818_n.jpg", "https://pic.pimg.tw/tony12345691/1563449393-3685146818_n.jpg", "https://pic.pimg.tw/tony12345691/1563449393-3685146818_n.jpg"],
-        "score": 500
+         "missionId":2,
+         "missionStatus":0,
+         "missionReward":300
       },
       {
-        "missionId": 3,
-        "missionStatus": 1,
-        "missionReward": 100,
-        "answer": "楊文和",
-        "score": 100
+         "missionId":3,
+         "missionStatus":0,
+         "missionReward":100
       },
       {
-        "missionId": 4,
-        "missionStatus": 2,
-        "missionReward": 50,
-        "answer": "2",
-        "score": 0
+         "missionId":4,
+         "missionStatus":0,
+         "missionReward":100
       },
       {
-        "missionId": 5,
-        "missionStatus": 2,
-        "missionReward": 50,
-        "answer": "暖腳",
-        "score": 0
+         "missionId":5,
+         "missionStatus":0,
+         "missionReward":100
       },
       {
-        "missionId": 6,
-        "missionStatus": 0,
-        "missionReward": 50
+         "missionId":6,
+         "missionStatus":0,
+         "missionReward":100
       },
       {
-        "missionId": 7,
-        "missionStatus": 1,
-        "missionReward": 50,
-        "answer": "2",
-        "score": 50
+         "missionId":7,
+         "missionStatus":0,
+         "missionReward":100
       },
       {
-        "missionId": 8,
-        "missionStatus": 0,
-        "missionReward": 30
+         "missionId":8,
+         "missionStatus":0,
+         "missionReward":100
       },
       {
-        "missionId": 9,
-        "missionStatus": 0,
-        "missionReward": 50
+         "missionId":9,
+         "missionStatus":0,
+         "missionReward":100
       }
-    ]
+   ]
   }
 }

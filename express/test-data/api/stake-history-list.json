@@ -4,7 +4,8 @@
   "data": {
     "result": [
       {
-        "stackId": 2,
+        "stakeId": 2,
+        "title": "賭盤1",
         "createTime": 1639116298,
         "player": [
           {
@@ -27,7 +28,8 @@
         "winPoint": 50
       },
       {
-        "stackId": 3,
+        "stakeId": 3,
+        "title": "賭盤2",
         "createTime": 1639116298,
         "player": [
           {

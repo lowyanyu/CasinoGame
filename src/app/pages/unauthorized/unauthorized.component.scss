@@ -3,14 +3,19 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  height: 100vh;
+  height: calc(100vh - 50px);
+  overflow: hidden;
 
-  h1 {
+  h1, h2 {
     margin: 0;
   }
 
+  .word-wrap {
+    box-sizing: border-box;
+    padding: 5px;
+  }
+
   a {
-    margin-top: 10px;
     color: #fff;
   }
 

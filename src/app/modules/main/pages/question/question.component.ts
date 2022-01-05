@@ -117,7 +117,7 @@ export class QuestionComponent implements OnInit, OnDestroy {
   }
 
   getCorrect(list: Question[]): number {
-    return list.filter(item => item.score === 10).length;
+    return list.filter(item => item.score > 0).length;
   }
 
   getTotalWin(list: Question[]): number {
