@@ -48,7 +48,6 @@ export class StakeHistoryComponent implements OnInit {
           s = Object.assign({}, s, {status: 'collapsed'});
           return s;
         });
-        console.log(this.stakeHist);
       },
       error: () => {
         const snackBarRef = this.snackBar.open('載入下注歷史清單失敗', '重新載入', {

@@ -52,7 +52,7 @@ export class MissionCardComponent implements OnInit {
       for (let i = 0; i < ctrlNum; i++) {
         if (this.mission.answer) {
           this.imageControls.push(new FormControl(this.mission.answer[i], Validators.required));
-          this.uploadImages[i] = this.mission.answer[i];
+          this.uploadImages[i] = this.sanitizer.bypassSecurityTrustResourceUrl('data:image/jpeg;base64,' + this.mission.answer[i]);
         } else {
           this.imageControls.push(new FormControl('', Validators.required));
         }
@@ -87,14 +87,7 @@ export class MissionCardComponent implements OnInit {
       }
       let reader = new FileReader();
       reader.readAsDataURL(file);
-      alert("before compress img size: " + file.size);
-      // reader.onload = () => {
-      //   let content = reader.result as string;
-      //   if (content.length !== 0 && null != reader.result) {
-      //     this.imageControls[index].setValue(content.split(',')[1]);
-      //     this.uploadImages[index] = content;
-      //   }
-      // };
+      // alert("before compress img size: " + file.size);
       const THIS = this;
       reader.onload = () => {
         const img = new Image();
@@ -137,7 +130,7 @@ export class MissionCardComponent implements OnInit {
 
           blob = THIS.dataURItoBlob(dataURL);
           let imgSrc = THIS.sanitizer.bypassSecurityTrustUrl(URL.createObjectURL(file));
-          alert("after compress img size: " + blob.size);
+          // alert("after compress img size: " + blob.size);
           THIS.imageControls[index].setValue(dataURL.split(',')[1]);
           THIS.uploadImages[index] = imgSrc;
         }
@@ -190,26 +183,36 @@ export class MissionCardComponent implements OnInit {
       this.apiService.submitImage(answer, mission.missionId).subscribe({
         next: data => {
           this.mission.missionStatus = data.missionStatus;
-          this.mission.answer = this.uploadImages;
+          this.mission.answer = answer;
           this.mission.score = data.score;
           this.updateMission.emit(this.mission);
         },
         error: error => {
-          // TODO:
+          const msg = '上傳圖片失敗！' + ( error.errorMessage || '請聯絡全景娛樂城管理者' );
+          this.snackBar.open(msg, '知道了', {
+            duration: 2000,
+            panelClass: 'my-snackbar'
+          });
+          this.imageControls.forEach(ctrl => ctrl.enable());
         }
       });
     } else {
       const answer: string = this.inputControl.value;
+      this.inputControl.disable();
       this.apiService.submitAnswer(answer, mission.missionId).subscribe({
         next: data => {
-          this.inputControl.disable();
           this.mission.missionStatus = data.missionStatus;
           this.mission.answer = answer;
           this.mission.score = data.score;
           this.updateMission.emit(this.mission);
         },
         error: error => {
-          // TODO:
+          const msg = '送出答案失敗！' + ( error.errorMessage || '請聯絡全景娛樂城管理者' );
+          this.snackBar.open(msg, '知道了', {
+            duration: 2000,
+            panelClass: 'my-snackbar'
+          });
+          this.inputControl.enable();
         }
       });
     }

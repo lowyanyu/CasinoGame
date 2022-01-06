@@ -25,11 +25,14 @@
   text-align: left;
   div {
     width: 100%;
+    max-width: 360px;
   }
   ul {
-    // text-align: left;
     list-style-type: number;
     margin-left: -20px;
+  }
+  u {
+    color: #EFD182;
   }
 }
 

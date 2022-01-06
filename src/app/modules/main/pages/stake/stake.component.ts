@@ -63,7 +63,7 @@ export class StakeComponent implements OnInit, OnDestroy {
         }
         this.stakeForm = this.fb.group({});
         this.stake.player.forEach(p => {
-          console.log(this.apiService.userPoint$.value);
+          // console.log(this.apiService.userPoint$.value);
           let ctrl = new FormControl(0,
             [Validators.compose(
                 [Validators.required, Validators.pattern('^[0-9]+(.[0-9]{1,3})?$'), Validators.min(0), Validators.max(this.apiService.userPoint$.value)])]
@@ -74,7 +74,7 @@ export class StakeComponent implements OnInit, OnDestroy {
           }
           this.stakeForm.addControl(String(p.playerId), ctrl);
         });
-        console.log(this.stakeForm.value);
+        // console.log(this.stakeForm.value);
       },
       error: () => {
         if (this.menuIsOpened()) {
@@ -96,7 +96,7 @@ export class StakeComponent implements OnInit, OnDestroy {
   }
 
   submitStake(): void {
-    console.log(this.stakeForm.value);
+    // console.log(this.stakeForm.value);
     if (this.stakeForm.invalid) {
       return;
     }

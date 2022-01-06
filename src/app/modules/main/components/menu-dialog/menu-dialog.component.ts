@@ -128,9 +128,12 @@ export class MenuDialogComponent implements OnInit {
   logout(): void {
     this.authService.logout().subscribe({
       next: () => {
-        this.apiService.initialize();
         this.dialogRef.close();
-        this.router.navigateByUrl('/home');
+        this.dialogRef.beforeClosed().subscribe({
+          next: () => {
+            this.apiService.logout();
+          }
+        });
       }
     });
   }

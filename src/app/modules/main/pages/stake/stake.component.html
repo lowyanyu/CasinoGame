@@ -31,7 +31,7 @@
       <p class="stake-status-info">賭盤已經停止下注了！</p>
     </div>
     <div *ngSwitchCase="STATUS.FINISH" class="align-center">
-      <h2 *ngIf="stake">結果出爐！您贏得了 {{stake.winPoint}} 籌碼</h2>
+      <h2 *ngIf="stake">結果出爐！{{stake.winPoint > 0 ? '您贏得了 ' + stake.winPoint + ' 籌碼' : '您沒有贏得任何籌碼 QQ'}}</h2>
       <div class="stake-wrap" *ngIf="stake" [@fadeAnimation]="stake">
         <div *ngFor="let player of stake.player" style="margin-top: 10px;">
           <div class="card stake-card" [ngClass]="stake.winner === player.playerId ? 'winner' : 'blur'">

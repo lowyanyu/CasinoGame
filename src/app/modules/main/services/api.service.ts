@@ -35,6 +35,7 @@ export class ApiService {
   about: any;
 
   remainingTime$ = new BehaviorSubject<string>('');
+  reloadProfile$ = new BehaviorSubject<string>('');
 
   constructor(
     private httpUtil: HttpUtilService,
@@ -113,6 +114,8 @@ export class ApiService {
     this._cacheAnswers$ = new BehaviorSubject<number[]>([]);
 
     this.userPoint$ = new BehaviorSubject<number>(0);
+
+    this.reloadProfile$ = new BehaviorSubject<string>('');
   }
 
   calcRemainingTime(now: Date, end: Date): string {
@@ -175,6 +178,7 @@ export class ApiService {
     this.qGameStatus$.next(GameStatus.INIT);
     return this.httpUtil.GETMethod({ url: this._questionUrl }).pipe(
       tap(data => this.qGameStatus$.next(data.status)),
+      tap(() => this.qGameStatus$.value === GameStatus.STOP ? this.reloadProfile$.next('Binary game stopped') : null),
       map(data => {
         if (data.result) {
           data.result.sort(function(a, b) {
@@ -225,6 +229,7 @@ export class ApiService {
       choose: this._cacheAnswers$.value
     };
     return this.httpUtil.POSTMethod({ url: this._questionUrl, body: body }).pipe(
+      tap(() => this.reloadProfile$.next('Submit binary')),
       tap(() => this.qGameStatus$.next(GameStatus.COMPLETE)),
       catchError(() => {
         this.qGameStatus$.next(GameStatus.ERROR);
@@ -237,6 +242,7 @@ export class ApiService {
     this.mGameStatus$.next(GameStatus.INIT);
     return this.httpUtil.GETMethod({ url: this._missionUrl }).pipe(
       tap(data => this.mGameStatus$.next(data.status)),
+      tap(() => this.mGameStatus$.value === GameStatus.STOP ? this.reloadProfile$.next('Mission game stopped') : null),
       map(data => {
         if (data.result) {
           data.result.sort(function(a, b) {
@@ -262,7 +268,9 @@ export class ApiService {
       answer: answers
     };
     const url = `${this._missionUrl}/image/${missionId}`
-    return this.httpUtil.POSTMethod({ url: url, body: body });
+    return this.httpUtil.POSTMethod({ url: url, body: body }).pipe(
+      tap(() => this.reloadProfile$.next('Submit image mission id: ' + missionId))
+    );
   }
 
   submitAnswer(answer: string, missionId: number): Observable<any> {
@@ -270,7 +278,9 @@ export class ApiService {
       answer: answer.trim()
     };
     const url = `${this._missionUrl}/answer/${missionId}`
-    return this.httpUtil.POSTMethod({ url: url, body: body });
+    return this.httpUtil.POSTMethod({ url: url, body: body }).pipe(
+      tap(() => this.reloadProfile$.next('Submit answer mission id: ' + missionId))
+    );
   }
 
   getCurrentStake(): Observable<any> {
@@ -278,6 +288,7 @@ export class ApiService {
     return this.httpUtil.GETMethod({ url: this._stakeUrl }).pipe(
       tap(data => data === undefined ? this.sGameStatus$.next(StakeGameStatus.BLANK) : this.sGameStatus$.next(data.status)),
       filter(data => data !== undefined),
+      tap(() => this.sGameStatus$.value === StakeGameStatus.FINISH ? this.reloadProfile$.next('Current stake finished') : null),
       catchError(() => {
         this.sGameStatus$.next(StakeGameStatus.ERROR);
         // return of([]);
@@ -286,44 +297,33 @@ export class ApiService {
     );
   }
 
-  // getCurrentStake(): Observable<any> {
-  //   this.sGameStatus$.next(GameStatus.INIT);
-  //   return this.httpUtil.GETMethod({ url: this._stakeUrl }).pipe(
-  //     tap(data => Object.keys(data).length === 0 ? this.sGameStatus$.next(GameStatus.BLANK) : this.sGameStatus$.next(data.status)),
-  //     filter(data => Object.keys(data).length !== 0),
-  //     mergeMap(data => {
-  //       return this.getStakeHistoryList().pipe(
-  //         map(resp => resp.result.filter(his => his.stakeId === data.stakeId)[0]),
-  //         switchMap(stake => iif(() => stake !== undefined, of(stake), of(data)))
-  //       );
-  //     }),
-  //     tap(stake => {
-  //       if (stake.createTime !== undefined) {
-  //         // console.log('stake is completed');
-  //         this.sGameStatus$.next(GameStatus.COMPLETE);
-  //       } else {
-  //         // console.log('stake is not completed');
-  //       }
-  //     }),
-  //     catchError(() => {
-  //       this.sGameStatus$.next(GameStatus.ERROR);
-  //       // return of([]);
-  //       return throwError('Get current stake occur error');
-  //     })
-  //   );
-  // }
-
-  // getStakeFromHistoryList(data: Stake, his: Stake[]): Stake {
-  //   return his.filter(h => h.stakeId === data.stakeId)[0];
-  // }
-
   getStakeHistoryList(): Observable<any> {
     const url = `${this._stakeUrl}/history`;
-    return this.httpUtil.GETMethod({ url: url });
+    return this.httpUtil.GETMethod({ url: url }).pipe(
+      map(data => {
+        if (data.result) {
+          data.result.sort(function(a: any, b: any) {
+            return b.stakeId - a.stakeId;
+          });
+        }
+        return data;
+      })
+    );
   }
 
   submitStake(stakeId: number, stakes: any[]): Observable<any> {
+    const body = {
+      stakes: stakes
+    };
     const url = `${this._stakeUrl}/${stakeId}`;
-    return this.httpUtil.POSTMethod({ url: url, body: stakes });
+    return this.httpUtil.POSTMethod({ url: url, body: body }).pipe(
+      tap(() => this.reloadProfile$.next('Submit stake id: ' + stakeId))
+    );
+  }
+
+  logout(): void {
+    const domain = location.href.substr(0, location.href.indexOf('/#/'));
+    console.log('domain: ' + domain);
+    location.href = domain;
   }
 }

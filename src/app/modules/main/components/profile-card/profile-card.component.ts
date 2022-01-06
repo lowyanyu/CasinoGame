@@ -3,6 +3,7 @@ import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ApiService } from '@main/services/api.service';
 import { User } from '@main/models/user.model';
+import { distinctUntilChanged } from 'rxjs/operators';
 
 @Component({
   selector: 'app-profile-card',
@@ -24,10 +25,16 @@ export class ProfileCardComponent implements OnInit {
   ) {
     this.userId = this.authService.getPrincipal().getProperty('userId');
     this.token = this.authService.authToken.accessToken;
+    this.apiService.reloadProfile$.pipe(
+      distinctUntilChanged()
+    ).subscribe({
+      next: () => {
+        this.getProfile();
+      }
+    });
   }
 
   ngOnInit(): void {
-    this.getProfile();
   }
 
   getProfile(): void {
