@@ -8,13 +8,15 @@ import { Router } from '@angular/router';
 })
 export class HomeComponent implements OnInit {
 
-  @HostListener('window:click') onMouseEnter() {
+  @HostListener('window:click') onMouseEnter(event) {
+    event.preventDefault();
     this.router.navigateByUrl('/home/login');
   }
-  @HostListener('touchStart', ['$event'])
-  @HostListener('touchend', ['$event'])
-  @HostListener('touchcancel', ['$event'])
+  @HostListener('touchstart', ['$event'])
+  // @HostListener('touchend', ['$event'])
+  // @HostListener('touchcancel', ['$event'])
   handleTouch(event) {
+    event.preventDefault();
     this.router.navigateByUrl('/home/login');
   }
 

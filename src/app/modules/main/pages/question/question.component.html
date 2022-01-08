@@ -10,7 +10,7 @@
   </div>
   <div *ngSwitchCase="STATUS.STOP">
     <ng-container *ngIf="questionList$ | async as questionList">
-      <p>你總共答對了 {{getCorrect(questionList)}} 題，獲得 {{getTotalWin(questionList)}} 籌碼。</p>
+      <p>您有 {{getCorrect(questionList)}} 題為少數的那方，成功獲得 {{getTotalWin(questionList)}} 籌碼。</p>
       <div *ngFor="let question of questionList; let i = index" style="margin-top: 10px;" [@flyInOut]="'in'">
         <div class="card result-card">
           <div class="card-container">

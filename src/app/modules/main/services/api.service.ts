@@ -53,7 +53,7 @@ export class ApiService {
     this.missionList = this.configService.get('missions');
     this.about = this.configService.get('about');
 
-    const D_DAY = this.parseDate('2022-01-05 20:00:50');
+    const D_DAY = this.parseDate('2022-01-07 16:00:00');
 
     timer(0, 1000).pipe(
       map(() => new Date()),

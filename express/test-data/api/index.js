@@ -72,7 +72,7 @@ router.post('/mission/:missionType/:missionId', function(req, res) {
 // get current stake
 router.get('/stake', function(req, res) {
   console.log('GET /stake' );
-  var respBody = require('./current-stake-finish.json');
+  var respBody = require('./current-stake.json');
   res.json(respBody);
 });
 
