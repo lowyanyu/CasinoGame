@@ -5,6 +5,7 @@ export class Stake {
   createTime?: number;
   winner?: number;
   winPoint?: number;
+  beforePoint?: number;
 }
 
 export class Player {

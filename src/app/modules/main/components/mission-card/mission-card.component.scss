@@ -50,6 +50,15 @@
   }
 }
 
+.mission-type-4 {
+  .mission-tag::after {
+    content: '簡答題';
+  }
+  .submit-btn::after {
+    content: '送出';
+  }
+}
+
 .mission-tag {
   display: inline-block;
   background-color: #efd182;

@@ -79,4 +79,16 @@ export class StakeHistoryComponent implements OnInit {
     this.router.navigate(['/main/stake']);
   }
 
+  getWinCount(stake: Stake): string {
+    const totalPoint = stake.player.map(item => (item.point ? item.point : 0)).reduce((a , b) => a + b, 0);
+    const win = stake.winPoint - totalPoint;
+    if (win === 0) {
+      return '沒輸沒贏';
+    } else if (win > 0) {
+      return '+ ' + win;
+    } else if (win < 0) {
+      return '- ' + -win;
+    }
+  }
+
 }

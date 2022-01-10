@@ -175,6 +175,9 @@ svg.material-icons:not(:last-child) {
       display: flex;
       font-size: 44px;
       color: #431E04;
+      flex-flow: wrap-reverse;
+      line-height: 44px;
+      justify-content: flex-end;
 
       #userRank {
         font-size: 34px;
@@ -393,11 +396,5 @@ footer a {
     &__stat {
       margin-top: 0px;
     }
-  }
-}
-
-@media (hover: hover) {
-  :hover {
-    background-color: transparent;
   }
 }

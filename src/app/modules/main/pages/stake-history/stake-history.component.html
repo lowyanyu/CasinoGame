@@ -15,6 +15,7 @@
     </h3>
     <div [@detailExpand]="stake['status']">
       <div>下注時間：{{stake.createTime | date: 'yyyy/MM/dd HH:mm:ss'}}</div>
+      <div>下注前籌碼：{{stake.beforePoint}}</div>
       <div>下注玩家：</div>
       <div *ngFor="let p of stake.player">
         {{p.playerName}}：{{p.point}} 籌碼
@@ -22,7 +23,7 @@
       </div>
     </div>
     <mat-divider></mat-divider>
-    <h2 class="stake-footer">{{stake.winner === undefined ? '等候開獎' : (stake.winPoint > 0 ? '+ ' + stake.winPoint : '槓龜 QQ')}}</h2>
+    <h2 class="stake-footer">{{stake.winner === undefined ? '等候開獎' : getWinCount(stake)}}</h2>
   </div>
 </div>
 <div class="align-center">

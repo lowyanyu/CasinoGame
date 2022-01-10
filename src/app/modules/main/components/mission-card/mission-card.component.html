@@ -93,6 +93,12 @@
           </div>
           <button *ngIf="!inputControl.disabled" mat-stroked-button color="primary" class="submit-btn" [disabled]="inputControl.invalid" (click)="submit(mission)"></button>
         </ng-container>
+        <ng-container *ngSwitchCase="MISSION_TYPE.NUMBER">
+          <div class="mission-field">
+            <input matInput type="tel" [formControl]="inputControl"/>
+          </div>
+          <button *ngIf="!inputControl.disabled" mat-stroked-button color="primary" class="submit-btn" [disabled]="inputControl.invalid" (click)="submit(mission)"></button>
+        </ng-container>
       </div>
     </div>
   </div>

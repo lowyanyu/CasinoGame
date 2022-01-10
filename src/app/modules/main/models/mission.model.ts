@@ -1,7 +1,8 @@
 export enum MissionType {
   IMAGE = 1,
   CHOOSE = 2,
-  SHORT_TEXT = 3
+  SHORT_TEXT = 3,
+  NUMBER = 4
 }
 
 export enum MissionStatus {
@@ -16,7 +17,7 @@ export class Mission {
   missionId: number;
   missionTitle: string;
   missionContent: string;
-  missionType: 1 | 2 | 3;
+  missionType: 1 | 2 | 3 | 4;
   missionRequire: {number: number, unit: string};
   missionReward: number;
   missionStatus: 0 | 1 | 2 | 3 | 4;
