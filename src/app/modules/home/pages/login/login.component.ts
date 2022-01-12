@@ -51,7 +51,7 @@ export class LoginComponent implements OnInit, OnDestroy {
     this.loginSubscription = this.loginService.login(value.account, this.crypto.sha256(value.pwd)).subscribe({
       next: () => {
         this.loginStatus = 0;
-        this.router.navigate(['/main']);
+        this.router.navigate(['main']);
       },
       error: error => {
         this.loginStatus = 0;

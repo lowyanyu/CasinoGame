@@ -172,7 +172,7 @@
       "missionId": 8,
       "missionTitle": "考考你的觀察力",
       "missionContent": "松山文創園區總共有幾個AED站?",
-      "missionType": 3,
+      "missionType": 4,
       "missionRequire": {"number": 1, "unit": "題"},
       "missionImg": "assets/images/missions/mission8.jpg"
     },

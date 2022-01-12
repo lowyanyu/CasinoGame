@@ -4,7 +4,6 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
-import { NgAuthService } from '@cg/ng-auth';
 import { StakeGameStatus } from '@main/enums/stake-game-status.enum';
 import { Stake, Player } from '@main/models/stake.model';
 import { ApiService } from '@main/services/api.service';
@@ -155,7 +154,7 @@ export class StakeComponent implements OnInit, OnDestroy {
   }
 
   showStakeHist(): void {
-    this.router.navigate(['/main/stake/history']);
+    this.router.navigate(['main/stake/history']);
   }
 
   getWinCount(stake: Stake): string {
@@ -166,7 +165,7 @@ export class StakeComponent implements OnInit, OnDestroy {
     } else if (win > 0) {
       return '您贏得了 ' + win + ' 籌碼';
     } else if (win < 0) {
-      return '您虧了 ' + -win + ' 籌碼';
+      return '您虧了 ' + -win + ' 籌碼 QQ';
     }
   }
 

@@ -76,7 +76,7 @@ export class StakeHistoryComponent implements OnInit {
   }
 
   backToStake(): void {
-    this.router.navigate(['/main/stake']);
+    this.router.navigate(['main/stake']);
   }
 
   getWinCount(stake: Stake): string {
