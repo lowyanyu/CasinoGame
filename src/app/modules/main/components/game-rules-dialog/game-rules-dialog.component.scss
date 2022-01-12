@@ -1,3 +1,7 @@
+.rules-dialog {
+  height: 100%;
+}
+
 .rules-dialog > .mat-dialog-title {
   height: 0px;
 }
@@ -6,7 +10,8 @@
   box-sizing: border-box;
   padding: 0 40px;
   color: #fff;
-  min-height: 100vh !important;
+  height: 100%;
+  max-height: 100%;
 }
 
 .rules-dialog > .mat-dialog-actions {
@@ -19,7 +24,6 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  min-height: 100%;
   padding: 24px;
   text-align: left;
   div {

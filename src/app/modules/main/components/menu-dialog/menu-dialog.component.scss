@@ -95,6 +95,7 @@
   .user-point::before {
     content: url('~/assets/images/coin-white.png');
     position: relative;
+    top: 3px;
     right: 10px;
     line-height: 24px;
     vertical-align: middle;
@@ -132,5 +133,6 @@
 
   > span {
     line-height: 24px;
+    vertical-align: middle;
   }
 }

@@ -18,6 +18,8 @@ export class ProfileCardComponent implements OnInit {
   token: string;
   info: User;
 
+  status: number = 0;
+
   constructor(
     private apiService: ApiService,
     private dialog: MatDialog,
@@ -38,11 +40,15 @@ export class ProfileCardComponent implements OnInit {
   }
 
   getProfile(): void {
+    this.status = 1;
     this.apiService.getProfile(this.userId).subscribe({
       next: data => {
+        this.status = 0;
         this.info = data;
       },
       error: error => {
+        this.status = 0;
+        this.info = undefined;
         // TODO:
       }
     })

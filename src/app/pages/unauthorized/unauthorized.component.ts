@@ -1,4 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { BehaviorSubject, Subscription, timer } from 'rxjs';
 import { filter, takeWhile, tap } from 'rxjs/operators';
@@ -14,8 +15,11 @@ export class UnauthorizedComponent implements OnInit, OnDestroy {
   timerSubscription: Subscription;
 
   constructor(
-    private router: Router
-  ) { }
+    private router: Router,
+    private dialog: MatDialog
+  ) {
+    this.dialog.closeAll();
+  }
 
   ngOnInit(): void {
     this.timerSubscription = timer(100, 1000).pipe(

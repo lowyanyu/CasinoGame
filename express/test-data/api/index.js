@@ -13,7 +13,9 @@ router.get('/user/:userId', function(req, res) {
   const userId = req.params.userId;
   console.log('GET /user/' + userId );
   var respBody = require('./user-info.json');
-  res.json(respBody);
+  setTimeout(() => {
+    res.json(respBody);
+  }, 2000);
 });
 
 // get question list

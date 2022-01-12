@@ -27,9 +27,7 @@ export class StakeComponent implements OnInit, OnDestroy {
   STATUS: typeof StakeGameStatus = StakeGameStatus;
 
   stake: Stake;
-
   stakeForm: FormGroup;
-
   subscription: Subscription;
 
   constructor(
@@ -63,11 +61,15 @@ export class StakeComponent implements OnInit, OnDestroy {
         }
         this.stakeForm = this.fb.group({});
         this.stake.player.forEach(p => {
-          // console.log(this.apiService.userPoint$.value);
-          let ctrl = new FormControl(0,
-            [Validators.compose(
-                [Validators.required, Validators.pattern('^[0-9]+(.[0-9]{1,3})?$'), Validators.min(0), Validators.max(this.apiService.userPoint$.value)])]
-          );
+          console.log(this.apiService.userPoint$.value);
+          let ctrl = new FormControl(0);
+          this.apiService.userPoint$.subscribe({
+            next: p => {
+              ctrl.setValidators([Validators.compose(
+                  [Validators.required, Validators.pattern('^[0-9]+(.[0-9]{1,3})?$'), Validators.min(0), Validators.max(p)])]);
+              ctrl.updateValueAndValidity();
+            }
+          });
           if (p.point) {
             this.apiService.sGameStatus$.next(StakeGameStatus.COMPLETE);
             ctrl.setValue(p.point);

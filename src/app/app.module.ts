@@ -10,6 +10,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { ForbiddenComponent } from './pages/forbidden/forbidden.component';
 import { UnauthorizedComponent } from './pages/unauthorized/unauthorized.component';
+import { MaterialModule } from './libs/material-module';
 
 @NgModule({
   declarations: [
@@ -23,7 +24,8 @@ import { UnauthorizedComponent } from './pages/unauthorized/unauthorized.compone
     AppRoutingModule,
     HttpClientModule,
     NgConfigModule,
-    NgAuthModule
+    NgAuthModule,
+    MaterialModule
   ],
   providers: [
     ErrorService,

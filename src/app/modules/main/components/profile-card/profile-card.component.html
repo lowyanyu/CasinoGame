@@ -1,13 +1,19 @@
 <div class="card profile-card">
   <div class="coin-bg"></div>
   <div class="card-container">
-    <button mat-icon-button class="refresh-btn" (click)="getProfile()">
+    <button mat-icon-button class="refresh-btn" (click)="getProfile()" [disabled]="status === 1">
       <svg xmlns="http://www.w3.org/2000/svg" width="15.99" height="16" viewBox="0 0 15.99 16">
         <path id="ic_refresh" d="M17.65,6.35A8,8,0,1,0,19.73,14H17.65A6,6,0,1,1,12,6a5.915,5.915,0,0,1,4.22,1.78L13,11h7V4Z" transform="translate(-4.01 -4)" fill="#803d0b"/>
       </svg>
     </button>
 
-    <ng-container *ngIf="info; else noData">
+    <div class="text-center" *ngIf="info === undefined && status === 1">
+      <div class="lds-ellipsis"><div></div><div></div><div></div><div></div></div>
+    </div>
+    <div *ngIf="info === undefined && status === 0">
+      <div>查無資料</div>
+    </div>
+    <div *ngIf="info">
       <button class="qrcode-btn" (click)="openQRCodeDialog()" [ngClass]="info.isCheckIn ? 'qrcode-btn--is-checkin' : ''">
         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
           <path id="ic_qrcode" d="M19,27H16.333V24.333H19Zm-2.667-9.333H13.667v6.667h2.667ZM27,15H24.333v5.333H27Zm-2.667-2.667H21.667V15h2.667ZM8.333,15H5.667v2.667H8.333ZM5.667,12.333H3V15H5.667ZM15,5.667h2.667V3H15ZM5,5V9H9V5Zm6,6H3V3h8ZM5,21v4H9V21Zm6,6H3V19h8ZM21,5V9h4V5Zm6,6H19V3h8ZM24.333,24.333v-4H19V23h2.667v4H27V24.333ZM21.667,15H16.333v2.667h5.333Zm-5.333-2.667h-8V15H11v2.667h2.667V15h2.667ZM17.667,11V8.333H15V5.667H12.333V11ZM8,6H6V8H8ZM8,22H6v2H8ZM24,6H22V8h2Z" transform="translate(-3 -3)" fill="#803d0b"/>
@@ -19,16 +25,19 @@
       <span>{{info.title}}<br/>幸運號 : {{info.userId}}</span>
       <div class="profile-card__stat">
         <span>目前籌碼</span>
-        <h1>
-          <div id="userRank">第 {{info.userRank}} 名</div>
+        <h1 class="no-margin">
+          <div id="userRank">第
+            <div class="lds-ellipsis" *ngIf="status === 1; else rank"><div></div><div></div><div></div><div></div></div>
+            <ng-template #rank> {{info.userRank}} </ng-template>
+          名</div>
           <div class="spacer"></div>
-          <div>{{info.userPoint}}</div>
+          <div>
+            <div class="lds-ellipsis" *ngIf="status === 1; else point"><div></div><div></div><div></div><div></div></div>
+            <ng-template #point> {{info.userPoint}} </ng-template>
+          </div>
         </h1>
       </div>
-    </ng-container>
-    <ng-template #noData>
-      <div>查無資料</div>
-    </ng-template>
+    </div>
   </div>
 </div>
 
