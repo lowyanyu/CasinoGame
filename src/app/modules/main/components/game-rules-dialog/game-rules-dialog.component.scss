@@ -39,4 +39,19 @@
   }
 }
 
+.inline {
+  display: inline-block;
+  width: 24px !important;
+  vertical-align: middle;
+}
+
+.special-text {
+  font-size: 10px;
+  text-align: center;
+  color: #d7d7d7;
+}
+
+.mat-stroked-button {
+  border-color: currentColor;
+}
 

@@ -83,7 +83,7 @@ export class StakeHistoryComponent implements OnInit {
     const totalPoint = stake.player.map(item => (item.point ? item.point : 0)).reduce((a , b) => a + b, 0);
     const win = stake.winPoint - totalPoint;
     if (win === 0) {
-      return '沒輸沒贏';
+      return '沒賺沒賠';
     } else if (win > 0) {
       return '+ ' + win;
     } else if (win < 0) {

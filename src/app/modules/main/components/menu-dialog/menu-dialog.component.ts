@@ -32,7 +32,6 @@ export class MenuDialogComponent implements OnInit {
 
   showTemplate = Menu.MENU;
 
-  duration: number;
   index = -1;
   members: string[];
   member: string;
@@ -49,8 +48,7 @@ export class MenuDialogComponent implements OnInit {
     public router: Router,
     public apiService: ApiService
   ) {
-    this.duration = this.apiService.getDurationForLoop();
-    this.members = this.apiService.getMembers();
+    this.members = [this.apiService.getAboutInfo()];
   }
 
   ngOnInit(): void {
@@ -102,7 +100,7 @@ export class MenuDialogComponent implements OnInit {
   }
 
   createTimer(): void {
-    this.timerSubscription = timer(100, this.duration).pipe(
+    this.timerSubscription = timer(100, 500).pipe(
       map(() => this.index + 1),
       tap(i => this.index = i),
       takeWhile(() => this.index < this.members.length)

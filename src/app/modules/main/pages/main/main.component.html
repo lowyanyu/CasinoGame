@@ -35,7 +35,7 @@
     <p>距離尾牙還有 {{time}}</p>
   </div>
 
-  <button mat-fab type="button" class="help-btn" (click)="openGameRulesDialog()" [ngClass]="{'transparent': (isActive(GAME.QUIZ) || isActive(GAME.MISSION) || isActive(GAME.STAKE))}" *ngIf="time === 'START'">
+  <button mat-fab type="button" class="help-btn" (click)="openGameRulesDialog()" [ngClass]="{'transparent': (isActive(GAME.QUIZ) || isActive(GAME.MISSION) || isActive(GAME.STAKE))}">
     <svg xmlns="http://www.w3.org/2000/svg" width="7.312" height="18.1" viewBox="0 0 7.312 18.1">
       <g id="Group_82" data-name="Group 82" transform="translate(-2764.678 -7979.493)">
         <path id="Path_41" data-name="Path 41" d="M2765.278,7984.493h4.9v9.369h1.21v1.863h-6.112v-1.863h1.226v-7.287l-1.226-.294Z" transform="translate(0 1.268)" fill="#efd182" stroke="#fff" stroke-width="1.2"/>

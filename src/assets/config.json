@@ -2,27 +2,22 @@
   "coreUrl": "http://192.168.0.32:8889/rest",
   "coreUrl2": "http://192.168.0.68:9090/rest",
   "about": {
-    "duration": 3000,
     "info": [
       {
         "group": "娛樂城領導們",
-        "members": ["Slash 張兆儀", "York 蔡育燐", "Martin 丁旭賢"],
-        "showAtLast": true
+        "members": ["Slash 張兆儀", "York 蔡育燐", "Martin 丁旭賢"]
       },
       {
         "group": "娛樂城三組技術工",
-        "members": ["Ethan 杜宜霖", "Evan 林宗霖"],
-        "showAtLast": true
+        "members": ["Ethan 杜宜霖", "Evan 林宗霖"]
       },
       {
         "group": "娛樂城四組技術工",
-        "members": ["Ziv 吳佳翰", "Doreen 林語婷", "Christy 劉彥妤", "Eileen 黎怡伶"],
-        "showAtLast": true
+        "members": ["Ziv 吳佳翰", "Doreen 林語婷", "Christy 劉彥妤", "Eileen 黎怡伶"]
       },
       {
         "group": "娛樂城五組技術工",
-        "members": ["Mike 陳奕明", "Calvin 鄭朝隆"],
-        "showAtLast": true
+        "members": ["Mike 陳奕明", "Calvin 鄭朝隆"]
       }
     ]
   },
@@ -80,7 +75,7 @@
         {"src": "assets/images/missions/mission1-2.jpg", "disp": "v"},
         {"src": "assets/images/missions/mission1-3.jpg", "disp": "v"}
       ],
-      "exampleImg": "assets/images/missions/mission1-ex.jpg"
+      "exampleImg": "assets/images/missions/mission1-ex.png"
     },
     {
       "missionId": 2,

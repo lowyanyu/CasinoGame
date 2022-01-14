@@ -161,11 +161,11 @@ export class StakeComponent implements OnInit, OnDestroy {
     const totalPoint = stake.player.map(item => (item.point ? item.point : 0)).reduce((a , b) => a + b, 0);
     const win = stake.winPoint - totalPoint;
     if (win === 0) {
-      return '沒輸沒贏';
+      return '沒賺沒賠';
     } else if (win > 0) {
-      return '您贏得了 ' + win + ' 籌碼';
+      return '您賺了 ' + win + ' 籌碼';
     } else if (win < 0) {
-      return '您虧了 ' + -win + ' 籌碼 QQ';
+      return '您賠了 ' + -win + ' 籌碼 QQ';
     }
   }
 

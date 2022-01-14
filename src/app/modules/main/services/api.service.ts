@@ -39,9 +39,7 @@ export class ApiService {
 
   constructor(
     private httpUtil: HttpUtilService,
-    private configService: NgConfigService,
-    private authService: NgAuthService,
-    private dialog: MatDialog
+    private configService: NgConfigService
   ) {
     const coreUrl = this.configService.get('coreUrl');
     const apiUrl = `${coreUrl}/api`;
@@ -53,7 +51,7 @@ export class ApiService {
     this.missionList = this.configService.get('missions');
     this.about = this.configService.get('about');
 
-    const D_DAY = this.parseDate('2022-01-07 16:00:00');
+    const D_DAY = this.parseDate('2022-01-20 09:00:00');
 
     timer(0, 1000).pipe(
       map(() => new Date()),
@@ -68,26 +66,26 @@ export class ApiService {
         this.remainingTime$.next(this.calcRemainingTime(d, D_DAY));
       }
     });
-    this.remainingTime$.pipe(
-      filter(r => r === 'START'),
-      take(1)
-    ).subscribe({
-      next: () => {
-        const opened = localStorage.getItem('opened');
-        if (opened !== null) {
-          console.log('skip open game rules dialog');
-          return;
-        }
-        console.log('open game rules dialog');
-        this.dialog.open(GameRulesDialogComponent, {
-          id: 'menu-dialog',
-          minWidth: '100%',
-          height: '100vh',
-          autoFocus: false
-        });
-        localStorage.setItem('opened', 'true');
-      }
-    });
+    // this.remainingTime$.pipe(
+    //   filter(r => r === 'START'),
+    //   take(1)
+    // ).subscribe({
+    //   next: () => {
+    //     const opened = localStorage.getItem('opened');
+    //     if (opened !== null) {
+    //       console.log('skip open game rules dialog');
+    //       return;
+    //     }
+    //     console.log('open game rules dialog');
+    //     this.dialog.open(GameRulesDialogComponent, {
+    //       id: 'menu-dialog',
+    //       minWidth: '100%',
+    //       height: '100vh',
+    //       autoFocus: false
+    //     });
+    //     localStorage.setItem('opened', 'true');
+    //   }
+    // });
   }
 
   parseDate(str) { // for iOS
@@ -136,30 +134,19 @@ export class ApiService {
     return days + ' 天 '+ hours + ' 小時 '+ minutes + ' 分鐘 ' + seconds + ' 秒';
   }
 
-  getDurationForLoop(): number {
-    return this.about.duration;
-  }
-
-  getMembers(): string[] {
+  getAboutInfo(): string {
     const info = this.about.info as Array<any>;
-    const members = [];
     let last = '';
     info.forEach(i => {
       const group = '[ ' + i.group + ' ]';
       const person = i.members.join('\n\r');
       const concat = group.concat('\n\r\n\r').concat(person);
-      members.push(concat);
-      if (i.showAtLast) {
-        if (last !== '') {
-          last = last.concat('\n\r\n\r');
-        }
-        last = last.concat(concat);
+      if (last !== '') {
+        last = last.concat('\n\r\n\r');
       }
+      last = last.concat(concat);
     });
-    if (last !== '') {
-      members.push(last);
-    }
-    return members;
+    return last;
   }
 
   getProfile(userId: number): Observable<any> {
