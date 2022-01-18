@@ -123,6 +123,10 @@ export class MenuDialogComponent implements OnInit {
     }
   }
 
+  openCustomerSupport(): void {
+    window.open(this.apiService.customerSupportUrl, '_blank');
+  }
+
   logout(): void {
     this.authService.logout().subscribe({
       next: () => {

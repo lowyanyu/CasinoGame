@@ -37,6 +37,8 @@ export class ApiService {
   remainingTime$ = new BehaviorSubject<string>('');
   reloadProfile$ = new BehaviorSubject<string>('');
 
+  customerSupportUrl = '';
+
   constructor(
     private httpUtil: HttpUtilService,
     private configService: NgConfigService
@@ -50,6 +52,7 @@ export class ApiService {
     this.questionList = this.configService.get('questions');
     this.missionList = this.configService.get('missions');
     this.about = this.configService.get('about');
+    this.customerSupportUrl = this.configService.get('customerSupportUrl');
 
     const D_DAY = this.parseDate('2022-01-20 09:00:00');
 
