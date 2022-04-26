@@ -1,5 +1,5 @@
 {
-  "coreUrl": "http://192.168.0.32:8887/rest",
+  "coreUrl": "http://192.168.0.32:8889/rest",
   "coreUrl2": "http://192.168.0.68:9090/rest",
   "customerSupportUrl": "https://line.me/ti/g2/KLVa6HJ3XyEYEDyPXPe_04AIonkICGPxMxEXLw?utm_source=invitation&utm_medium=link_copy&utm_campaign=default",
   "about": {
@@ -67,133 +67,122 @@
   "missions": [
     {
       "missionId": 1,
-      "missionTitle": "找出雕像一起合照吧!",
-      "missionContent": "找出以上雕像, 並與他擺出同個姿勢拍照留念吧! 需至少3人同框。",
+      "missionTitle": "我是全景人!",
+      "missionContent": "跟有全景 Logo 的東西一起合照，上傳的照片需包含您與其他至少 2 位同仁。",
       "missionType": 1,
       "missionRequire": {"number": 2, "unit": "張"},
-      "missionImg": [
-        {"src": "assets/images/missions/mission1-1.jpg", "disp": "v"},
-        {"src": "assets/images/missions/mission1-2.jpg", "disp": "v"},
-        {"src": "assets/images/missions/mission1-3.jpg", "disp": "v"}
-      ],
-      "exampleImg": "assets/images/missions/mission1-ex.png"
+      "missionImg": []
     },
     {
       "missionId": 2,
-      "missionTitle": "景點跟人大合照",
-      "missionContent": "松菸有好多值得拍照的地方呢! 試找出以上其中3個地點並邀請同仁們來張大合照吧! 需至少5人同框。",
+      "missionTitle": "我認識大老闆",
+      "missionContent": "找處長以上的主管 \"本人\" 合照，上傳的照片需包含您與其他至少 5 位同仁 (含主管)。",
       "missionType": 1,
-      "missionRequire": {"number": 3, "unit": "張"},
-      "missionImg": [
-        {"src": "assets/images/missions/mission2-1.jpg", "disp": "h"},
-        {"src": "assets/images/missions/mission2-2.jpg", "disp": "h"},
-        {"src": "assets/images/missions/mission2-3.jpg", "disp": "v"},
-        {"src": "assets/images/missions/mission2-4.jpg", "disp": "v"},
-        {"src": "assets/images/missions/mission2-5.jpg", "disp": "v"}
-      ]
+      "missionRequire": {"number": 1, "unit": "張"},
+      "missionImg": []
     },
     {
       "missionId": 3,
-      "missionTitle": "挖字填空",
-      "missionContent": "在松菸的某一處有這一個紀念牌匾... 這🤔到底是什麼字呢? 猜一人名",
+      "missionTitle": "我想跟你要賴",
+      "missionContent": "填入全景官方 Line ID。",
       "missionType": 3,
       "missionRequire": {"number": 1, "unit": "題"},
-      "missionImg": "assets/images/missions/mission3.jpg"
+      "missionImg": ""
     },
     {
       "missionId": 4,
-      "missionTitle": "【摩登時代】找出不存在的歌名",
-      "missionContent": "以下哪首歌瑤實際不存在?",
+      "missionTitle": "這個需求我不行",
+      "missionContent": "以下哪個不是公司的解決方案?",
       "missionType": 2,
       "missionRequire": {"number": 1, "unit": "題"},
       "missionOption": [
         {
           "optionId": "1",
-          "optionName": "茉莉花"
+          "optionName": "身分認證"
         },
         {
           "optionId": "2",
-          "optionName": "菸草工廠"
+          "optionName": "智慧文件"
         },
         {
           "optionId": "3",
-          "optionName": "給愛麗絲"
+          "optionName": "資料竄改"
         },
         {
           "optionId": "4",
-          "optionName": "桃花泣血記"
+          "optionName": "電子簽章"
         }
       ],
-      "missionImg": "assets/images/missions/mission4.jpg"
+      "missionImg": ""
     },
     {
       "missionId": 5,
-      "missionTitle": "【松菸拾光】知識問答",
-      "missionContent": "以上物件早期被認為有何功用?",
-      "missionType": 3,
+      "missionTitle": "訂閱按讚分享並開啟小鈴鐺",
+      "missionContent": "請填寫公司 Youtube 建立時間，格式為 yyyyMMdd。",
+      "missionType": 4,
       "missionRequire": {"number": 1, "unit": "題"},
-      "missionImg": "assets/images/missions/mission5.jpg"
+      "missionImg": ""
     },
     {
       "missionId": 6,
-      "missionTitle": "【松菸拾光】知識問答2",
-      "missionContent": "松菸的窗，最早期都是使用木構造的OO?",
-      "missionType": 3,
+      "missionTitle": "猜猜公司幾月誕生",
+      "missionContent": "請填入公司誕生的月份。",
+      "missionType": 4,
       "missionRequire": {"number": 1, "unit": "題"},
-      "missionImg": "assets/images/missions/mission6.jpg"
+      "missionImg": ""
     },
     {
       "missionId": 7,
-      "missionTitle": "不存在的心靈標語",
-      "missionContent": "你有發現嗎? 飲料機台上都有不一樣的心靈標語呢! 以下哪個標語不存在?",
+      "missionTitle": "You can't see me.",
+      "missionContent": "公司沒有以下哪個社群平台的帳號?",
       "missionType": 2,
       "missionRequire": {"number": 1, "unit": "題"},
       "missionOption": [
         {
           "optionId": "1",
-          "optionName": "貴人，就是默默奉獻，給別人溫暖的人"
+          "optionName": "Facebook"
         },
         {
           "optionId": "2",
-          "optionName": "我們一路奮戰，不是為了改變世界，而是為了領薪水"
+          "optionName": "Youtube"
         },
         {
           "optionId": "3",
-          "optionName": "人心之煩，煩在計較；人生之苦，苦在執著"
+          "optionName": "抖音"
         }
       ],
-      "missionImg": "assets/images/missions/mission7.jpg"
+      "missionImg": "assets/images/missions/john-cena-you-cant-see-me.gif"
     },
     {
       "missionId": 8,
-      "missionTitle": "考考你的觀察力",
-      "missionContent": "松山文創園區總共有幾個AED站?",
+      "missionTitle": "猜猜我幾歲",
+      "missionContent": "請回答全景軟體今年實歲幾歲?",
       "missionType": 4,
       "missionRequire": {"number": 1, "unit": "題"},
-      "missionImg": "assets/images/missions/mission8.jpg"
+      "missionImg": ""
     },
     {
       "missionId": 9,
-      "missionTitle": "地理大發現",
-      "missionContent": "下列哪個地點在最西邊?",
+      "missionTitle": "請不要寫錯我的名字",
+      "missionContent": "下列哪個是手寫簽名的正確名稱?",
       "missionType": 2,
       "missionRequire": {"number": 1, "unit": "題"},
       "missionOption": [
         {
           "optionId": "1",
-          "optionName": "西向文創商業空間"
+          "optionName": "1zSIGN"
         },
         {
           "optionId": "2",
-          "optionName": "302會議室"
+          "optionName": "1zSign"
         },
         {
           "optionId": "3",
-          "optionName": "T431會議室"
+          "optionName": "ezSign"
         },
         {
           "optionId": "4",
-          "optionName": "松菸口"
+          "optionName": "EZSIGN"
         }
       ],
       "missionImg": ""

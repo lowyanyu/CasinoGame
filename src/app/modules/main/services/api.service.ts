@@ -54,7 +54,7 @@ export class ApiService {
     this.about = this.configService.get('about');
     this.customerSupportUrl = this.configService.get('customerSupportUrl');
 
-    const D_DAY = this.parseDate('2022-01-20 09:00:00');
+    const D_DAY = this.parseDate('2022-01-20 10:30:00');
 
     timer(0, 1000).pipe(
       map(() => new Date()),

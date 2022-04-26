@@ -34,7 +34,7 @@ export class MainComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    const opened = localStorage.getItem('opened');
+    const opened = localStorage.getItem('opened2');
     if (opened !== null) {
       console.log('skip open game rules dialog');
       return;
@@ -46,7 +46,7 @@ export class MainComponent implements OnInit {
       height: '100vh',
       autoFocus: false
     });
-    localStorage.setItem('opened', 'true');
+    localStorage.setItem('opened2', 'true');
   }
 
   reloadProfile(): void {
